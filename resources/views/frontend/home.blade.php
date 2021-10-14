@@ -36,5 +36,40 @@
 @section('scripts')
 {!! JsValidator::formRequest('App\Http\Requests\StoreUserTwoD','#create') !!}
 
+<script>
+    $(document).ready(function(){
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+            })
+            @if(session('create'))
+            Toast.fire({
+            icon: 'success',
+            title: '{{session('create')}}'
+            })
+            @endif()
+
+            @if(session('update'))
+            Toast.fire({
+            icon: 'success',
+            title: '{{session('update')}}'
+            })
+            @endif()
+
+            @if(session('delete'))
+            Toast.fire({
+            icon: 'success',
+            title: '{{session('delete')}}'
+            })
+            @endif()
+    })
+</script>
 
 @endsection
