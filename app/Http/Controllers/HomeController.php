@@ -62,7 +62,7 @@ class HomeController extends Controller
             $two_overview->save();
         }
 
-        return back()->with('success', 'Submit successfully');
+        return back()->with('create', 'Done');
     }
 
     public function total(Request $request, $id)

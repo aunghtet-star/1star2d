@@ -26,7 +26,6 @@
                         <thead>
                             <th>Id</th>
                             <th>Name</th>
-                            <th>Phone</th>
                             <th>Email</th>
                             <th>Action</th>
                         </thead>
@@ -57,12 +56,8 @@
                                 name : "name",
                             },
                             {
-                                data : "id",
-                                name : "id",
-                            },
-                            {
-                                data : "id",
-                                name : "id",
+                                data : "email",
+                                name : "email",
                             },
                             {
                                 data : "action",
