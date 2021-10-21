@@ -48,4 +48,9 @@ class AdminLoginController extends Controller
     {
         return view('auth.adminlogin');
     }
+
+    public function username()
+    {
+        return 'phone';
+    }
 }

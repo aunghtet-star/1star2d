@@ -10,7 +10,7 @@
                     </i>
                 </div>
                 <div>User Edit Page
-                    <div class="page-title-subheading">Royal
+                    <div class="page-title-subheading">1Star2DMM
                     </div>
                 </div>
             </div>
@@ -49,7 +49,6 @@
 {!! JsValidator::formRequest('App\Http\Requests\UpdateUser','#update') !!}
 
 <script>
-    $(document).ready(function() {
             
     
 </script>

@@ -24,7 +24,8 @@ class StoreUserTwoD extends FormRequest
     public function rules()
     {
         return [
-           //
+        //    'two' => 'required',
+        //    'amount' => 'required'
         ];
     }
 }

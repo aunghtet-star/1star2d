@@ -36,34 +36,40 @@
                 <li class="app-sidebar__heading">Dashboards</li>
                 <li>
                     <a href="{{url('admin')}}" class="@yield('admin-users')">
-                        <i class="metismenu-icon pe-7s-users"></i>
-                        Admin Users
+                        <i class="metismenu-icon pe-7s-users text-danger"></i>
+                        <span class="text-danger">Admin Users</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('users.index')}}" class="@yield('users')">
-                        <i class="metismenu-icon pe-7s-users"></i>
-                        Users
+                        <i class="metismenu-icon pe-7s-users text-primary"></i>
+                        <span class="text-primary">Users</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('two.index')}}" class="@yield('2D')">
-                        <i class="metismenu-icon pe-7s-note2"></i>
-                        2D
+                        <i class="metismenu-icon fas fa-stopwatch-20 text-success"></i>
+                        <span class="text-success">2D</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{route('two-overview.index')}}" class="@yield('2D-over')">
                         <i class="metismenu-icon pe-7s-note2"></i>
                         2D Overview
                     </a>
-                </li>
+                </li> --}}
                 <li>
-                    <a href="" class="@yield('3D')">
-                        <i class="metismenu-icon pe-7s-upload"></i>
-                        3D
+                    <a href="{{route('two-overview.history')}}" class="@yield('2D-over-history')">
+                        <i class="metismenu-icon fas fa-stopwatch-20 text-warning"></i>
+                        <span class="text-warning">2D overview</span>
                     </a>
                 </li>
+                {{-- <li>
+                    <a href="" class="@yield('3D')">
+                        <i class="metismenu-icon fas fa-css3"></i>
+                        <span class="text-danger">3D</span>
+                    </a>
+                </li> --}}
             </ul>
         </div>
     </div>

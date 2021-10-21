@@ -10,14 +10,14 @@
                     </i>
                 </div>
                 <div>Admin Dashboard
-                    <div class="page-title-subheading">Royal
+                    <div class="page-title-subheading">1Star2DMM
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <a href="{{url('admin/create')}}" class="btn btn-success mb-3 ml-3"><i class="fas fa-circle-plus"></i> Create</a>
-    <div class="container">
+    <div class="container p-0">
         <div class="col">
             <div class="card">
                 <div class="card-body">

@@ -40,11 +40,13 @@ Route::prefix('admin')->middleware('auth:adminuser')->group(function () {
 
     Route::resource('two', 'TwoController');
     Route::get('two/datatables/ssd', 'TwoController@ssd');
+    Route::get('two-overview/history', 'TwoController@twoHistory')->name('two-overview.history');
+    Route::get('two-overview/two-history-table', 'TwoController@twoHistoryTable')->name('two-overview.history-table');
 
     Route::get('two-overview', 'TwoOverviewController@index')->name('two-overview.index');
-
     Route::get('two-overview/datatables/ssd', 'TwoOverviewController@ssd');
 });
 
 Route::post('two/create', 'HomeController@two');
-Route::post('two-total', 'HomeController@total');
+Route::get('user/history', 'HomeController@history')->name('user.history');
+Route::get('user/history-two', 'HomeController@historyTwo')->name('user.history-two');

@@ -1,16 +1,16 @@
 @extends('backend.layouts.app')
-@section('2D-over','mm-active')
+@section('2D-over-history','mm-active')
 @section('main')
 <div class="app-main__inner">
     <div class="app-page-title">
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="pe-7s-draft2digital icon-gradient bg-mean-fruit">
+                    <i class="pe-7s-display2 icon-gradient bg-mean-fruit">
                     </i>
                 </div>
                 <div>2D Overview Dashboard
-                    <div class="page-title-subheading">1Star2DMM
+                    <div class="page-title-subheading">1Start2DMM
                     </div>
                 </div>
             </div>
@@ -26,14 +26,13 @@
                     <input type="text" class="form-control date" value="{{request()->date ?? now()->format('Y-m-d')}}" placeholder="All">
                 </div>
             </div>
-            <div class="col-6 pr-4">
+            <div class="col-6" style="padding-right: 30px">
                 <select name="" class="form-control time">
                     <option value="{{ 'all'}}">All</option>
                     <option value="{{ 'true'}}" >AM</option>
                     <option value="{{ 'false'}}">PM</option>
                 </select>
             </div>
-            
         </div>
         <div class="col">
             <div class="card">
@@ -42,7 +41,6 @@
                         <thead>
                             <th>2D</th>
                             <th>Amount</th>
-                            <th>Date</th>
                         </thead>
                         <tbody class="two-history-table">
                         </tbody>
@@ -60,15 +58,6 @@
             var table = $('#two-over-table').DataTable();
 
                 
-                    $('.date').daterangepicker({
-                        "singleDatePicker": true,
-                        "autoApply": false,
-                        "autoUpdateInput" :false,
-                        "locale": {
-                            "format": "YYYY/MM/DD",
-                    },
-                    });
-
                     $('.date').daterangepicker({
                         "singleDatePicker": true,
                         "autoApply": true,
@@ -108,6 +97,8 @@
                      $('.time').on('change',function(){
                         twoHistoryTable();
                      })
+
+
        });
     
 </script>

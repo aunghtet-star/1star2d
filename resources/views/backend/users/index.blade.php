@@ -10,7 +10,7 @@
                     </i>
                 </div>
                 <div>User Dashboard
-                    <div class="page-title-subheading">Royal
+                    <div class="page-title-subheading">1Star2DMM
                     </div>
                 </div>
             </div>
@@ -18,7 +18,7 @@
     </div>
     <a href="{{url('admin/users/create')}}" class="btn btn-success mb-3 ml-3"><i class="fas fa-circle-plus"></i>
         Create</a>
-    <div class="container">
+    <div class="container p-0">
         <div class="col">
             <div class="card">
                 <div class="card-body">
@@ -27,6 +27,7 @@
                             <th>Id</th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Phone</th>
                             <th>Action</th>
                         </thead>
                         <tbody>
@@ -60,6 +61,10 @@
                                 name : "email",
                             },
                             {
+                                data : "phone",
+                                name : "phone",
+                            },
+                            {
                                 data : "action",
                                 name : "action",
                             },
@@ -89,7 +94,7 @@
                                 }).then((result) => {
                                 if (result.isConfirmed) {
                                     $.ajax({
-                                        url : "admin/users/"+id,
+                                        url : "/admin/users/"+id,
                                         type : "DELETE",
                                         success : function(){
                                             table.ajax.reload();

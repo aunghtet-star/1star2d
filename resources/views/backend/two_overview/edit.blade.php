@@ -10,7 +10,7 @@
                     </i>
                 </div>
                 <div>User Edit Page
-                    <div class="page-title-subheading">Royal
+                    <div class="page-title-subheading">1Star2DMM
                     </div>
                 </div>
             </div>

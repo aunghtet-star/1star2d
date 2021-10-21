@@ -1,6 +1,6 @@
 <div class="app-header header-shadow">
     <div class="app-header__logo">
-        <h4>Royal</h4>
+        <h4>1Star2DMM</h4>
         <div class="header__pane ml-auto">
             <div>
 
@@ -55,9 +55,9 @@
                             <div class="widget-heading">
                                 {{auth()->guard('adminuser')->user()->name}}
                             </div>
-                            <div class="widget-subheading">
+                            {{-- <div class="widget-subheading">
                                 VP People Manager
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>

@@ -10,7 +10,7 @@
                     </i>
                 </div>
                 <div>2D Dashboard
-                    <div class="page-title-subheading">Royal
+                    <div class="page-title-subheading">1Star2DMM
                     </div>
                 </div>
             </div>
@@ -18,13 +18,12 @@
     </div>
     <a href="{{url('admin/two/create')}}" class="btn btn-success mb-3 ml-3"><i class="fas fa-circle-plus"></i>
         Create</a>
-    <div class="container">
+    <div class="container p-0">
         <div class="col">
             <div class="card">
                 <div class="card-body">
                     <table class="table table-bordered table-hover" id="two-table">
                         <thead>
-                            <th>Id</th>
                             <th>Name</th>
                             <th>2D</th>
                             <th>Amount</th>
@@ -50,10 +49,6 @@
                         "ajax": "/admin/two/datatables/ssd",
                         "columns" : [
                             {
-                                data : "id",
-                                name : "id",
-                            },
-                            {
                                 data : "name",
                                 name : "name",
                             },
@@ -74,7 +69,7 @@
                                 name : "action",
                             },
                         ],
-                        order : [4 , "desc"]
+                        order : [3 , "desc"]
                     });
 
                     $(document).on('click','#delete',function(e){

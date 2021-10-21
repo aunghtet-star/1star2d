@@ -10,7 +10,7 @@
                     </i>
                 </div>
                 <div>Admin Edit Page
-                    <div class="page-title-subheading">AraKan Myanmar
+                    <div class="page-title-subheading">1Star2DMM
                     </div>
                 </div>
             </div>

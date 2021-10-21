@@ -16,8 +16,9 @@ class CreateTwosTable extends Migration
         Schema::create('twos', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id');
-            $table->integer('two')->nullable();
-            $table->string('amount')->nullable();
+            $table->string('two');
+            $table->date('date')->nullable();
+            $table->string('amount');
             $table->timestamps();
         });
     }
