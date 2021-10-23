@@ -1,8 +1,8 @@
-@if($transactions)
-@foreach($transactions as $transaction)
+@if($two_transactions)
+@foreach($two_transactions as $two_transaction)
 <tr>
-    <td>{{$transaction->two}}</td>
-    <td>{{ $transaction->total}}</td>
+    <td>{{$two_transaction->two}}</td>
+    <td>{{ $two_transaction->total}}</td>
 </tr>
 @endforeach
 @endif

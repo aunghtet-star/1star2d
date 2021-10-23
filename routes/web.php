@@ -43,10 +43,24 @@ Route::prefix('admin')->middleware('auth:adminuser')->group(function () {
     Route::get('two-overview/history', 'TwoController@twoHistory')->name('two-overview.history');
     Route::get('two-overview/two-history-table', 'TwoController@twoHistoryTable')->name('two-overview.history-table');
 
-    Route::get('two-overview', 'TwoOverviewController@index')->name('two-overview.index');
-    Route::get('two-overview/datatables/ssd', 'TwoOverviewController@ssd');
+    // Route::get('two-overview', 'TwoOverviewController@index')->name('two-overview.index');
+    // Route::get('two-overview/datatables/ssd', 'TwoOverviewController@ssd');
+
+    Route::resource('three', 'ThreeController');
+    Route::get('three/datatables/ssd', 'ThreeController@ssd');
+    Route::get('three-overview/history', 'ThreeController@threeHistory')->name('three-overview.history');
+    Route::get('three-overview/three-history-table', 'ThreeController@threeHistoryTable')->name('three-overview.history-table');
 });
 
-Route::post('two/create', 'HomeController@two');
-Route::get('user/history', 'HomeController@history')->name('user.history');
-Route::get('user/history-two', 'HomeController@historyTwo')->name('user.history-two');
+Route::middleware('auth')->group(function () {
+    Route::get('/two', 'HomeController@index');
+    Route::post('two/create', 'HomeController@two');
+    Route::get('user/history-two', 'HomeController@historyTwo')->name('user.history-two');
+    
+    Route::get('/three', 'frontend\ThreeController@index');
+    Route::post('three/create', 'frontend\ThreeController@three');
+    Route::get('user/history-three', 'frontend\ThreeController@historyThree')->name('user.history-three');
+    
+    
+    Route::get('user/history', 'HomeController@history')->name('user.history');
+});

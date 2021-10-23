@@ -16,12 +16,17 @@
 
     {{-- Date ranger picker --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    
+    {{-- custom css --}}
+    <link rel="stylesheet" href="{{asset('frontend/style.css')}}">
     @yield('extra_css')
 </head>
 
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+    <div id="app mb-4">
+
+
+        {{-- <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     1Star2dMM
@@ -59,7 +64,7 @@
 
                            
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a href="{{route('user.history')}}">History</a>
+                                <a href="{{route('user.two.history')}}">History</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
@@ -74,14 +79,56 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav> --}}
 
-        <main class="py-4">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="{{url('/')}}">1Star2DMM</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item mr-3">
+                    <a class="nav-link" href=""><i class="fas fa-user-circle"></i>  {{ Auth::user()->name }} </a>
+                </li>
+
+                <li class="nav-item mr-3 @yield('2d')" >
+                  <a class="nav-link" href="{{url('two')}}">2D</a>
+                </li>
+                
+                <li class="nav-item mr-3 @yield('3d')">
+                  <a class="nav-link" href="{{url('three')}}">3D</a>
+                </li>
+
+                <li class="nav-item mr-3 @yield('history')">
+                    <a class="nav-link" href="{{url('user/history')}}">မှတ်တမ်း</a>
+                </li>
+
+                <li>
+                    <a class="btn btn-sm btn-danger" href="{{ route('logout') }}" onclick="event.preventDefault();
+                      if(confirm('သေချာသလား'))
+                      document.getElementById('logout-form').submit();">
+                    <i class="fas fa-power-off mr-1"></i> ထွက်မည်
+                    </a>
+                
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+                </li>
+              </ul>
+            </div>
+            </div>
+          </nav>
+        <main class="py-4 mb-3">
             @yield('content')
         </main>
     </div>
 
-    
+    <div class="footer">
+        <p class="text-center text-muted">Copyright <i class="fa fa-copyright" aria-hidden="true"></i> by  Aung  Htet   Thu</p>
+    </div>
     <!-- JQuery -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Bootstrap tooltips -->

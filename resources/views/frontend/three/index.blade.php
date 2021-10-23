@@ -1,4 +1,6 @@
 @extends('frontend.layouts.app')
+@section('3d','active')
+
 @section('extra_css')
    <style>
        .error{
@@ -13,17 +15,18 @@
         <div class="col-md-8">
             <span id="message_error"></span>
             <div class="card">
-                <div class="d-flex justify-content-end">
-                    <a href="" class="btn btn-success mt-3 btn-sm add-btn" style="margin-bottom: -16px; margin-right:23px"><i class="fas fa-plus-circle"></i> Add </a>
+                <div class="d-flex justify-content-between">
+                    <h5 class="" style="margin-top: 16px; margin-left:23px">3D ထိုးရန်</h5>
+                    <a href="" class="btn btn-success mt-3 btn-sm add-btn" style="margin-bottom: -16px; margin-right:23px ; height:30px ;font-weight:900"><i class="fas fa-plus-circle"></i> ထပ်ထည့်ရန် </a>
                 </div>
                 <div class="card-body">
-                    <form id="validate" action="{{url('two/create')}}" method="POST" id="">
+                    <form id="validate" action="{{url('three/create')}}" method="POST" id="">
                         @csrf
                         <div class="row" >
-                            <div class="col-3">
+                            <div class="col-3"> 
                                 <div class="form-group" id="inputs">
-                                    <label for="">2D</label>
-                                    <input type="number" name="two[]" class="form-control" required>
+                                    <label for="">3D</label>
+                                    <input type="number" name="three[]" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-9">
@@ -51,10 +54,10 @@
 
         $('#validate').validate({
             rules : {
-                'two[]' : {
+                'three[]' : {
                     required : true,
-                    minlength : 2,
-                    maxlength :2
+                    minlength : 3,
+                    maxlength :3
                 },
                 'amount[]' : {
                     required :true,
@@ -62,7 +65,7 @@
                 },
             },
             messages : {
-                    'two[]' : 'Please fill 2D',
+                    'three[]' : 'Please fill 3D',
                     'amount[]' : 'Please fill amount'
                 }
         });
@@ -72,8 +75,8 @@
              var form = '<div class="row">'+
                             '<div class="col-3">'+
                                 '<div class="form-group">'+
-                                    '<label for="">2D</label>'+
-                                    '<input type="number" name="two[]" class="form-control " required>'+
+                                    '<label for="">3D</label>'+
+                                    '<input type="number" name="three[]" class="form-control " required>'+
                                     '</div>'+
                                     '</div>'+
                                     '<div class="col-9">'+

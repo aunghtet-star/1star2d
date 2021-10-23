@@ -9,7 +9,7 @@
                     <i class="pe-7s-display2 icon-gradient bg-mean-fruit">
                     </i>
                 </div>
-                <div>User Edit Page
+                <div>2D Edit Page
                     <div class="page-title-subheading">1Star2DMM
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                         <select name="user_id" class="form-control">
                             <option value="">Select User</option>
                             @foreach ($users as $user)
-                            <option value="{{$user->id}}" @if($user->id == $number->id) selected @endif>{{$user->name}}
+                            <option value="{{$user->id}}" @if($user->id == $number->user_id) selected @endif>{{$user->name}}
                             </option>
                             @endforeach
                         </select>

@@ -1,4 +1,6 @@
 @extends('frontend.layouts.app')
+@section('2d','active')
+    
 @section('extra_css')
    <style>
        .error{
@@ -13,9 +15,11 @@
         <div class="col-md-8">
             <span id="message_error"></span>
             <div class="card">
-                <div class="d-flex justify-content-end">
-                    <a href="" class="btn btn-success mt-3 btn-sm add-btn" style="margin-bottom: -16px; margin-right:23px"><i class="fas fa-plus-circle"></i> Add </a>
+                <div class="d-flex justify-content-between">
+                    <h5 class="" style="margin-top: 16px; margin-left:23px">2D ထိုးရန်</h5>
+                    <a href="" class="btn btn-success mt-3 btn-sm add-btn" style="margin-bottom: -16px; margin-right:23px ; height:30px ;font-weight:900"><i class="fas fa-plus-circle"></i> ထပ်ထည့်ရန် </a>
                 </div>
+                
                 <div class="card-body">
                     <form id="validate" action="{{url('two/create')}}" method="POST" id="">
                         @csrf

@@ -1,6 +1,4 @@
 @extends('frontend.layouts.app')
-@section('history','active')
-
 @section('extra_css')
 @endsection
 @section('content')
@@ -25,14 +23,14 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <div class="two-history-user"></div>
+                <div class="three-history-user"></div>
             </div>
         </div>
     </div>
 </div>
 @endsection
 @section('scripts')
-{{-- {!! JsValidator::formRequest('App\Http\Requests\StoreUserTwoD') !!} --}}
+{{-- {!! JsValidator::formRequest('App\Http\Requests\StoreUserthreeD') !!} --}}
 
 <script>
     $(document).ready(function(){
@@ -46,28 +44,28 @@
                     },
                     });
 
-                    twoHistoryTable();
+                    threeHistoryTable();
 
-                    function twoHistoryTable(){
+                    function threeHistoryTable(){
                         var date = $('.date').val();
                         var time = $('.time').val();
 
                         $.ajax({
-                            url : `/user/history-two?date=${date}&time=${time}`,
+                            url : `/user/history-three?date=${date}&time=${time}`,
                             type : 'GET',
                             success : function(res){
-                                $('.two-history-user').html(res);
+                                $('.three-history-user').html(res);
                             }
                         })
                      }
 
                      $('.date').on('apply.daterangepicker',function(event,picker){
                         $(this).val(picker.startDate.format('YYYY-MM-DD'));
-                            twoHistoryTable();
+                            threeHistoryTable();
                      })
 
                      $('.time').on('change',function(){
-                        twoHistoryTable();
+                        threeHistoryTable();
                      })
     })
 </script>

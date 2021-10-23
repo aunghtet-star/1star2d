@@ -35,9 +35,8 @@
                                     <img width="42" class="rounded-circle"
                                         src="https://eu.ui-avatars.com/api/?name={{auth()->guard('adminuser')->user()->name}}"
                                         alt="">
-                                    <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                 </a>
-                                <div tabindex="-1" role="menu" aria-hidden="true"
+                                {{-- <div tabindex="-1" role="menu" aria-hidden="true"
                                     class="dropdown-menu dropdown-menu-right">
 
                                     <a href="" tabindex="0"
@@ -48,7 +47,7 @@
                                         style="display: none">
                                         @csrf
                                     </form>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="widget-content-left  ml-3 header-user-info">

@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('2D','mm-active')
+@section('3D','mm-active')
 @section('main')
 <div class="app-main__inner">
     <div class="app-page-title">
@@ -9,8 +9,8 @@
                     <i class="pe-7s-display2 icon-gradient bg-mean-fruit">
                     </i>
                 </div>
-                <div>2D Create Page
-                    <div class="page-title-subheading">1Stat2DMM
+                <div>3D Create Page
+                    <div class="page-title-subheading">1Star2DMM
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
     <div class="container">
         <div class="card">
             <div class="card-body">
-                <form action="{{url('admin/two')}}" method="POST" id="create">
+                <form action="{{url('admin/three')}}" method="POST" id="create">
                     @csrf
                     <div class="form-group">
                         <label for="">Name</label>
@@ -32,7 +32,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">2D</label>
-                        <input type="text" name="two" class="form-control">
+                        <input type="text" name="three" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="">Amount</label>
@@ -48,7 +48,7 @@
 
 @endsection
 @section('scripts')
-{!! JsValidator::formRequest('App\Http\Requests\StoreTwo','#create') !!}
+{!! JsValidator::formRequest('App\Http\Requests\Storethree','#create') !!}
 
 <script>
     $(document).ready(function() {

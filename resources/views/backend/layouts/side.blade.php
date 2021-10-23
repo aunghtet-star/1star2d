@@ -64,12 +64,37 @@
                         <span class="text-warning">2D overview</span>
                     </a>
                 </li>
-                {{-- <li>
-                    <a href="" class="@yield('3D')">
-                        <i class="metismenu-icon fas fa-css3"></i>
+
+                <li>
+                    <a href="{{route('three.index')}}" class="@yield('3D')">
+                        <i class="metismenu-icon fa-duotone fa-3">d</i>
                         <span class="text-danger">3D</span>
                     </a>
-                </li> --}}
+                </li>
+
+                <li>
+                    <a href="{{route('three-overview.history')}}" class="@yield('3D-over-history')">
+                        <i class="metismenu-icon fa-duotone fa-3 text-dark">d</i>
+                        <span class="text-warning">3D overview</span>
+                    </a>
+                </li>
+
+                <li class="mt-5">
+                    <a class="dropdown-item bg-warning text-dark" href="{{ route('logout') }}" 
+                                onclick="
+                                         event.preventDefault();
+                                         if(confirm('Are you sure?'))
+                                         document.getElementById('logout-form').submit();">
+                                         
+                        <i class="metismenu-icon fas fa-sign-out-alt text-danger"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+                    
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
             </ul>
         </div>
     </div>

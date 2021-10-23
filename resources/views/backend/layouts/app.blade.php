@@ -13,18 +13,18 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="csrf-token" content="{{csrf_token()}}">
 
+    
     <link href="{{asset('backend/css/main.css')}}" rel="stylesheet">
-
-
+    
     {{-- ================== Font awesome ================= --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
-        integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
     {{-- ================== Datatable ================= --}}
-
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
-
+    
     {{-- Date ranger picker --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
@@ -46,7 +46,7 @@
                 <div class="app-wrapper-footer">
                     <div class="app-footer">
                         <div class="app-footer__inner text-center">
-                            <p class="mb-0">Copyright &copy; by Aung Htet (KTU)</p>
+                            <p class="mb-0">Copyright &copy; by Aung Htet Thu</p>
                         </div>
                     </div>
                 </div>

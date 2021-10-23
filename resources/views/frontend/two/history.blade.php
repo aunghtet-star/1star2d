@@ -1,5 +1,4 @@
 @extends('frontend.layouts.app')
-@section('history','active')
 
 @section('extra_css')
 @endsection

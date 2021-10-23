@@ -110,18 +110,18 @@ class TwoController extends Controller
         $time = $request->time;
         
         if ($time == 'all') {
-            $transactions = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
+            $two_transactions = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
         }
         
 
         if ($time == 'true') {
-            $transactions = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->get();
+            $two_transactions = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->get();
         }
         
         if ($time == 'false') {
-            $transactions = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
+            $two_transactions = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
         }
 
-        return view('backend.components.twohistorytable', compact('transactions'))->render();
+        return view('backend.components.twohistorytable', compact('two_transactions'))->render();
     }
 }
