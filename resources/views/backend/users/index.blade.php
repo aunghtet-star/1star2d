@@ -71,10 +71,12 @@
                         ]
                     });
 
+                    
                     $(document).on('click','#delete',function(e){
                         e.preventDefault();
                         var id = $(this).data('id');
 
+                        
                         const swalWithBootstrapButtons = Swal.mixin({
                                 customClass: {
                                     confirmButton: 'btn btn-success',

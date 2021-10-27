@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Amountbreak;
 use App\Two;
 use App\Three;
 use Carbon\Carbon;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreUserTwoD;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\VarDumper\VarDumper;
 
 class HomeController extends Controller
 {
@@ -26,6 +28,28 @@ class HomeController extends Controller
 
     public function two(Request $request)
     {
+        $breakNumbers = Amountbreak::select('closed_number')->where('type', '2D')->get();
+
+        $break_twos = Two::select('two', DB::raw('SUM(amount) as total'))->whereIn('two', $breakNumbers)->whereDate('date', now()->format('Y-m-d'))->groupBy('two')->get();
+        
+
+        foreach ($break_twos as $break_two) {
+            $break_amount = Amountbreak::select('amount')->where('closed_number', $break_two->two)->first();
+            $break_number = Amountbreak::select('closed_number')->where('closed_number', $break_two->two)->first();
+            
+            for ($i=0;$i<count($request->two);$i++) {
+                if ($break_number->closed_number == $request->two[$i]) {
+                    $breakTwo = $break_two->total + $request->amount[$i];
+                    $needAmount =$break_amount->amount - $break_two->total;
+                    if ($breakTwo > $break_amount->amount) {
+                        return back()->withErrors([
+                            $break_number->closed_number.' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
+                            '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '. $needAmount .'ကျပ်လိုပါသေးသည်'
+                        ]);
+                    }
+                }
+            }
+        }
         foreach ($request->two as $key=>$twod) {
             $two = new Two();
             $two->user_id = Auth()->user()->id;
@@ -34,27 +58,6 @@ class HomeController extends Controller
             $two->amount = $request->amount[$key];
             $two->save();
         }
-
-       
-        
-        // $two_overview = TwoOverview::where('two', $request->two)->exists();
-        // if ($two_overview) {
-        //     $total = Two::where('two', $request->two)->get();
-        
-        //     $total = $total->pluck('amount')->toArray();
-    
-        //     $total = array_sum($total);
-            
-        //     TwoOverview::where('two', $request->two)->update([
-        //         'amount' => $total
-        //    ]);
-        // } else {
-        //     $two_overview = new TwoOverview();
-        //     $two_overview->two = $request->two;
-        //     $two_overview->amount = $request->amount;
-        //     $two_overview->save();
-        // }
-
         return back()->with('create', 'Done');
     }
 

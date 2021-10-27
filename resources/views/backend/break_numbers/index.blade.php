@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('2D','mm-active')
+@section('break_number','mm-active')
 @section('main')
 <div class="app-main__inner">
     <div class="app-page-title">
@@ -9,25 +9,24 @@
                     <i class="pe-7s-display2 icon-gradient bg-mean-fruit">
                     </i>
                 </div>
-                <div>2D Dashboard
+                <div>ဘရိတ်နံပါတ် Dashboard
                     <div class="page-title-subheading">1Star2DMM
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <a href="{{url('admin/two/create')}}" class="btn btn-success mb-3 ml-3"><i class="fas fa-circle-plus"></i>
+    <a href="{{url('admin/amountbreaks/create')}}" class="btn btn-success mb-3 ml-3"><i class="fas fa-circle-plus"></i>
         Create</a>
     <div class="container p-0">
-        <div class="col-md-12">
-            <div class="card" >
+        <div class="col">
+            <div class="card">
                 <div class="card-body">
-                    <table class="table table-bordered table-hover" id="two-table" >
+                    <table class="table table-bordered table-hover" id="two-table">
                         <thead>
-                            <th>Name</th>
-                            <th>2D</th>
+                            <th>အမျိုးအမည်</th>
+                            <th>အပိတ်နံပါတ်</th>
                             <th>Amount</th>
-                            <th>Date</th>
                             <th>Action</th>
                         </thead>
                         <tbody>
@@ -46,30 +45,26 @@
             var table = $('#two-table').DataTable({
                         "processing": true,
                         "serverSide": true,
-                        "ajax": "/admin/two/datatables/ssd",
+                        "ajax": "/admin/amountbreaks/datatables/ssd",
                         "columns" : [
                             {
-                                data : "name",
-                                name : "name",
+                                data : "type",
+                                name : "type",
                             },
                             {
-                                data : "two",
-                                name : "two",
+                                data : "closed_number",
+                                name : "closed_number",
                             },
                             {
                                 data : "amount",
                                 name : "amount",
                             },
                             {
-                                data : "updated_at",
-                                name : "updated_at",
-                            },
-                            {
                                 data : "action",
                                 name : "action",
                             },
                         ],
-                        order : [3 , "desc"]
+                        order : [0 , "desc"]
                     });
 
                     $(document).on('click','#delete',function(e){
@@ -95,7 +90,7 @@
                                 }).then((result) => {
                                 if (result.isConfirmed) {
                                     $.ajax({
-                                        url : "/admin/two/"+id,
+                                        url : "/admin/amountbreaks/"+id,
                                         type : "DELETE",
                                         success : function(){
                                             table.ajax.reload();

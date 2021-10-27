@@ -1,8 +1,32 @@
+<style>
+    .column {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-right: 150px;
+    width: 400px;
+    height: 80vh;
+}
+.column p {
+    display: flex;
+}
+</style>
+
 @if($two_transactions)
-@foreach($two_transactions as $two_transaction)
-<tr>
-    <td>{{$two_transaction->two}}</td>
-    <td>{{ $two_transaction->total}}</td>
-</tr>
-@endforeach
+    <div class="column" >
+        @foreach($two_transactions as $two_transaction)
+        <div class="d-flex">
+            <p class="mb-2 mr-3">{{$two_transaction->two}} </p> => <span class="ml-2">{{number_format($two_transaction->total)}}</span>
+        </div>
+    @endforeach
+    </div>
 @endif
+
+<script>
+    
+    $(document).ready(function() {
+        
+    })
+</script>
+
+

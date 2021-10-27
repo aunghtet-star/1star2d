@@ -14,6 +14,7 @@ use App\Http\Requests\UpdateTwo;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use stdClass;
 
 class TwoController extends Controller
 {
@@ -109,6 +110,8 @@ class TwoController extends Controller
         $date = $request->date;
         $time = $request->time;
         
+
+        
         if ($time == 'all') {
             $two_transactions = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
         }
@@ -122,6 +125,21 @@ class TwoController extends Controller
             $two_transactions = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
         }
 
+        // $array = [['two'=>'01','total'=>'0'],['two'=>'02','amount'=>'0']];
+        
+        
+        
+        
+        // $array = ['2D'=>'01','amount'=>'0','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51'] ;
+        // $two_transactions = $two_transactions->toArray();
+        // $two_transactions =  array_merge($two_transactions, $array);
+
+        // $two_transactions = collect($two_transactions);
         return view('backend.components.twohistorytable', compact('two_transactions'))->render();
+    }
+
+    public function twoHistoryAutoreload()
+    {
+        return view('backend.two_overview.history');
     }
 }

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\frontend;
 
+use App\Amountbreak;
 use App\Three;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class ThreeController extends Controller
 {
@@ -16,6 +18,27 @@ class ThreeController extends Controller
 
     public function three(Request $request)
     {
+        $closed_three = Amountbreak::select('closed_number')->where('type', '3D')->get();
+
+        $sum_three_totals =  Three::select('three', DB::raw('SUM(amount) as total'))->whereIn('three', $closed_three)->groupBy('three')->get();
+        foreach ($sum_three_totals as $sum_three_total) {
+            $closed_amount =  Amountbreak::select('amount')->where('closed_number', $sum_three_total->three)->first();
+            
+            $closed_number = Amountbreak::select('closed_number')->where('closed_number', $sum_three_total->three)->where('type', '3D')->first();
+            $needAmount = $closed_amount->amount - $sum_three_total->total ;
+            for ($i=0;$i<count($request->three);$i++) {
+                $real_total = $sum_three_total->total + $request->amount[$i];
+                if ($request->three[$i] == $closed_number->closed_number) {
+                    if ($real_total > $closed_amount->amount) {
+                        return back()->withErrors([
+                            $closed_number->closed_number.' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
+                            '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '. $needAmount .'ကျပ်လိုပါသေးသည်'
+                        ]);
+                    }
+                }
+            }
+        }
+
         foreach ($request->three as $key=>$threed) {
             $three = new Three();
             $three->user_id = Auth()->user()->id;
@@ -25,25 +48,6 @@ class ThreeController extends Controller
             $three->save();
         }
 
-       
-        
-        // $three_overview = threeOverview::where('three', $request->three)->exists();
-        // if ($three_overview) {
-        //     $total = three::where('three', $request->three)->get();
-        
-        //     $total = $total->pluck('amount')->toArray();
-    
-        //     $total = array_sum($total);
-            
-        //     threeOverview::where('three', $request->three)->update([
-        //         'amount' => $total
-        //    ]);
-        // } else {
-        //     $three_overview = new threeOverview();
-        //     $three_overview->three = $request->three;
-        //     $three_overview->amount = $request->amount;
-        //     $three_overview->save();
-        // }
 
         return back()->with('create', 'Done');
     }

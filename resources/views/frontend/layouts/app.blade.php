@@ -91,7 +91,7 @@
               <ul class="navbar-nav ml-auto">
 
                 <li class="nav-item mr-3">
-                    <a class="nav-link" href=""><i class="fas fa-user-circle"></i>  {{ Auth::user()->name }} </a>
+                    <a class="nav-link" href=""><i class="fas fa-user-circle"></i> @if(Auth::check()) {{ Auth::user()->name }} @endif</a>
                 </li>
 
                 <li class="nav-item mr-3 @yield('2d')" >

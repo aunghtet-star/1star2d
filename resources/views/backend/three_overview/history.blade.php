@@ -37,14 +37,7 @@
         <div class="col">
             <div class="card">
                 <div class="card-body">
-                    <table class="table table-bordered table-hover" id="three-over-table">
-                        <thead>
-                            <th>3D</th>
-                            <th>Amount</th>
-                        </thead>
-                        <tbody class="three-history-table">
-                        </tbody>
-                    </table>
+                    <div class="three-history-table"></div>
                 </div>
             </div>
         </div>
@@ -55,7 +48,6 @@
 @section('scripts')
 <script>
     $(document).ready(function() {
-            var table = $('#three-over-table').DataTable();
 
                 
                     $('.date').daterangepicker({

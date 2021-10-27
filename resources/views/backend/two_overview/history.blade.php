@@ -28,23 +28,17 @@
             </div>
             <div class="col-6" style="padding-right: 30px">
                 <select name="" class="form-control time">
-                    <option value="{{ 'all'}}">All</option>
-                    <option value="{{ 'true'}}" >AM</option>
-                    <option value="{{ 'false'}}">PM</option>
+                    <option value="{{ 'all' }}" @if(request()->time == 'all') selected  @endif>All</option>
+                    <option value="{{ 'true'}}" @if(request()->time == 'true') selected  @endif >AM</option>
+                    <option value="{{ 'false'}}" @if(request()->time == 'false') selected  @endif>PM</option>
                 </select>
             </div>
         </div>
         <div class="col">
             <div class="card">
                 <div class="card-body">
-                    <table class="table table-bordered table-hover" id="two-over-table">
-                        <thead>
-                            <th>2D</th>
-                            <th>Amount</th>
-                        </thead>
-                        <tbody class="two-history-table">
-                        </tbody>
-                    </table>
+                    <div class="two-history-table" id="reload">
+                    </div>
                 </div>
             </div>
         </div>
@@ -55,7 +49,6 @@
 @section('scripts')
 <script>
     $(document).ready(function() {
-            var table = $('#two-over-table').DataTable();
 
                 
                     $('.date').daterangepicker({
@@ -73,31 +66,36 @@
                     //     history.pushState(null, '' , `?date=${date}`);
                     //     window.location.reload();
                     // });
-
                     twoHistoryTable();
+
 
                     function twoHistoryTable(){
                         var date = $('.date').val();
                         var time = $('.time').val();
-
+                        
                         $.ajax({
                             url : `/admin/two-overview/two-history-table?date=${date}&time=${time}`,
                             type : 'GET',
                             success : function(res){
-                                $('.two-history-table').html(res);
+                                    $('.two-history-table').html(res);
                             }
                         })
+                        
                      }
+
+                       
 
                      $('.date').on('apply.daterangepicker',function(event,picker){
                         $(this).val(picker.startDate.format('YYYY-MM-DD'));
                             twoHistoryTable();
+
                      })
 
                      $('.time').on('change',function(){
                         twoHistoryTable();
                      })
 
+                    
 
        });
     

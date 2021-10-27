@@ -32,10 +32,12 @@
                         <div class="widget-content-left">
                             <div class="btn-group">
                                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
+                                    @if(Auth::guard('adminuser')->check())
                                     <img width="42" class="rounded-circle"
                                         src="https://eu.ui-avatars.com/api/?name={{auth()->guard('adminuser')->user()->name}}"
                                         alt="">
-                                </a>
+                                    @endif
+                                    </a>
                                 {{-- <div tabindex="-1" role="menu" aria-hidden="true"
                                     class="dropdown-menu dropdown-menu-right">
 
@@ -52,7 +54,9 @@
                         </div>
                         <div class="widget-content-left  ml-3 header-user-info">
                             <div class="widget-heading">
+                                @if(Auth::guard('adminuser')->check())
                                 {{auth()->guard('adminuser')->user()->name}}
+                                @endif
                             </div>
                             {{-- <div class="widget-subheading">
                                 VP People Manager

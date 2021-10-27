@@ -79,6 +79,13 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="{{route('amountbreaks.index')}}" class="@yield('break_number')">
+                        <i class="metismenu-icon fas fa-hand-paper text-dark"></i>
+                        <span class="text-danger">ဘရိတ်နံပါတ်</span>
+                    </a>
+                </li>
+
                 <li class="mt-5">
                     <a class="dropdown-item bg-warning text-dark" href="{{ route('logout') }}" 
                                 onclick="

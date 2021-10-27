@@ -5,13 +5,12 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Three;
 use Carbon\Carbon;
-use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
+use App\Http\Requests\StoreThree;
 use App\Http\Requests\UpdateThree;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\StoreThree;
 
 class ThreeController extends Controller
 {

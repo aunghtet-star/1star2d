@@ -13,7 +13,6 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="csrf-token" content="{{csrf_token()}}">
 
-    
     <link href="{{asset('backend/css/main.css')}}" rel="stylesheet">
     
     {{-- ================== Font awesome ================= --}}
@@ -33,6 +32,7 @@
 
     <link href="{{asset('backend/css/style.css')}}" rel="stylesheet">
 
+    @yield('extra_css')
 </head>
 
 <body>
@@ -40,10 +40,10 @@
         @include('backend.layouts.header')
         <div class="app-main">
             @include('backend.layouts.side')
-            <div class="app-main__outer">
+            <div class="app-main__outer" style="margin-bottom : 70px">
                 @yield('main')
 
-                <div class="app-wrapper-footer">
+                <div class="app-wrapper-footer" style="bottom : 40px ; position : fixed; width:80% ; z-index : 99 ; ">
                     <div class="app-footer">
                         <div class="app-footer__inner text-center">
                             <p class="mb-0">Copyright &copy; by Aung Htet Thu</p>
@@ -56,11 +56,11 @@
 
 
     <script type="text/javascript" src="{{asset('backend/scripts/main.js')}}"></script>
-
+    
     <!-- Javascript Requirements Validation -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
-
+    
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>

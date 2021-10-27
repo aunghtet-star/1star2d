@@ -18,9 +18,8 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
-Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('admin/login', 'Auth\AdminLoginController@showLoginForm');
 Route::post('admin/login', 'Auth\AdminLoginController@login')->name('admin.login');
@@ -37,11 +36,13 @@ Route::prefix('admin')->middleware('auth:adminuser')->group(function () {
 
     Route::resource('users', 'UserController');
     Route::get('users/datatables/ssd', 'UserController@ssd');
+    Route::get('/users/detail', 'UserController@userDetail');
 
     Route::resource('two', 'TwoController');
     Route::get('two/datatables/ssd', 'TwoController@ssd');
     Route::get('two-overview/history', 'TwoController@twoHistory')->name('two-overview.history');
     Route::get('two-overview/two-history-table', 'TwoController@twoHistoryTable')->name('two-overview.history-table');
+
 
     // Route::get('two-overview', 'TwoOverviewController@index')->name('two-overview.index');
     // Route::get('two-overview/datatables/ssd', 'TwoOverviewController@ssd');
@@ -50,9 +51,14 @@ Route::prefix('admin')->middleware('auth:adminuser')->group(function () {
     Route::get('three/datatables/ssd', 'ThreeController@ssd');
     Route::get('three-overview/history', 'ThreeController@threeHistory')->name('three-overview.history');
     Route::get('three-overview/three-history-table', 'ThreeController@threeHistoryTable')->name('three-overview.history-table');
+
+    Route::resource('amountbreaks', 'BreakNumberController');
+    Route::get('amountbreaks/datatables/ssd', 'BreakNumberController@ssd');
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/', 'HomeController@index')->name('home');
+
     Route::get('/two', 'HomeController@index');
     Route::post('two/create', 'HomeController@two');
     Route::get('user/history-two', 'HomeController@historyTwo')->name('user.history-two');
