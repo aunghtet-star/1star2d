@@ -23,15 +23,8 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text type-padding">Date</label>
                     </div>
-                    <input type="text" class="form-control date" value="{{request()->date ?? now()->format('Y-m-d')}}" placeholder="All">
+                    <input type="text" class="form-control date" value="{{now()->format('Y-m-d').'-'.now()->format('Y-m-d')}}" placeholder="All">
                 </div>
-            </div>
-            <div class="col-6" style="padding-right: 30px">
-                <select name="" class="form-control time">
-                    <option value="{{ 'all'}}">All</option>
-                    <option value="{{ 'true'}}" >AM</option>
-                    <option value="{{ 'false'}}">PM</option>
-                </select>
             </div>
         </div>
         <div class="col">
@@ -50,47 +43,33 @@
     $(document).ready(function() {
 
                 
-                    $('.date').daterangepicker({
-                        "singleDatePicker": true,
-                        "autoApply": true,
-                        "autoUpdateInput" :false,
-                        "locale": {
-                            "format": "YYYY/MM/DD",
-                    },
-                    });
+                $('.date').daterangepicker({
+                    "showCustomRangeLabel": false,
+                    "startDate": moment().startOf('day'),
+                    "endDate": moment().startOf('day').add(7, 'day'),
+                    "locale" : {
+                        format : 'YYYY-MM-DD'
+                    }
+                }, );
 
-                    // $('.date').on('apply.daterangepicker', function(ev, picker) {
+                    $('.date').on('apply.daterangepicker', function(ev, picker) {
+                    var startdate = picker.startDate.format('YYYY-MM-DD');
+                    var enddate = picker.endDate.format('YYYY-MM-DD');
+                
+                    $.ajax({
+                        url : `/admin/three-overview/three-history-table?startdate=${startdate}&enddate=${enddate}`,
+                        type : 'GET',
+                        success : function(res){
+                            $('.three-history-table').html(res);
+                        }
+                    })
+                });
+                    
+    
+                    //  $('.date').on('apply.daterangepicker',function(event,picker){
                     //     $(this).val(picker.startDate.format('YYYY-MM-DD'));
-                    //     var date = $('.date').val();
-                    //     history.pushState(null, '' , `?date=${date}`);
-                    //     window.location.reload();
-                    // });
-
-                    threeHistoryTable();
-
-                    function threeHistoryTable(){
-                        var date = $('.date').val();
-                        var time = $('.time').val();
-
-                        $.ajax({
-                            url : `/admin/three-overview/three-history-table?date=${date}&time=${time}`,
-                            type : 'GET',
-                            success : function(res){
-                                $('.three-history-table').html(res);
-                            }
-                        })
-                     }
-
-                     $('.date').on('apply.daterangepicker',function(event,picker){
-                        $(this).val(picker.startDate.format('YYYY-MM-DD'));
-                            threeHistoryTable();
-                     })
-
-                     $('.time').on('change',function(){
-                        threeHistoryTable();
-                     })
-
-
+                    //         threeHistoryTable();
+                    //  })
        });
     
 </script>

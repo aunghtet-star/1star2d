@@ -63,6 +63,10 @@ Route::middleware('auth')->group(function () {
     Route::post('two/create', 'HomeController@two');
     Route::get('user/history-two', 'HomeController@historyTwo')->name('user.history-two');
     
+    Route::get('two/htaitpait', 'frontend\HtaitPaitController@index');
+    Route::post('two/htaitpait/store', 'frontend\HtaitPaitController@store');
+
+
     Route::get('/three', 'frontend\ThreeController@index');
     Route::post('three/create', 'frontend\ThreeController@three');
     Route::get('user/history-three', 'frontend\ThreeController@historyThree')->name('user.history-three');

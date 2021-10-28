@@ -30,6 +30,7 @@
                 <div class="card-body">
                     <form id="validate" action="{{url('two/create')}}" method="POST" id="">
                         @csrf
+                        
                         <div class="row" >
                             <div class="col-3">
                                 <div class="form-group" id="inputs">
