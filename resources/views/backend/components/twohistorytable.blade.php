@@ -1,14 +1,11 @@
 <style>
-    .column {
+  .column {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     margin-right: 150px;
-    width: 400px;
+    width: 1000px;
     height: 80vh;
-}
-.column p {
-    display: flex;
 }
 </style>
 
