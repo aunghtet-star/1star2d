@@ -21,3 +21,5 @@
     @endforeach
     </div>
 @endif
+<h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($three_transactions_total)}}</h5>
+

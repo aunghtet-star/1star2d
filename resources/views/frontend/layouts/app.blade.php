@@ -97,6 +97,10 @@
                 <li class="nav-item mr-3 @yield('2d')" >
                   <a class="nav-link" href="{{url('two')}}">2D</a>
                 </li>
+
+                <li class="nav-item mr-3 @yield('htaitpait')" >
+                    <a class="nav-link" href="{{url('two/htaitpait')}}">အမြန်ထိုးရန်</a>
+                  </li>
                 
                 <li class="nav-item mr-3 @yield('3d')">
                   <a class="nav-link" href="{{url('three')}}">3D</a>

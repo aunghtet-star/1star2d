@@ -103,22 +103,12 @@ class ThreeController extends Controller
 
     public function ThreeHistoryTable(Request $request)
     {
-        $date = $request->date;
-        $time = $request->time;
+        $from = $request->startdate;
+        $to = $request->enddate;
         
-        if ($time == 'all') {
-            $three_transactions = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
-        }
-        
+        $three_transactions = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to])->get();
+        $three_transactions_total = Three::select('amount')->whereBetween('date', [$from,$to])->sum('amount');
 
-        if ($time == 'true') {
-            $three_transactions = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->get();
-        }
-        
-        if ($time == 'false') {
-            $three_transactions = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
-        }
-
-        return view('backend.components.threehistorytable', compact('three_transactions'))->render();
+        return view('backend.components.threehistorytable', compact('three_transactions', 'three_transactions_total'))->render();
     }
 }
