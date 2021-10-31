@@ -36,7 +36,7 @@ Route::prefix('admin')->middleware('auth:adminuser')->group(function () {
 
     Route::resource('users', 'UserController');
     Route::get('users/datatables/ssd', 'UserController@ssd');
-    Route::get('/users/detail', 'UserController@userDetail');
+    Route::get('users/detail/{date}', 'UserController@userDetail')->name('users.detail');
 
     Route::resource('two', 'TwoController');
     Route::get('two/datatables/ssd', 'TwoController@ssd');
@@ -50,7 +50,6 @@ Route::prefix('admin')->middleware('auth:adminuser')->group(function () {
     Route::resource('three', 'ThreeController');
     Route::get('three/datatables/ssd', 'ThreeController@ssd');
     Route::get('three-overview/history', 'ThreeController@threeHistory')->name('three-overview.history');
-    Route::get('three-overview/three-history-table', 'ThreeController@threeHistoryTable')->name('three-overview.history-table');
 
     Route::resource('amountbreaks', 'BreakNumberController');
     Route::get('amountbreaks/datatables/ssd', 'BreakNumberController@ssd');
@@ -64,6 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::get('user/history-two', 'HomeController@historyTwo')->name('user.history-two');
     
     Route::get('two/htaitpait', 'frontend\HtaitPaitController@index');
+    Route::post('two/htaitpait/confirm', 'frontend\HtaitPaitController@confirm');
     Route::post('two/htaitpait/store', 'frontend\HtaitPaitController@store');
 
 

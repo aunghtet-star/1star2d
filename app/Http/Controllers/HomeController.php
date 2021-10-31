@@ -61,6 +61,7 @@ class HomeController extends Controller
         return back()->with('create', 'Done');
     }
 
+
     public function history()
     {
         return view('frontend.user.history');

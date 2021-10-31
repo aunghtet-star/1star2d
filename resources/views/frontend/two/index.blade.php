@@ -3,9 +3,12 @@
     
 @section('extra_css')
    <style>
+      
        .error{
            color: red;
            border-color: red;
+           font-size: 10px;
+           font-weight: 600;
        }
     </style> 
 @endsection
@@ -35,13 +38,13 @@
                             <div class="col-3">
                                 <div class="form-group" id="inputs">
                                     <label for="">2D</label>
-                                    <input type="number" name="two[]" class="form-control" required>
+                                    <input type="number" name="two[]" class="form-control" id="two" value="{{old('two')}}" required>
                                 </div>
                             </div>
                             <div class="col-9">
                                 <div class="form-group" id="inputs">
                                     <label for="">Amount</label>
-                                    <input type="number" name="amount[]" class="form-control" required>
+                                    <input type="number" name="amount[]" class="form-control" id="amount" required>
                                 </div>
                             </div>
                         </div>
@@ -74,18 +77,19 @@
                 },
             },
             messages : {
-                    'two[]' : 'Please fill 2D',
-                    'amount[]' : 'Please fill amount'
+                    'two[]' : '2D ဖြည့်ပါ',
+                    'amount[]' : 'Amount ဖြည့်ပါ'
                 }
         });
 
         $('.add-btn').on('click',function(e){
             e.preventDefault();
+             var two = $('#two').val();
              var form = '<div class="row">'+
                             '<div class="col-3">'+
                                 '<div class="form-group">'+
                                     '<label for="">2D</label>'+
-                                    '<input type="number" name="two[]" class="form-control " required>'+
+                                    '<input type="number" name="two[]" class="form-control"  required>'+
                                     '</div>'+
                                     '</div>'+
                                     '<div class="col-9">'+
