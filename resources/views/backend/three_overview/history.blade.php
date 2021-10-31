@@ -1,5 +1,17 @@
 @extends('backend.layouts.app')
 @section('3D-over-history','mm-active')
+@section('extra_css')
+    <style>
+        .column {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        margin-right: 150px;
+        width: 400px;
+        height: 80vh;
+}
+    </style>
+@endsection
 @section('main')
 <div class="app-main__inner">
     <div class="app-page-title">
@@ -23,14 +35,30 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text type-padding">Date</label>
                     </div>
-                    <input type="text" class="form-control date" value="{{now()->format('Y-m-d').'-'.now()->format('Y-m-d')}}" placeholder="All">
+                    @if(request()->startdate && request()->enddate)
+                    <input type="text" class="form-control date" value="{{  request()->startdate  . ' - ' . request()->enddate  }}   " placeholder="All">
+                    @else
+                    <input type="text" class="form-control date" value="{{  now()->format('Y-m-d')  . ' - ' . date('Y-m-d',strtotime(now().'+ 10 days'))  }}   " placeholder="All">
+                    @endif
                 </div>
             </div>
         </div>
         <div class="col">
             <div class="card">
-                <div class="card-body">
-                    <div class="three-history-table"></div>
+                <div class="card-body" >
+                    <div class="column">
+                        @if($three_transactions)                            
+                        @foreach($three_transactions as $three_transaction)
+                                <div class="d-flex " style="width:200px">
+                                    <p class="mb-2 mr-3">{{$three_transaction->three}} </p> => <span class="ml-2">{{number_format($three_transaction->total)}}</span>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                   
+                <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($three_transactions_total)}}</h5>
+
+                {{$three_transactions->links()}}
                 </div>
             </div>
         </div>
@@ -42,11 +70,9 @@
 <script>
     $(document).ready(function() {
 
-                
                 $('.date').daterangepicker({
-                    "showCustomRangeLabel": false,
-                    "startDate": moment().startOf('day'),
-                    "endDate": moment().startOf('day').add(7, 'day'),
+                    "showCustomRangeLabel": true,
+                    "autoUpdateInput" :false,
                     "locale" : {
                         format : 'YYYY-MM-DD'
                     }
@@ -55,21 +81,13 @@
                     $('.date').on('apply.daterangepicker', function(ev, picker) {
                     var startdate = picker.startDate.format('YYYY-MM-DD');
                     var enddate = picker.endDate.format('YYYY-MM-DD');
-                
-                    $.ajax({
-                        url : `/admin/three-overview/three-history-table?startdate=${startdate}&enddate=${enddate}`,
-                        type : 'GET',
-                        success : function(res){
-                            $('.three-history-table').html(res);
-                        }
-                    })
+                    history.pushState(null,'',`?startdate=${startdate}&enddate=${enddate}`);
+                    window.location.reload();
+                    
                 });
                     
     
-                    //  $('.date').on('apply.daterangepicker',function(event,picker){
-                    //     $(this).val(picker.startDate.format('YYYY-MM-DD'));
-                    //         threeHistoryTable();
-                    //  })
+                    
        });
     
 </script>

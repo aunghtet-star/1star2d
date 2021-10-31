@@ -93,22 +93,14 @@ class ThreeController extends Controller
 
     public function threeHistory(Request $request)
     {
-        // $startDay = Carbon::parse('2021-10-21 00:00:00');
-        // $midDay = Carbon::parse($startDay)->midDay()->format('Y-m-d H:i:s');
-
-        // $period = Carbon::parse('2021-10-21 13:00:00')->between($startDay, $midDay);
-    
-        return view('backend.three_overview.history');
-    }
-
-    public function ThreeHistoryTable(Request $request)
-    {
-        $from = $request->startdate;
-        $to = $request->enddate;
+        $from = $request->startdate ?? now()->format('Y-m-d');
+        $to = $request->enddate ?? date('Y-m-d', strtotime(now(). '+10 days'));
         
-        $three_transactions = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to])->get();
+        $three_transactions = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to])->paginate(125);
+        $three_transactions->withPath('/admin/three-overview/history?startdate='.$from.'&enddate='.$to);
+        
         $three_transactions_total = Three::select('amount')->whereBetween('date', [$from,$to])->sum('amount');
 
-        return view('backend.components.threehistorytable', compact('three_transactions', 'three_transactions_total'))->render();
+        return view('backend.three_overview.history', compact('three_transactions', 'three_transactions_total'));
     }
 }

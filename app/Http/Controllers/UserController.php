@@ -51,49 +51,30 @@ class UserController extends Controller
         return redirect('admin/users')->with('create', 'Created Successfully');
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
+        $date = $request->date;
         $user = User::findOrFail($id);
-        $user_id = Two::where('user_id', $id)->first();
+        
+        $two_users_am = Two::where('user_id', $user->id)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:59')]);
+        $two_users_pm = Two::where('user_id', $user->id)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:59')]);
 
-        return view('backend.users.detail', compact('user', 'user_id'));
+        $two_users_am_sum = Two::where('user_id', $user->id)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:59')])->sum('amount');
+        $two_users_pm_sum = Two::where('user_id', $user->id)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:59')])->sum('amount');
+        
+        if ($date) {
+            $two_users_am = $two_users_am->whereDate('date', $date);
+            $two_users_pm = $two_users_pm->whereDate('date', $date);
+        }
+
+        $two_users_am = $two_users_am->get();
+        $two_users_pm = $two_users_pm->get();
+        
+        
+        return view('backend.users.detail', compact('user', 'two_users_am', 'two_users_pm', 'two_users_am_sum', 'two_users_pm_sum'));
     }
     
-    public function userDetail(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
-        $user_id = Two::where('user_id', $id)->first();
-
-        $date = $request->date;
-        $time = $request->time;
-        
-        if ($time == 'all') {
-            $twototals = Two::where('user_id', $user->user_id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'23:59:00')])->sum('amount');
-            $twousers = Two::where('user_id', $user->user_id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
-            
-            $threetotals = Three::where('user_id', $user->user_id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'23:59:00')])->sum('amount');
-            $threeusers = Three::where('user_id', $user->user_id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
-        }
-        
-        if ($time == 'true') {
-            $twototals = Two::where('user_id', $user->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->sum('amount');
-            $twousers = Two::where('user_id', $user->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->get();
-        
-            $threetotals = Three::where('user_id', $user->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->sum('amount');
-            $threeusers = Three::where('user_id', $user->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->get();
-        }
-        
-        if ($time == 'false') {
-            $twototals = Two::where('user_id', $user->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->sum('amount');
-            $twousers = Two::where('user_id', $user->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
-        
-            $threetotals = Three::where('user_id', $user->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->sum('amount');
-            $threeusers = Three::where('user_id', $user->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
-        }
-
-        
-        return view('backend.components.userdetail', compact('twousers', 'twototals', 'threeusers', 'threetotals'))->render();
-    }
+    
     public function edit($id)
     {
         $user = User::findOrFail($id);

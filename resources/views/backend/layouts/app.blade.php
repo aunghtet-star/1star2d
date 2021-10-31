@@ -43,13 +43,12 @@
             <div class="app-main__outer" style="margin-bottom : 70px">
                 @yield('main')
 
-                <div class="app-wrapper-footer" style="bottom : 40px ; position : fixed; width:80% ; z-index : 99 ; ">
+                {{-- <div class="app-wrapper-footer" style="bottom : 40px ; position : fixed; width:80% ; z-index : 99 ; ">
                     <div class="app-footer">
                         <div class="app-footer__inner text-center">
-                            <p class="mb-0">Copyright &copy; by Aung Htet Thu</p>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

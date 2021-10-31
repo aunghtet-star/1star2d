@@ -27,7 +27,7 @@
                 </div>
                 
                 <div class="card-body">
-                    <form action="{{url('two/htaitpait/store')}}" method="POST" >
+                    <form action="{{url('two/htaitpait/confirm')}}" method="POST" >
                         @csrf
                         <h5 class="text-center text-success mb-3">ထိပ်ဂဏန်းများ</h5>
                         <div class="row mb-3">
@@ -440,6 +440,24 @@
                                 </div>
                             </div>
                         </div>
+
+
+                        {{-- ========================== a puu ========================== --}}
+
+                        <h5 class="text-center text-success">အပူး</h5>
+                        <div class="row mb-3">
+                            <div class="col-12 text-center pl-0">
+                                <div class="col-5">
+                                    <div class="form-check">
+                                        <label class="form-check-label" id="apuu">
+                                          <input type="checkbox" class="form-check-input" name="apuu" id="apuu" value="00-11-22-33-44-55-66-77-88-99" >
+                                          အပူး
+                                        </label>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <h5 class="text-center text-success">ဆယ်ပြည့်</h5>
                         <div class="row mb-3">
                             <div class="col-12 text-center">
@@ -511,21 +529,22 @@
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary m-0 btn-sm" style="font-weight: 700 ">ထိုးမည်</button>
-                </div>
+                  </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
 </div>
+
 @endsection
 @section('scripts')
-{{-- {!! JsValidator::formRequest('App\Http\Requests\StoreUserTwoD') !!} --}}
+{!! JsValidator::formRequest('App\Http\Requests\StoreHtaitPait') !!}
 
 <script>
     $(document).ready(function(){
 
-
+        
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -537,6 +556,9 @@
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
             })
+
+            
+
             @if(session('create'))
             Toast.fire({
             icon: 'success',
@@ -544,19 +566,6 @@
             })
             @endif()
 
-            @if(session('update'))
-            Toast.fire({
-            icon: 'success',
-            title: '{{session('update')}}'
-            })
-            @endif()
-
-            @if(session('delete'))
-            Toast.fire({
-            icon: 'success',
-            title: '{{session('delete')}}'
-            })
-            @endif()
     })
 </script>
 
