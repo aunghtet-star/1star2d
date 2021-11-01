@@ -16,3 +16,16 @@
     overflow: auto;
     border-radius: 10px;
 }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-right: 150px;
+    width: 400px;
+    height: 80vh;
+}
+.column p {
+    display: flex;
+     width: 400px;
+}
