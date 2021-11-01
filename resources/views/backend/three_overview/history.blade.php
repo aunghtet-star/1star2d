@@ -45,7 +45,7 @@
         </div>
         <div class="col">
             <div class="card">
-                <div class="card-body" >
+                <div class="card-body refresh" >
                     <div class="column">
                         @if($three_transactions)                            
                         @foreach($three_transactions as $three_transaction)
@@ -81,11 +81,18 @@
                     $('.date').on('apply.daterangepicker', function(ev, picker) {
                     var startdate = picker.startDate.format('YYYY-MM-DD');
                     var enddate = picker.endDate.format('YYYY-MM-DD');
+
                     history.pushState(null,'',`?startdate=${startdate}&enddate=${enddate}`);
+                    
                     window.location.reload();
+                    
                     
                 });
                     
+                    
+                // window.setInterval(() => {
+                //         $('.refresh').load(`/admin/three-overview/history`);
+                //     }, 2000);
     
                     
        });

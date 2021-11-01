@@ -31,25 +31,25 @@
                 </div>
                 
                 <div class="card-body">
-                    <form id="validate" action="{{url('two/create')}}" method="POST" id="">
+                    <form id="validate" action="{{url('two/confirm')}}" method="POST" id="">
                         @csrf
                         
                         <div class="row" >
                             <div class="col-3">
                                 <div class="form-group" id="inputs">
                                     <label for="">2D</label>
-                                    <input type="number" name="two[]" class="form-control" id="two" value="{{old('two')}}" required>
+                                    <input type="number" name="two[]" class="form-control" id="two" required>
                                 </div>
                             </div>
                             <div class="col-9">
                                 <div class="form-group" id="inputs">
                                     <label for="">Amount</label>
-                                    <input type="number" name="amount[]" class="form-control" id="amount" required>
+                                    <input type="number" name="amount[]" class="form-control" id="amount"  required>
                                 </div>
                             </div>
                         </div>
                         <div class="test"></div>
-                        <button type="submit" id="submit" class="btn btn-primary m-0 btn-sm">Confirm</button>
+                        <button type="submit" id="submit" class="btn btn-primary m-0 btn-sm" style="font-weight:700">ထိုးမည်</button>
                 </div>
                 </form>
             </div>

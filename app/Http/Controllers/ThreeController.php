@@ -36,7 +36,7 @@ class ThreeController extends Controller
         })
         ->addColumn('action', function ($each) {
             $edit_icon = '<a href="'.url('admin/three/'.$each->id.'/edit').'" class="text-warning"><i class="fas fa-user-edit"></i></a>';
-            $delete_icon = '<a href="'.url('admin/three/'.$each->id).'" data-id="'.$each->id.'" class="text-danger" id="delete"><i class="fas fa-trash"></i></a>';
+            $delete_icon = '<a href="'.url('admin/three/'.$each->id).'" data-id="'.$each->id.'"  data-three="'.$each->three.'" data-amount="'.$each->amount.'"  class="text-danger" id="delete"><i class="fas fa-trash"></i></a>';
             
            
             return '<div class="action-icon">'.$edit_icon . $delete_icon.'</div>';

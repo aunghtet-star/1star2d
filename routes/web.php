@@ -59,6 +59,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
 
     Route::get('/two', 'HomeController@index');
+    Route::post('/two/confirm', 'HomeController@twoconfirm');
     Route::post('two/create', 'HomeController@two');
     Route::get('user/history-two', 'HomeController@historyTwo')->name('user.history-two');
     
@@ -68,6 +69,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/three', 'frontend\ThreeController@index');
+    Route::post('/three/confirm', 'frontend\ThreeController@threeconfirm');
     Route::post('three/create', 'frontend\ThreeController@three');
     Route::get('user/history-three', 'frontend\ThreeController@historyThree')->name('user.history-three');
     

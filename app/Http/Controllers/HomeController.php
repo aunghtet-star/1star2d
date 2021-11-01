@@ -26,6 +26,40 @@ class HomeController extends Controller
         return view('frontend.two.index');
     }
 
+    public function twoconfirm(Request $request)
+    {
+        $breakNumbers = Amountbreak::select('closed_number')->where('type', '2D')->get();
+
+        $break_twos = Two::select('two', DB::raw('SUM(amount) as total'))->whereIn('two', $breakNumbers)->whereDate('date', now()->format('Y-m-d'))->groupBy('two')->get();
+        
+
+        foreach ($break_twos as $break_two) {
+            $break_amount = Amountbreak::select('amount')->where('closed_number', $break_two->two)->first();
+            $break_number = Amountbreak::select('closed_number')->where('closed_number', $break_two->two)->first();
+            
+            for ($i=0;$i<count($request->two);$i++) {
+                if ($break_number->closed_number == $request->two[$i]) {
+                    $breakTwo = $break_two->total + $request->amount[$i];
+                    $needAmount =$break_amount->amount - $break_two->total;
+                    if ($breakTwo > $break_amount->amount) {
+                        return back()->withErrors([
+                            $break_number->closed_number.' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
+                            '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '. $needAmount .'ကျပ်လိုပါသေးသည်'
+                        ])->withInput();
+                    }
+                }
+            }
+        }
+
+        
+        $user_id = Auth()->user()->id;
+        $date = now()->format('Y-m-d');
+        $twos = $request->two;
+        $amount = $request->amount;
+       
+        return view('frontend.two.twoconfirm', compact('user_id', 'date', 'twos', 'amount'));
+    }
+
     public function two(Request $request)
     {
         $breakNumbers = Amountbreak::select('closed_number')->where('type', '2D')->get();
@@ -58,7 +92,7 @@ class HomeController extends Controller
             $two->amount = $request->amount[$key];
             $two->save();
         }
-        return back()->with('create', 'Done');
+        return redirect('two')->with('create', 'Done');
     }
 
 

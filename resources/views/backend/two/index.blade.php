@@ -75,7 +75,8 @@
                     $(document).on('click','#delete',function(e){
                         e.preventDefault();
                         var id = $(this).data('id');
-
+                        var two = $(this).data('two');
+                        var amount = $(this).data('amount');
                         const swalWithBootstrapButtons = Swal.mixin({
                                 customClass: {
                                     confirmButton: 'btn btn-success',
@@ -85,12 +86,11 @@
                                 })
 
                                 swalWithBootstrapButtons.fire({
-                                title: 'Are you sure?',
-                                text: "You want to delete!",
+                                title: two+ " => "+amount+" ကိုဖျက်မှာသေချာပါသလား ",
                                 icon: 'warning',
                                 showCancelButton: true,
-                                confirmButtonText: 'Yeah',
-                                cancelButtonText: 'Nope !',
+                                confirmButtonText: 'လုပ်မည်',
+                                cancelButtonText: 'မလုပ်ပါ',
                                 reverseButtons: true
                                 }).then((result) => {
                                 if (result.isConfirmed) {

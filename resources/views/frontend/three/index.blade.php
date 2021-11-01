@@ -27,7 +27,7 @@
                     <a href="" class="btn btn-success mt-3 btn-sm add-btn" style="margin-bottom: -16px; margin-right:23px ; height:30px ;font-weight:900"><i class="fas fa-plus-circle"></i> ထပ်ထည့်ရန် </a>
                 </div>
                 <div class="card-body">
-                    <form id="validate" action="{{url('three/create')}}" method="POST" id="">
+                    <form id="validate" action="{{url('three/confirm')}}" method="POST" id="">
                         @csrf
                         <div class="row" >
                             <div class="col-3"> 
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="test"></div>
-                        <button type="submit" id="submit" class="btn btn-primary m-0 btn-sm">Confirm</button>
+                        <button type="submit" id="submit" class="btn btn-primary m-0 btn-sm" style="font-weight:700">ထိုးမည်</button>
                 </div>
                 </form>
             </div>
