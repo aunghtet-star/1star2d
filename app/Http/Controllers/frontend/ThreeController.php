@@ -67,11 +67,8 @@ class ThreeController extends Controller
                 }
             }
         }
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> 090db9c096a1b83b01f4890200dce32aa3335d55
+
         foreach ($request->three as $key=>$threed) {
             $three = new Three();
             $three->user_id = Auth()->user()->id;
@@ -80,11 +77,8 @@ class ThreeController extends Controller
             $three->amount = $request->amount[$key];
             $three->save();
         }
-<<<<<<< HEAD
+
         return redirect('three')->with('create', 'Done');
-=======
-        return back()->with('create', 'Done');
->>>>>>> 090db9c096a1b83b01f4890200dce32aa3335d55
     }
 
     public function history()
