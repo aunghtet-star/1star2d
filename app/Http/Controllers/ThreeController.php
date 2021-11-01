@@ -96,7 +96,7 @@ class ThreeController extends Controller
         $from = $request->startdate ?? now()->format('Y-m-d');
         $to = $request->enddate ?? date('Y-m-d', strtotime(now(). '+10 days'));
         
-        $three_transactions = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to])->paginate(125);
+        $three_transactions = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to])->paginate(144);
         $three_transactions->withPath('/admin/three-overview/history?startdate='.$from.'&enddate='.$to);
         
         $three_transactions_total = Three::select('amount')->whereBetween('date', [$from,$to])->sum('amount');

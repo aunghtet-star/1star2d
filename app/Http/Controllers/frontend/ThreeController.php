@@ -38,6 +38,16 @@ class ThreeController extends Controller
                 }
             }
         }
+        
+        foreach ($request->three as $key=>$threed) {
+            $three = new Three();
+            $three->user_id = Auth()->user()->id;
+            $three->date = now()->format('Y-m-d');
+            $three->three = $threed;
+            $three->amount = $request->amount[$key];
+            $three->save();
+        }
+        return back()->with('create', 'Done');
     }
 
     public function history()

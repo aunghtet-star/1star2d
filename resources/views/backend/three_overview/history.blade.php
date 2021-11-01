@@ -7,7 +7,6 @@
         flex-direction: column;
         flex-wrap: wrap;
         margin-right: 150px;
-        width: 400px;
         height: 80vh;
 }
     </style>
@@ -49,7 +48,7 @@
                     <div class="column">
                         @if($three_transactions)                            
                         @foreach($three_transactions as $three_transaction)
-                                <div class="d-flex " style="width:200px">
+                                <div class="d-flex " style="width:100px; margin-right : 70px">
                                     <p class="mb-2 mr-3">{{$three_transaction->three}} </p> => <span class="ml-2">{{number_format($three_transaction->total)}}</span>
                                 </div>
                             @endforeach
