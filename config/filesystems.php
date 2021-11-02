@@ -65,6 +65,19 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'local-backup' => [
+            'driver' => 'local',
+            'root' => storage_path('app/1star'),
+        ],
+        'cloud-backup' => [
+            'driver' => 'google',
+            'client_id' => env('GOOGLE_DRIVE_CLIENT_ID'),
+            'client_secret' => env('GOOGLE_DRIVE_CLIENT_SECRET'),
+            'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
+            'accessToken' => env('GOOGLE_DRIVE_ACCESS_TOKEN'),
+            'folder_id' => env('GOOGLE_DRIVE_FOLDER_ID'),
+        ],
+
     ],
 
     /*

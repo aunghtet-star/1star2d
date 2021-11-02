@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,7 +26,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('backup:run --only-db')->daily();
+        $schedule->call(function () {
+            DB::table('twos')->where('date', '<', Carbon::parse(now()->subDays(30)->format('Y-m-d')))->delete();
+        })->daily();
+        $schedule->call(function () {
+            DB::table('threes')->where('date', '<', Carbon::parse(now()->subDays(90)->format('Y-m-d')))->delete();
+        })->daily();
     }
 
     /**
