@@ -17,6 +17,7 @@
         </div>
     </div>
     <div class="container">
+        @include('frontend.flash')
         <div class="card">
             <div class="card-body">
                 <form action="{{url('admin/users')}}" method="POST" id="create">

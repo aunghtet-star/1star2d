@@ -27,6 +27,9 @@
     {{-- Date ranger picker --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
+    {{-- select 2 --}}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 
     {{-- ================== Custom CSS ================= --}}
 
@@ -71,8 +74,15 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
+    
+    {{-- select 2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    {{-- InfiniteScroll --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.4.1/jquery.jscroll.min.js"></script>
+    
     <!-- Laravel Javascript Validation -->
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+
 
     @yield('scripts')
     <script>
@@ -99,6 +109,12 @@
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
             })
+
+            $('.select-role').select2({
+                theme: 'bootstrap4',
+            });
+
+
             @if(session('create'))
             Toast.fire({
             icon: 'success',
@@ -119,6 +135,9 @@
             title: '{{session('delete')}}'
             })
             @endif()
+
+            // document.addEventListener('contextmenu',event=>
+            // event.preventDefault());
     });
     </script>
 </body>

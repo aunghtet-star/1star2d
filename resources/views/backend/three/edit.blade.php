@@ -24,7 +24,7 @@
                     @method('PATCH')
                     <div class="form-group">
                         <label for="">Name</label>
-                        <select name="user_id" class="form-control">
+                        <select name="user_id" class="form-control select-role">
                             <option value="">Select User</option>
                             @foreach ($users as $user)
                             <option value="{{$user->id}}" @if($user->id == $number->user_id) selected @endif>{{$user->name}}

@@ -12,6 +12,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <span id="message_error"></span>
+            
             <div class="card">
                 <div class="d-flex justify-content-end">
                     <a href="" class="btn btn-success mt-3 btn-sm add-btn" style="margin-bottom: -16px; margin-right:23px"><i class="fas fa-plus-circle"></i> Add </a>

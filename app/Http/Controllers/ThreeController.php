@@ -10,24 +10,21 @@ use Yajra\Datatables\Datatables;
 use App\Http\Requests\StoreThree;
 use App\Http\Requests\UpdateThree;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class ThreeController extends Controller
 {
     public function index()
     {
-        $numbers = Three::all();
+        $numbers = Three::where('admin_user_id', Auth()->user()->id)->get();
         return view('backend.three.index', compact('numbers'));
     }
 
     public function ssd()
     {
-        return Datatables::of(Three::with('users'))
-        ->filterColumn('name', function ($query, $keyword) {
-            $query->whereHas('users', function ($q1) use ($keyword) {
-                $q1->where('name', 'like', '%'.$keyword.'%');
-            });
-        })
+        $threes = Three::where('admin_user_id', Auth()->user()->id)->limit(10);
+        return Datatables::of($threes)
         ->addColumn('name', function ($each) {
             return $each->users ? $each->users->name : '_';
         })
@@ -46,7 +43,7 @@ class ThreeController extends Controller
     
     public function create()
     {
-        $users = User::all();
+        $users = User::where('admin_user_id', Auth()->user()->id)->get();
         return view('backend.three.create', compact('users'));
     }
 
@@ -54,6 +51,7 @@ class ThreeController extends Controller
     {
         $number = new Three();
         $number->user_id = $request->user_id;
+        $number->admin_user_id = Auth::guard('adminuser')->user()->id;
         $number->date = now();
         $number->three = $request->three;
         $number->amount = $request->amount;
@@ -65,7 +63,7 @@ class ThreeController extends Controller
     public function edit($id)
     {
         $number = Three::findOrFail($id);
-        $users = User::all();
+        $users = User::where('admin_user_id', Auth()->user()->id)->get();
 
         return view('backend.three.edit', compact('number', 'users'));
     }
@@ -75,6 +73,7 @@ class ThreeController extends Controller
         $number = Three::findOrFail($id);
 
         $number->user_id = $request->user_id;
+        $number->admin_user_id = Auth::guard('adminuser')->user()->id;
         $number->date = now();
         $number->three = $request->three;
         $number->amount = $request->amount;
@@ -96,11 +95,11 @@ class ThreeController extends Controller
         $from = $request->startdate ?? now()->format('Y-m-d');
         $to = $request->enddate ?? date('Y-m-d', strtotime(now(). '+10 days'));
         
-        $three_transactions = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to])->paginate(144);
+        $three_transactions = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->where('admin_user_id', Auth()->user()->id)->whereBetween('date', [$from,$to])->paginate(144);
         $three_transactions->withPath('/admin/three-overview/history?startdate='.$from.'&enddate='.$to);
         
-        $three_transactions_total = Three::select('amount')->whereBetween('date', [$from,$to])->sum('amount');
+        $three_transactions_total = Three::select('amount')->where('admin_user_id', Auth()->user()->id)->whereBetween('date', [$from,$to])->sum('amount');
 
-        return view('backend.three_overview.history', compact('three_transactions', 'three_transactions_total'));
+        return view('backend.three_overview.history', compact('three_transactions', 'three_transactions_total', 'from', 'to'));
     }
 }

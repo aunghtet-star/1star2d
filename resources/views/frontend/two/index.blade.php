@@ -16,14 +16,16 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            @foreach($errors->all() as $error)
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                {{$error}}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-            @endforeach
+            @include('frontend.flash')
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <p class="mb-0">သင်၏လက်ကျန်ငွေ </p>
+                        <p class="mb-0">{{Auth()->user()->wallet ? Auth()->user()->wallet->amount : '_'}} ကျပ် </p>
+                    </div>
+                </div>
+            </div>
+            @if($twoform->status == 'show')
             <div class="card">
                 <div class="d-flex justify-content-between">
                     <h5 class="" style="margin-top: 16px; margin-left:23px">2D ထိုးရန်</h5>
@@ -33,7 +35,6 @@
                 <div class="card-body">
                     <form id="validate" action="{{url('two/confirm')}}" method="POST" id="">
                         @csrf
-                        
                         <div class="row" >
                             <div class="col-3">
                                 <div class="form-group" id="inputs">
@@ -47,12 +48,18 @@
                                     <input type="number" name="amount[]" class="form-control" id="amount"  required>
                                 </div>
                             </div>
+                            
                         </div>
                         <div class="test"></div>
                         <button type="submit" id="submit" class="btn btn-primary m-0 btn-sm" style="font-weight:700">ထိုးမည်</button>
                 </div>
                 </form>
             </div>
+            @else 
+            <div class="d-flex justify-content-center align-items-center" style="height:100vh">
+                <h4 class="text-center text-danger" style="font-weight: 700;">ပိတ်ထားပါသည်</h4>
+            </div>
+            @endif
         </div>
     </div>
 </div>

@@ -34,18 +34,46 @@
         <div class="app-sidebar__inner">
             <ul class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Dashboards</li>
+                @if('view_admin')
+                @can('view_admin')
                 <li>
                     <a href="{{url('admin')}}" class="@yield('admin-users')">
                         <i class="metismenu-icon pe-7s-users text-danger"></i>
                         <span class="text-danger">Admin Users</span>
                     </a>
                 </li>
+                @endcan
+                @endif
+                
                 <li>
                     <a href="{{route('users.index')}}" class="@yield('users')">
                         <i class="metismenu-icon pe-7s-users text-primary"></i>
                         <span class="text-primary">Users</span>
                     </a>
                 </li>
+
+                @if('view_role')
+                @can('view_role')
+                <li>
+                    <a href="{{route('roles.index')}}" class="@yield('roles')">
+                        <i class="metismenu-icon fas fa-user-tag text-dark"></i>
+                        <span class="text-danger">ရာထူး</span>
+                    </a>
+                </li>
+                 @endcan
+                @endif
+
+                @if('view_permission')
+                @can('view_permission')
+                <li>
+                    <a href="{{route('permissions.index')}}" class="@yield('permissions')">
+                        <i class="metismenu-icon fas fa-user-lock text-dark"></i>
+                        <span class="text-danger">Permission</span>
+                    </a>
+                </li>
+                @endcan
+                @endif
+
                 <li>
                     <a href="{{route('two.index')}}" class="@yield('2D')">
                         <i class="metismenu-icon fas fa-stopwatch-20 text-success"></i>
@@ -82,9 +110,40 @@
                 <li>
                     <a href="{{route('amountbreaks.index')}}" class="@yield('break_number')">
                         <i class="metismenu-icon fas fa-hand-paper text-dark"></i>
-                        <span class="text-danger">ဘရိတ်နံပါတ်</span>
+                        <span class="text-danger">သီးသန့်ဘရိတ်နံပါတ်</span>
                     </a>
                 </li>
+
+                <li>
+                    <a href="{{route('allbreakwithamount.index')}}" class="@yield('allbreakwithamount')">
+                        <i class="metismenu-icon fas fa-hand-paper text-dark"></i>
+                        <span class="text-danger">ဘရိတ်ပမာဏ(All)</span>
+                    </a>
+                </li>
+
+
+                @if('view_wallet')
+                @can('view_wallet')
+                <li>
+                    <a href="{{route('wallet.index')}}" class="@yield('wallet')">
+                        <i class="metismenu-icon fas fa-coins text-dark"></i>
+                        <span class="text-danger">ပိုက်ဆံအိတ်</span>
+                    </a>
+                </li>
+                @endcan
+                @endif
+
+                @if('view_profile')
+                @can('view_profile')
+                <li>
+                    <a href="{{route('profile')}}" class="@yield('profile')">
+                        <i class="metismenu-icon fas fa-user text-dark"></i>
+                        <span class="text-primary">Profile</span>
+                    </a>
+                </li>
+                @endcan
+                @endif
+
 
                 <li class="mt-5">
                     <a class="dropdown-item bg-warning text-dark" href="{{ route('logout') }}" 

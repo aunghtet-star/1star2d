@@ -19,6 +19,23 @@
     
     {{-- custom css --}}
     <link rel="stylesheet" href="{{asset('frontend/style.css')}}">
+
+    <style>
+        
+        .fa-bell{
+                margin-left: 60px;
+            }
+        
+        @media only screen and (max-width: 600px) {
+            .fa-bell{
+            margin: 0;
+            position: absolute;
+            
+            top:19px;
+            left: 75%;
+            }
+        }
+    </style>
     @yield('extra_css')
 </head>
 
@@ -84,6 +101,8 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
                 <a class="navbar-brand" href="{{url('/')}}">1Star2DMM</a>
+
+                <a class="navbar-brand @if($unread_noti != 0) text-danger @endif"   href="{{url('/notification')}}" ><i class="fas fa-bell "></i></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -145,14 +164,9 @@
         </script>
 
 
-
     {{-- sweet alert --}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-{{-- Repeater js
-    <script src="{{asset('js/repeater.js')}}"></script> --}}
-    
-    
 
     {{-- js validation --}}
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -160,6 +174,9 @@
     
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
      
+    {{-- InfiniteScroll --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.4.1/jquery.jscroll.min.js"></script>
+
     {{-- Date range picker --}}
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>

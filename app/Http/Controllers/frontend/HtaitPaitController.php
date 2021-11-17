@@ -3,16 +3,27 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Two;
+use App\Wallet;
+use App\ShowHide;
+use App\AdminUser;
+use App\Transaction;
+use App\AllBrakeWithAmount;
 use Illuminate\Http\Request;
+use App\Helpers\UUIDGenerator;
+use App\Helpers\BrakeHtaitPait;
+use App\Helpers\HtaitPaitForeach;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreHtaitPait;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreHtaitPait;
 
 class HtaitPaitController extends Controller
 {
     public function index()
     {
-        return view('frontend.two.htaitpait');
+        $htaitpaitform = ShowHide::where('name', 'htaitpaitform')->where('admin_user_id', Auth::guard('web')->user()->admin_user_id)->first();
+        
+        return view('frontend.two.htaitpait', compact('htaitpaitform'));
     }
 
 
@@ -21,6 +32,7 @@ class HtaitPaitController extends Controller
         $zerohtaits = $onehtaits = $twohtaits = $threehtaits = $fourhtaits = $fivehtaits = $sixhtaits = $sevenhtaits = $eighthtaits = $ninehtaits = '';
         $amount = $request->amount ;
         
+       
         if (!is_null($request->zerohtait)) {
             $zerohtaits =  explode('-', $request->zerohtait);
         }
@@ -214,11 +226,403 @@ class HtaitPaitController extends Controller
             $brothers =  explode('-', $request->brother);
         }
 
-        return view('frontend.two.htaitpaitconfirm', compact('amount', 'zerohtaits', 'onehtaits', 'twohtaits', 'threehtaits', 'fourhtaits', 'fivehtaits', 'sixhtaits', 'sevenhtaits', 'eighthtaits', 'ninehtaits', 'zeropaits', 'onepaits', 'twopaits', 'threepaits', 'fourpaits', 'fivepaits', 'sixpaits', 'sevenpaits', 'eightpaits', 'ninepaits', 'zerobrakes', 'onebrakes', 'twobrakes', 'threebrakes', 'fourbrakes', 'fivebrakes', 'sixbrakes', 'sevenbrakes', 'eightbrakes', 'ninebrakes', 'zeropars', 'onepars', 'twopars', 'threepars', 'fourpars', 'fivepars', 'sixpars', 'sevenpars', 'eightpars', 'ninepars', 'apuus', 'tens', 'powers', 'natkhats', 'brothers'));
+        
+        $totals = 0;
+        $disallowedall =[];
+        $disallowedonly =[];
+
+
+        if ($zerohtaits) {
+            $zerohtaits = HtaitPaitForeach::Brake($zerohtaits, $amount);
+        }
+       
+        if ($onehtaits) {
+            $onehtaits = HtaitPaitForeach::Brake($onehtaits, $amount);
+        }
+
+        if ($twohtaits) {
+            $twohtaits = HtaitPaitForeach::Brake($twohtaits, $amount);
+        }
+
+        if ($threehtaits) {
+            $threehtaits = HtaitPaitForeach::Brake($threehtaits, $amount);
+        }
+
+        if ($fourhtaits) {
+            $fourhtaits = HtaitPaitForeach::Brake($fourhtaits, $amount);
+        }
+
+        if ($fivehtaits) {
+            $fivehtaits = HtaitPaitForeach::Brake($fivehtaits, $amount);
+        }
+
+        if ($sixhtaits) {
+            $sixhtaits = HtaitPaitForeach::Brake($sixhtaits, $amount);
+        }
+
+        if ($sevenhtaits) {
+            $sevenhtaits = HtaitPaitForeach::Brake($sevenhtaits, $amount);
+        }
+
+        if ($eighthtaits) {
+            $eighthtaits = HtaitPaitForeach::Brake($eighthtaits, $amount);
+        }
+
+        if ($ninehtaits) {
+            $ninehtaits = HtaitPaitForeach::Brake($ninehtaits, $amount);
+        }
+
+
+        
+
+
+        if ($zerohtaits == []) {
+            return back()->withErrors(['0 ထိပ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($onehtaits == []) {
+            return back()->withErrors(['1 ထိပ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($twohtaits == []) {
+            return back()->withErrors(['2 ထိပ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($threehtaits == []) {
+            return back()->withErrors(['3 ထိပ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($fourhtaits == []) {
+            return back()->withErrors(['4 ထိပ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($fivehtaits == []) {
+            return back()->withErrors(['5 ထိပ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($sixhtaits == []) {
+            return back()->withErrors(['6 ထိပ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($sevenhtaits == []) {
+            return back()->withErrors(['7 ထိပ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($eighthtaits == []) {
+            return back()->withErrors(['8 ထိပ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($ninehtaits == []) {
+            return back()->withErrors(['9 ထိပ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        // --------------------- Pait ----------------------------------
+
+        if ($zeropaits) {
+            $zeropaits = HtaitPaitForeach::Brake($zeropaits, $amount);
+        }
+
+       
+        if ($onepaits) {
+            $onepaits = HtaitPaitForeach::Brake($onepaits, $amount);
+        }
+
+        if ($twopaits) {
+            $twopaits = HtaitPaitForeach::Brake($twopaits, $amount);
+        }
+
+        if ($threepaits) {
+            $threepaits = HtaitPaitForeach::Brake($threepaits, $amount);
+        }
+
+        if ($fourpaits) {
+            $fourpaits = HtaitPaitForeach::Brake($fourpaits, $amount);
+        }
+
+        if ($fivepaits) {
+            $fivepaits = HtaitPaitForeach::Brake($fivepaits, $amount);
+        }
+
+        if ($sixpaits) {
+            $sixpaits = HtaitPaitForeach::Brake($sixpaits, $amount);
+        }
+
+        if ($sevenpaits) {
+            $sevenpaits = HtaitPaitForeach::Brake($sevenpaits, $amount);
+        }
+
+        if ($eightpaits) {
+            $eightpaits = HtaitPaitForeach::Brake($eightpaits, $amount);
+        }
+
+        if ($ninepaits) {
+            $ninepaits = HtaitPaitForeach::Brake($ninepaits, $amount);
+        }
+
+
+
+        if ($zeropaits == []) {
+            return back()->withErrors(['0 ပိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($onepaits == []) {
+            return back()->withErrors(['1 ပိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($twopaits == []) {
+            return back()->withErrors(['2 ပိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($threepaits == []) {
+            return back()->withErrors(['3 ပိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($fourpaits == []) {
+            return back()->withErrors(['4 ပိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($fivepaits == []) {
+            return back()->withErrors(['5 ပိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($sixpaits == []) {
+            return back()->withErrors(['6 ပိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($sevenpaits == []) {
+            return back()->withErrors(['7 ပိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($eightpaits == []) {
+            return back()->withErrors(['8 ပိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($ninepaits == []) {
+            return back()->withErrors(['9 ပိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+
+        // --------------------- Brakes  ----------------------------------
+
+        if ($zerobrakes) {
+            $zerobrakes = HtaitPaitForeach::Brake($zerobrakes, $amount);
+        }
+
+       
+        if ($onebrakes) {
+            $onebrakes = HtaitPaitForeach::Brake($onebrakes, $amount);
+        }
+
+        if ($twobrakes) {
+            $twobrakes = HtaitPaitForeach::Brake($twobrakes, $amount);
+        }
+
+        if ($threebrakes) {
+            $threebrakes = HtaitPaitForeach::Brake($threebrakes, $amount);
+        }
+
+        if ($fourbrakes) {
+            $fourbrakes = HtaitPaitForeach::Brake($fourbrakes, $amount);
+        }
+
+        if ($fivebrakes) {
+            $fivebrakes = HtaitPaitForeach::Brake($fivebrakes, $amount);
+        }
+
+        if ($sixbrakes) {
+            $sixbrakes = HtaitPaitForeach::Brake($sixbrakes, $amount);
+        }
+
+        if ($sevenbrakes) {
+            $sevenbrakes = HtaitPaitForeach::Brake($sevenbrakes, $amount);
+        }
+
+        if ($eightbrakes) {
+            $eightbrakes = HtaitPaitForeach::Brake($eightbrakes, $amount);
+        }
+
+        if ($ninebrakes) {
+            $ninebrakes = HtaitPaitForeach::Brake($ninebrakes, $amount);
+        }
+
+
+
+        if ($zerobrakes == []) {
+            return back()->withErrors(['0 ဘရိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($onebrakes == []) {
+            return back()->withErrors(['1 ဘရိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($twobrakes == []) {
+            return back()->withErrors(['2 ဘရိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($threebrakes == []) {
+            return back()->withErrors(['3 ဘရိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($fourbrakes == []) {
+            return back()->withErrors(['4 ဘရိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($fivebrakes == []) {
+            return back()->withErrors(['5 ဘရိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($sixbrakes == []) {
+            return back()->withErrors(['6 ဘရိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($sevenbrakes == []) {
+            return back()->withErrors(['7 ဘရိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($eightbrakes == []) {
+            return back()->withErrors(['8 ဘရိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($ninebrakes == []) {
+            return back()->withErrors(['9 ဘရိတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        // --------------------- Pait ----------------------------------
+
+        if ($zeropars) {
+            $zeropars = HtaitPaitForeach::Brake($zeropars, $amount);
+        }
+
+       
+        if ($onepars) {
+            $onepars = HtaitPaitForeach::Brake($onepars, $amount);
+        }
+
+        if ($twopars) {
+            $twopars = HtaitPaitForeach::Brake($twopars, $amount);
+        }
+
+        if ($threepars) {
+            $threepars = HtaitPaitForeach::Brake($threepars, $amount);
+        }
+
+        if ($fourpars) {
+            $fourpars = HtaitPaitForeach::Brake($fourpars, $amount);
+        }
+
+        if ($fivepars) {
+            $fivepars = HtaitPaitForeach::Brake($fivepars, $amount);
+        }
+
+        if ($sixpars) {
+            $sixpars = HtaitPaitForeach::Brake($sixpars, $amount);
+        }
+
+        if ($sevenpars) {
+            $sevenpars = HtaitPaitForeach::Brake($sevenpars, $amount);
+        }
+
+        if ($eightpars) {
+            $eightpars = HtaitPaitForeach::Brake($eightpars, $amount);
+        }
+
+        if ($ninepars) {
+            $ninepars = HtaitPaitForeach::Brake($ninepars, $amount);
+        }
+
+
+
+        if ($zeropars == []) {
+            return back()->withErrors(['0 အပါသည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($onepars == []) {
+            return back()->withErrors(['1 အပါသည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($twopars == []) {
+            return back()->withErrors(['2 အပါသည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($threepars == []) {
+            return back()->withErrors(['3 အပါသည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($fourpars == []) {
+            return back()->withErrors(['4 အပါသည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($fivepars == []) {
+            return back()->withErrors(['5 အပါသည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($sixpars == []) {
+            return back()->withErrors(['6 အပါသည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($sevenpars == []) {
+            return back()->withErrors(['7 အပါသည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($eightpars == []) {
+            return back()->withErrors(['8 အပါသည် မရတော့ပါ'])->withInput();
+        }
+
+        if ($ninepars == []) {
+            return back()->withErrors(['9 အပါသည် မရတော့ပါ'])->withInput();
+        }
+
+        // --------------------- a puu -------------------------------------
+        if ($apuus) {
+            $apuus = HtaitPaitForeach::Brake($apuus, $amount);
+        }
+
+        if ($apuus == []) {
+            return back()->withErrors(['အပူးသည် မရတော့ပါ'])->withInput();
+        }
+
+        // --------------------- tens -------------------------------------
+        if ($tens) {
+            $tens = HtaitPaitForeach::Brake($tens, $amount);
+        }
+
+        if ($tens == []) {
+            return back()->withErrors(['ဆယ်ပြည့်သည် မရတော့ပါ'])->withInput();
+        }
+
+        // --------------------- powers -------------------------------------
+        if ($powers) {
+            $powers = HtaitPaitForeach::Brake($powers, $amount);
+        }
+
+        if ($powers == []) {
+            return back()->withErrors(['ပါ၀ါသည် မရတော့ပါ'])->withInput();
+        }
+
+        // --------------------- natkhats -------------------------------------
+        if ($natkhats) {
+            $natkhats = HtaitPaitForeach::Brake($natkhats, $amount);
+        }
+
+        if ($natkhats == []) {
+            return back()->withErrors(['နက္ခတ်သည် မရတော့ပါ'])->withInput();
+        }
+
+        // --------------------- brother -------------------------------------
+        if ($brothers) {
+            $brothers = HtaitPaitForeach::Brake($brothers, $amount);
+        }
+
+        if ($brothers == []) {
+            return back()->withErrors(['ညီအကိုသည် မရတော့ပါ'])->withInput();
+        }
+
+        return view('frontend.two.htaitpaitconfirm', compact('amount', 'zerohtaits', 'onehtaits', 'twohtaits', 'threehtaits', 'fourhtaits', 'fivehtaits', 'sixhtaits', 'sevenhtaits', 'eighthtaits', 'ninehtaits', 'zeropaits', 'onepaits', 'twopaits', 'threepaits', 'fourpaits', 'fivepaits', 'sixpaits', 'sevenpaits', 'eightpaits', 'ninepaits', 'zerobrakes', 'onebrakes', 'twobrakes', 'threebrakes', 'fourbrakes', 'fivebrakes', 'sixbrakes', 'sevenbrakes', 'eightbrakes', 'ninebrakes', 'zeropars', 'onepars', 'twopars', 'threepars', 'fourpars', 'fivepars', 'sixpars', 'sevenpars', 'eightpars', 'ninepars', 'apuus', 'tens', 'powers', 'natkhats', 'brothers', 'disallowedall', 'disallowedonly'));
     }
 
     public function store(StoreHtaitPait $request)
     {
+        
         //----------------- htait ------------------------------
         $zerohtaits = $request->zerohtaits;
         $onehtaits = $request->onehtaits;
@@ -230,123 +634,9 @@ class HtaitPaitController extends Controller
         $sevenhtaits = $request->sevenhtaits;
         $eighthtaits = $request->eighthtaits;
         $ninehtaits = $request->ninehtaits;
-
-        if ($zerohtaits) {
-            foreach ($zerohtaits as $key=>$zerohtait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $zerohtait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
         
-        
-        if ($onehtaits) {
-            foreach ($onehtaits as $key=>$onehtait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $onehtait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-        
-        if ($twohtaits) {
-            foreach ($twohtaits as $key=>$twohtait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $twohtait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-        
-    
-        if ($threehtaits) {
-            foreach ($threehtaits as $key=>$threehtait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $threehtait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-        
-        if ($fourhtaits) {
-            foreach ($fourhtaits as $key=>$fourhtait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $fourhtait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-
-        if ($fivehtaits) {
-            foreach ($fivehtaits as $key=>$fivehtait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $fivehtait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-
-        if ($sixhtaits) {
-            foreach ($sixhtaits as $key=>$sixhtait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $sixhtait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-
-        if ($sevenhtaits) {
-            foreach ($sevenhtaits as $key=>$sevenhtait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $sevenhtait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-
-        if ($eighthtaits) {
-            foreach ($eighthtaits as $key=>$eighthtait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $eighthtait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-
-        if ($ninehtaits) {
-            foreach ($ninehtaits as $key=>$ninehtait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $ninehtait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-
-
-
         //----------------- Pait ------------------------------
-
+    
         $zeropaits = $request->zeropaits;
         $onepaits = $request->onepaits;
         $twopaits = $request->twopaits;
@@ -358,121 +648,8 @@ class HtaitPaitController extends Controller
         $eightpaits = $request->eightpaits;
         $ninepaits = $request->ninepaits;
 
-        if ($zeropaits) {
-            foreach ($zeropaits as $key=>$zeropait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $zeropait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-        
-        if ($onepaits) {
-            foreach ($onepaits as $key=>$onepait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $onepait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-    
-        if ($twopaits) {
-            foreach ($twopaits as $key=>$twopait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $twopait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-        
-        if ($threepaits) {
-            foreach ($threepaits as $key=>$threepait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $threepait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-    
-
-    
-        if ($fourpaits) {
-            foreach ($fourpaits as $key=>$fourpait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $fourpait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-        
-        if ($fivepaits) {
-            foreach ($fivepaits as $key=>$fivepait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $fivepait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-        
-        if ($sixpaits) {
-            foreach ($sixpaits as $key=>$sixpait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $sixpait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-        
-        if ($sevenpaits) {
-            foreach ($sevenpaits as $key=>$sevenpait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $sevenpait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-        
-        if ($eightpaits) {
-            foreach ($eightpaits as $key=>$eightpait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $eightpait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-        
-        if ($ninepaits) {
-            foreach ($ninepaits as $key=>$ninepait) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $ninepait;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-        
-
         //----------------- Brake ------------------------------
-
+    
         $zerobrakes = $request->zerobrakes;
         $onebrakes = $request->onebrakes;
         $twobrakes = $request->twobrakes;
@@ -483,123 +660,8 @@ class HtaitPaitController extends Controller
         $sevenbrakes = $request->sevenbrakes;
         $eightbrakes = $request->eightbrakes;
         $ninebrakes = $request->ninebrakes;
-
-        if ($zerobrakes) {
-            foreach ($zerobrakes as $key=>$zerobrake) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $zerobrake;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-
-
-
-        if ($onebrakes) {
-            foreach ($onebrakes as $key=>$onebrake) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $onebrake;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
         
-        if ($twobrakes) {
-            foreach ($twobrakes as $key=>$twobrake) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $twobrake;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-        
-        if ($threebrakes) {
-            foreach ($threebrakes as $key=>$threebrake) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $threebrake;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-    
-        if ($fourbrakes) {
-            foreach ($fourbrakes as $key=>$fourbrake) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $fourbrake;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-        
-        if ($fivebrakes) {
-            foreach ($fivebrakes as $key=>$fivebrake) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $fivebrake;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-        
-        if ($sixbrakes) {
-            foreach ($sixbrakes as $key=>$sixbrake) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $sixbrake;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-        
-        if ($sevenbrakes) {
-            foreach ($sevenbrakes as $key=>$sevenbrake) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $sevenbrake;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-        
-        if ($eightbrakes) {
-            foreach ($eightbrakes as $key=>$eightbrake) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $eightbrake;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-        
-
-        if ($ninebrakes) {
-            foreach ($ninebrakes as $key=>$ninebrake) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $ninebrake;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
-            }
-        }
-
-
-        //----------------- a par ------------------------------
-
+        //----------------- A par ------------------------------
         $zeropars = $request->zeropars;
         $onepars = $request->onepars;
         $twopars = $request->twopars;
@@ -610,183 +672,556 @@ class HtaitPaitController extends Controller
         $sevenpars = $request->sevenpars;
         $eightpars = $request->eightpars;
         $ninepars = $request->ninepars;
+            
+        //----------------- A Sone------------------------------
 
+        $tens = $request->tens;
+        $powers = $request->powers;
+        $natkhats = $request->natkhats;
+        $brothers = $request->brothers;
+        $apuus = $request->apuus;
+
+
+        $from_account_wallet = Auth()->user()->wallet;
+        $to_account = AdminUser::where('id', Auth()->user()->admin_user_id)->first();
+        $to_account_wallet = Wallet::where('admin_user_id', $to_account->id)->where('status', 'admin')->first();
+        
+        $totals = 0;
+       
+        //-------------- insufficient condition for  htait---------------
+        if ($zerohtaits) {
+            foreach ($zerohtaits as $key=>$zerohtait) {
+                $totals += $request->amount;
+            }
+        }
+        
+        if ($onehtaits) {
+            foreach ($onehtaits as $key=>$onehtait) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($twohtaits) {
+            foreach ($twohtaits as $key=>$twohtait) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($threehtaits) {
+            foreach ($threehtaits as $key=>$threehtait) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($fourhtaits) {
+            foreach ($fourhtaits as $key=>$fourhtait) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($fivehtaits) {
+            foreach ($fivehtaits as $key=>$fivehtait) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($sixhtaits) {
+            foreach ($sixhtaits as $key=>$sixhtait) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($sevenhtaits) {
+            foreach ($sevenhtaits as $key=>$sevenhtait) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($eighthtaits) {
+            foreach ($eighthtaits as $key=>$eighthtait) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($ninehtaits) {
+            foreach ($ninehtaits as $key=>$ninehtait) {
+                $totals += $request->amount;
+            }
+        }
+
+        //------------------------ insufficient condition for a pait------------------------
+        if ($zeropaits) {
+            foreach ($zeropaits as $key=>$zeropait) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($onepaits) {
+            foreach ($onepaits as $key=>$onepait) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($twopaits) {
+            foreach ($twopaits as $key=>$twopait) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($threepaits) {
+            foreach ($threepaits as $key=>$threepait) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($fourpaits) {
+            foreach ($fourpaits as $key=>$fourpait) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($fivepaits) {
+            foreach ($fivepaits as $key=>$fivepait) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($sixpaits) {
+            foreach ($sixpaits as $key=>$sixpait) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($sevenpaits) {
+            foreach ($sevenpaits as $key=>$sevenpait) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($eightpaits) {
+            foreach ($eightpaits as $key=>$eightpait) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($ninepaits) {
+            foreach ($ninepaits as $key=>$ninepait) {
+                $totals += $request->amount;
+            }
+        }
+
+        //------------------------ insufficient condition for a Brake------------------------
+        if ($zerobrakes) {
+            foreach ($zerobrakes as $key=>$zerobrake) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($onebrakes) {
+            foreach ($onebrakes as $key=>$onebrake) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($twobrakes) {
+            foreach ($twobrakes as $key=>$twobrake) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($threebrakes) {
+            foreach ($threebrakes as $key=>$threebrake) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($fourbrakes) {
+            foreach ($fourbrakes as $key=>$fourbrake) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($fivebrakes) {
+            foreach ($fivebrakes as $key=>$fivebrake) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($sixbrakes) {
+            foreach ($sixbrakes as $key=>$sixbrake) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($sevenbrakes) {
+            foreach ($sevenbrakes as $key=>$sevenbrake) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($eightbrakes) {
+            foreach ($eightbrakes as $key=>$eightbrake) {
+                $totals += $request->amount;
+            }
+        }
+
+        if ($ninebrakes) {
+            foreach ($ninebrakes as $key=>$ninebrake) {
+                $totals += $request->amount;
+            }
+        }
+
+
+        //------------------------ insufficient condition for a parr ------------------------
         if ($zeropars) {
             foreach ($zeropars as $key=>$zeropar) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $zeropar;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
+                $totals += $request->amount;
             }
         }
-    
+
         if ($onepars) {
             foreach ($onepars as $key=>$onepar) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $onepar;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
+                $totals += $request->amount;
             }
         }
-        
+
         if ($twopars) {
             foreach ($twopars as $key=>$twopar) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $twopar;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
+                $totals += $request->amount;
             }
         }
-        
+
         if ($threepars) {
             foreach ($threepars as $key=>$threepar) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $threepar;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
+                $totals += $request->amount;
             }
         }
 
         if ($fourpars) {
             foreach ($fourpars as $key=>$fourpar) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $fourpar;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
+                $totals += $request->amount;
             }
         }
-        
+
         if ($fivepars) {
             foreach ($fivepars as $key=>$fivepar) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $fivepar;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
+                $totals += $request->amount;
             }
         }
-        
+
         if ($sixpars) {
             foreach ($sixpars as $key=>$sixpar) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $sixpar;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
+                $totals += $request->amount;
             }
         }
 
         if ($sevenpars) {
             foreach ($sevenpars as $key=>$sevenpar) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $sevenpar;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
+                $totals += $request->amount;
             }
         }
-        
+
         if ($eightpars) {
             foreach ($eightpars as $key=>$eightpar) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $eightpar;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
+                $totals += $request->amount;
             }
         }
-        
+
         if ($ninepars) {
             foreach ($ninepars as $key=>$ninepar) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $ninepar;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
+                $totals += $request->amount;
             }
         }
-
-        $tens = $request->tens;
-
+        // insufficient condition balance for tens
         if ($tens) {
             foreach ($tens as $key=>$ten) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $ten;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
+                $totals += $request->amount;
             }
         }
-       
-        $powers = $request->powers;
 
+        // insufficient condition balance for powers
         if ($powers) {
             foreach ($powers as $key=>$power) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $power;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
+                $totals += $request->amount;
             }
         }
-   
-        $natkhats = $request->natkhats;
 
+
+        // insufficient condition balance for natkhats
         if ($natkhats) {
             foreach ($natkhats as $key=>$natkhat) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $natkhat;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
+                $totals += $request->amount;
             }
         }
-        
-        $brothers = $request->brothers;
 
+
+        // insufficient condition balance for brothers
         if ($brothers) {
             foreach ($brothers as $key=>$brother) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $brother;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
+                $totals += $request->amount;
             }
         }
-        
-        $apuus = $request->apuus;
 
+        // insufficient condition balance for apuus
         if ($apuus) {
             foreach ($apuus as $key=>$apuu) {
-                $htaitpait = new Two();
-                $htaitpait->user_id = Auth()->user()->id;
-                $htaitpait->date = now()->format('Y-m-d');
-                $htaitpait->two = $apuu;
-                $htaitpait->amount = $request->amount;
-                $htaitpait->save();
+                $totals += $request->amount;
             }
         }
+
+        if ($from_account_wallet->amount < $totals) {
+            return redirect('/')->withErrors(['fail' => 'You have no sufficient balance']);
+        }
         
+        $amount = $request->amount;
        
-        return redirect('two/htaitpait')->with('create', 'Done');
+        DB::beginTransaction();
+
+        try {
+
+            // -------------------- MOney From User to Admin  -------------------
+            $from_account_wallet->decrement('amount', $totals);
+            $from_account_wallet->update();
+        
+            $to_account_wallet->increment('amount', $totals);
+            $to_account_wallet->update();
+            
+
+            // -------------------- Store Htait -------------------
+            if ($zerohtaits) {
+                HtaitPaitForeach::htaitpait($zerohtaits, $amount);
+            }
+
+            if ($onehtaits) {
+                HtaitPaitForeach::htaitpait($onehtaits, $amount);
+            }
+
+            if ($twohtaits) {
+                HtaitPaitForeach::htaitpait($twohtaits, $amount);
+            }
+
+            if ($threehtaits) {
+                HtaitPaitForeach::htaitpait($threehtaits, $amount);
+            }
+
+
+            if ($fourhtaits) {
+                HtaitPaitForeach::htaitpait($fourhtaits, $amount);
+            }
+    
+            if ($fivehtaits) {
+                HtaitPaitForeach::htaitpait($fivehtaits, $amount);
+            }
+            
+           
+            if ($sixhtaits) {
+                HtaitPaitForeach::htaitpait($sixhtaits, $amount);
+            }
+    
+            if ($sevenhtaits) {
+                HtaitPaitForeach::htaitpait($sevenhtaits, $amount);
+            }
+    
+            if ($eighthtaits) {
+                HtaitPaitForeach::htaitpait($eighthtaits, $amount);
+            }
+    
+            if ($ninehtaits) {
+                HtaitPaitForeach::htaitpait($ninehtaits, $amount);
+            }
+    
+    
+            //    -----------------------Store Pait -----------------------------
+    
+            if ($zeropaits) {
+                $zeropaits = HtaitPaitForeach::htaitpait($zeropaits, $amount);
+            }
+
+            if ($onepaits) {
+                HtaitPaitForeach::htaitpait($onepaits, $amount);
+            }
+
+            if ($twopaits) {
+                HtaitPaitForeach::htaitpait($twopaits, $amount);
+            }
+
+            if ($threepaits) {
+                HtaitPaitForeach::htaitpait($threepaits, $amount);
+            }
+
+
+            if ($fourpaits) {
+                HtaitPaitForeach::htaitpait($fourpaits, $amount);
+            }
+    
+            if ($fivepaits) {
+                HtaitPaitForeach::htaitpait($fivepaits, $amount);
+            }
+            
+           
+            if ($sixpaits) {
+                HtaitPaitForeach::htaitpait($sixpaits, $amount);
+            }
+    
+            if ($sevenpaits) {
+                HtaitPaitForeach::htaitpait($sevenpaits, $amount);
+            }
+    
+            if ($eightpaits) {
+                HtaitPaitForeach::htaitpait($eightpaits, $amount);
+            }
+    
+            if ($ninepaits) {
+                HtaitPaitForeach::htaitpait($ninepaits, $amount);
+            }
+            
+    
+            //----------------- Store Brake ------------------------------
+    
+            if ($zerobrakes) {
+                $zerobrakes = HtaitPaitForeach::htaitpait($zerobrakes, $amount);
+            }
+
+            if ($onebrakes) {
+                HtaitPaitForeach::htaitpait($onebrakes, $amount);
+            }
+
+            if ($twobrakes) {
+                HtaitPaitForeach::htaitpait($twobrakes, $amount);
+            }
+
+            if ($threebrakes) {
+                HtaitPaitForeach::htaitpait($threebrakes, $amount);
+            }
+
+
+            if ($fourbrakes) {
+                HtaitPaitForeach::htaitpait($fourbrakes, $amount);
+            }
+    
+            if ($fivebrakes) {
+                HtaitPaitForeach::htaitpait($fivebrakes, $amount);
+            }
+            
+           
+            if ($sixbrakes) {
+                HtaitPaitForeach::htaitpait($sixbrakes, $amount);
+            }
+    
+            if ($sevenbrakes) {
+                HtaitPaitForeach::htaitpait($sevenbrakes, $amount);
+            }
+    
+            if ($eightbrakes) {
+                HtaitPaitForeach::htaitpait($eightbrakes, $amount);
+            }
+    
+            if ($ninebrakes) {
+                HtaitPaitForeach::htaitpait($ninebrakes, $amount);
+            }
+    
+    
+            //-----------------Store a par ------------------------------
+    
+    
+            if ($zeropars) {
+                $zeropars = HtaitPaitForeach::htaitpait($zeropars, $amount);
+            }
+
+            if ($onepars) {
+                HtaitPaitForeach::htaitpait($onepars, $amount);
+            }
+
+            if ($twopars) {
+                HtaitPaitForeach::htaitpait($twopars, $amount);
+            }
+
+            if ($threepars) {
+                HtaitPaitForeach::htaitpait($threepars, $amount);
+            }
+
+
+            if ($fourpars) {
+                HtaitPaitForeach::htaitpait($fourpars, $amount);
+            }
+    
+            if ($fivepars) {
+                HtaitPaitForeach::htaitpait($fivepars, $amount);
+            }
+            
+           
+            if ($sixpars) {
+                HtaitPaitForeach::htaitpait($sixpars, $amount);
+            }
+    
+            if ($sevenpars) {
+                HtaitPaitForeach::htaitpait($sevenpars, $amount);
+            }
+    
+            if ($eightpars) {
+                HtaitPaitForeach::htaitpait($eightpars, $amount);
+            }
+    
+            if ($ninepars) {
+                HtaitPaitForeach::htaitpait($ninepars, $amount);
+            }
+    
+            //  -------------------- Apuus -----------------------------
+            if ($apuus) {
+                HtaitPaitForeach::htaitpait($apuus, $amount);
+            }
+
+            //  -------------------- Ten -----------------------------
+    
+            if ($tens) {
+                HtaitPaitForeach::htaitpait($tens, $amount);
+            }
+           
+            //  -------------------- Power -----------------------------
+            if ($powers) {
+                HtaitPaitForeach::htaitpait($powers, $amount);
+            }
+       
+            //  -------------------- Natkhats -----------------------------
+            if ($natkhats) {
+                HtaitPaitForeach::htaitpait($natkhats, $amount);
+            }
+            
+            //  -------------------- Brothers -----------------------------
+            if ($brothers) {
+                HtaitPaitForeach::htaitpait($brothers, $amount);
+            }
+            
+            
+
+            $ref_no = UUIDGenerator::RefNumber();
+
+            $transactions = new Transaction();
+            $transactions->ref_no = $ref_no;
+            $transactions->trx_id = UUIDGenerator::TrxId();
+            $transactions->user_id = Auth()->user()->id;
+            $transactions->source_id = $to_account_wallet->id;
+            $transactions->type = 2;
+            
+            $transactions->amount = $totals;
+            $transactions->save();
+            
+
+            $transactions = new Transaction();
+            $transactions->ref_no = $ref_no;
+            $transactions->trx_id = UUIDGenerator::TrxId();
+            $transactions->user_id = $to_account_wallet->id;
+            $transactions->source_id = Auth()->user()->id;
+            $transactions->type = 1;
+           
+            $transactions->amount = $totals;
+            $transactions->save();
+            
+            DB::commit();
+            return redirect('two/htaitpait')->with('create', 'Done');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect('/')->withErrors(['fail' => 'Something wrong']);
+        }
     }
 }

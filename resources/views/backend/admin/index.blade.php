@@ -16,17 +16,21 @@
             </div>
         </div>
     </div>
+    @if('create_admin')
+    @can('create_admin')
     <a href="{{url('admin/create')}}" class="btn btn-success mb-3 ml-3"><i class="fas fa-circle-plus"></i> Create</a>
+    @endcan
+    @endif
     <div class="container p-0">
         <div class="col">
             <div class="card">
                 <div class="card-body">
                     <table class="table table-bordered table-hover" id="adminusers-table">
                         <thead>
-                            <th>Id</th>
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Email</th>
+                            <th>ရာထူး</th>
                             <th>Action</th>
                         </thead>
                         <tbody>
@@ -47,10 +51,7 @@
                         "serverSide": true,
                         "ajax": "admin/admin/datatables/ssd",
                         "columns" : [
-                            {
-                                data : "id",
-                                name : "id",
-                            },
+                            
                             {
                                 data : "name",
                                 name : "name",
@@ -62,6 +63,10 @@
                             {
                                 data : "email",
                                 name : "email",
+                            },
+                            {
+                                data : "role",
+                                name : "role",
                             },
                             {
                                 data : "action",

@@ -21,6 +21,7 @@
                 </button>
               </div>
             @endforeach
+            @if ($threeform->status == 'show')
             <div class="card">
                 <div class="d-flex justify-content-between">
                     <h5 class="" style="margin-top: 16px; margin-left:23px">3D ထိုးရန်</h5>
@@ -48,6 +49,12 @@
                 </div>
                 </form>
             </div>
+            @else
+                <div class="d-flex justify-content-center align-items-center" style="height:100vh">
+                    <h4 class="text-center text-danger" style="font-weight: 700;">ပိတ်ထားပါသည်</h4>
+                </div>
+            @endif
+            
         </div>
     </div>
 </div>

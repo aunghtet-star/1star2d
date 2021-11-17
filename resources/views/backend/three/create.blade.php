@@ -23,7 +23,7 @@
                     @csrf
                     <div class="form-group">
                         <label for="">Name</label>
-                        <select name="user_id" class="form-control">
+                        <select name="user_id" class="form-control select-role">
                             <option value="">Select User</option>
                             @foreach ($users as $user)
                             <option value="{{$user->id}}">{{$user->name}}</option>
@@ -31,7 +31,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="">2D</label>
+                        <label for="">3D</label>
                         <input type="text" name="three" class="form-control">
                     </div>
                     <div class="form-group">

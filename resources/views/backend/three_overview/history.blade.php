@@ -50,6 +50,7 @@
                         @foreach($three_transactions as $three_transaction)
                                 <div class="d-flex " style="width:100px; margin-right : 70px">
                                     <p class="mb-2 mr-3">{{$three_transaction->three}} </p> => <span class="ml-2">{{number_format($three_transaction->total)}}</span>
+                                    <a href="{{url('/admin/three-overview/threepout/'.$three_transaction->three.'/from='.$from.'/to='.$to)}}"><span class="ml-3"><i class="fas fa-eye"></i></span></a>
                                 </div>
                             @endforeach
                         @endif

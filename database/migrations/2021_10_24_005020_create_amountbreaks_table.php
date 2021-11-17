@@ -16,6 +16,7 @@ class CreateAmountbreaksTable extends Migration
         Schema::create('amountbreaks', function (Blueprint $table) {
             $table->id();
             $table->string('type');
+            $table->bigInteger('admin_user_id');
             $table->string('closed_number');
             $table->string('amount');
             $table->timestamps();

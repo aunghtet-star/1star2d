@@ -2,13 +2,15 @@
 
 namespace App;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class AdminUser extends Authenticatable
 {
+    use HasRoles;
     use Notifiable;
 
     /**
@@ -37,4 +39,14 @@ class AdminUser extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function users()
+    {
+        return $this->hasMany('App\User');
+    }
+
+    public function wallet()
+    {
+        return $this->hasOne('App\Wallet', 'admin_user_id', 'id');
+    }
 }

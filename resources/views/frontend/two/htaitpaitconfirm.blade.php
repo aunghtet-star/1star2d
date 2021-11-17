@@ -30,8 +30,21 @@
                             @csrf
                             @php 
                                 $total = 0;
-
+                                
+                           
+                                $all = implode(',',$disallowedall);
+                                $only = implode(',',$disallowedonly);
                             @endphp
+                            
+                            @if($all)
+                           <p>{{$all}} သည်မရတော့ပါ</p>
+                           @endif
+                           
+                           @if($only)
+                           <p>{{$only}} သည်မရတော့ပါ</p>
+                           @endif
+
+                            <p class="mb-3" style="font-size: 20px ; font-weight:600">မှတ်ချက် - ဂဏန်းများကို သေချာစွာ စစ်ဆေးပေးပါ ။ ဤ ဂဏန်းများထဲတွင်မပါဝင်သော ဂဏန်းများသည် ယနေ့အတွက် limit ပြည့်နေ၍ ထိုး၍မရသော ဂဏန်းများဖြစ်ပါသည်။</p>
                             <div class="mb-3">
                                 @if($zerohtaits)
                                 <h6 class="pr-3">0 ထိပ်</h6>

@@ -16,6 +16,7 @@ class CreateThreesTable extends Migration
         Schema::create('threes', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id');
+            $table->bigInteger('admin_user_id');
             $table->string('three');
             $table->date('date')->nullable();
             $table->string('amount');

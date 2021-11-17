@@ -3,22 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Amountbreak;
-use App\Http\Requests\StoreBreakNumber;
-use App\Http\Requests\UpdateBreakNumber;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreBreakNumber;
+use App\Http\Requests\UpdateBreakNumber;
 
 class BreakNumberController extends Controller
 {
     public function index()
     {
-        $amountbreaks = Amountbreak::all();
+        $amountbreaks = Amountbreak::where('admin_user_id', Auth()->user()->id)->get();
         return view('backend.break_numbers.index', compact('amountbreaks'));
     }
 
     public function ssd()
     {
-        return Datatables::of(Amountbreak::query())
+        $amountbreaks = Amountbreak::where('admin_user_id', Auth()->user()->id)->limit(10);
+
+        return Datatables::of($amountbreaks)
         ->addColumn('action', function ($each) {
             $edit_icon = '<a href="'.url('admin/amountbreaks/'.$each->id.'/edit').'" class="text-warning"><i class="fas fa-user-edit"></i></a>';
             $delete_icon = '<a href="'.url('admin/amountbreaks/'.$each->id).'" data-id="'.$each->id.'" class="text-danger" id="delete"><i class="fas fa-trash"></i></a>';
@@ -38,6 +41,7 @@ class BreakNumberController extends Controller
     {
         $amountbreak = new Amountbreak();
         $amountbreak->type = $request->type;
+        $amountbreak->admin_user_id = Auth::guard('adminuser')->user()->id;
         $amountbreak->closed_number = $request->closed_number;
         $amountbreak->amount = $request->amount;
         $amountbreak->save();
@@ -48,7 +52,7 @@ class BreakNumberController extends Controller
     public function edit($id)
     {
         $amountbreak = Amountbreak::findOrFail($id);
-        $numbers = Amountbreak::all();
+        $numbers = Amountbreak::where('admin_user_id', Auth::guard('adminuser')->user()->id)->get();
 
         return view('backend.break_numbers.edit', compact('amountbreak', 'numbers'));
     }
@@ -57,8 +61,8 @@ class BreakNumberController extends Controller
     {
         $amountbreak = Amountbreak::findOrFail($id);
 
-        $amountbreak = new Amountbreak();
         $amountbreak->type = $request->type;
+        $amountbreak->admin_user_id = Auth::guard('adminuser')->user()->id;
         $amountbreak->closed_number = $request->closed_number;
         $amountbreak->amount = $request->amount;
         $amountbreak->update();

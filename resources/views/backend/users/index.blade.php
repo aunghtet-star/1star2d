@@ -24,7 +24,6 @@
                 <div class="card-body">
                     <table class="table table-bordered table-hover" id="users-table">
                         <thead>
-                            <th>Id</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Phone</th>
@@ -48,10 +47,7 @@
                         "serverSide": true,
                         "ajax": "/admin/users/datatables/ssd",
                         "columns" : [
-                            {
-                                data : "id",
-                                name : "id",
-                            },
+                        
                             {
                                 data : "name",
                                 name : "name",

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Two;
 
 use App\User;
+use stdClass;
 use Carbon\Carbon;
 use App\TwoOverview;
 use Carbon\CarbonPeriod;
@@ -13,30 +14,26 @@ use App\Http\Requests\StoreTwo;
 use App\Http\Requests\UpdateTwo;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use stdClass;
 
 class TwoController extends Controller
 {
     public function index()
     {
-        $numbers = Two::all();
+        $numbers = Two::where('admin_user_id', Auth::guard('adminuser')->user()->id);
         return view('backend.two.index', compact('numbers'));
     }
 
     public function ssd()
     {
-        return Datatables::of(Two::with('users'))
-        ->filterColumn('name', function ($query, $keyword) {
-            $query->whereHas('users', function ($q1) use ($keyword) {
-                $q1->where('name', 'like', '%'.$keyword.'%');
-            });
-        })
+        $twos = Two::where('admin_user_id', Auth::guard('adminuser')->user()->id)->limit(10);
+        return Datatables::of($twos)
         ->addColumn('name', function ($each) {
             return $each->users ? $each->users->name : '_';
         })
         ->editColumn('updated_at', function ($each) {
-            return Carbon::parse($each->updated_at)->format('d-m-Y h:i:s A');
+            return Carbon::parse($each->updated_at)->format('d-m-Y H:i:s A');
         })
         ->addColumn('action', function ($each) {
             $edit_icon = '<a href="'.url('admin/two/'.$each->id.'/edit').'" class="text-warning"><i class="fas fa-user-edit"></i></a>';
@@ -50,7 +47,7 @@ class TwoController extends Controller
     
     public function create()
     {
-        $users = User::all();
+        $users = User::where('admin_user_id', Auth::guard('adminuser')->user()->id)->get();
         return view('backend.two.create', compact('users'));
     }
 
@@ -58,6 +55,7 @@ class TwoController extends Controller
     {
         $number = new Two();
         $number->user_id = $request->user_id;
+        $number->admin_user_id = Auth::guard('adminuser')->user()->id;
         $number->date = now();
         $number->two = $request->two;
         $number->amount = $request->amount;
@@ -69,7 +67,7 @@ class TwoController extends Controller
     public function edit($id)
     {
         $number = Two::findOrFail($id);
-        $users = User::all();
+        $users = User::where('admin_user_id', Auth::guard('adminuser')->user()->id)->get();
 
         return view('backend.two.edit', compact('number', 'users'));
     }
@@ -79,6 +77,7 @@ class TwoController extends Controller
         $number = Two::findOrFail($id);
 
         $number->user_id = $request->user_id;
+        $number->admin_user_id = Auth::guard('adminuser')->user()->id;
         $number->date = now();
         $number->two = $request->two;
         $number->amount = $request->amount;
@@ -111,20 +110,20 @@ class TwoController extends Controller
         $time = $request->time;
 
         if ($time == 'all') {
-            $two_transactions = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
-            $two_transactions_total = Two::select('amount')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'23:59:00')])->sum('amount');
+            $two_transactions = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
+            $two_transactions_total = Two::select('amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'23:59:00')])->sum('amount');
         }
         
         if ($time == 'true') {
-            $two_transactions = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->get();
-            $two_transactions_total = Two::select('amount')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->sum('amount');
+            $two_transactions = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->groupBy('two')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->get();
+            $two_transactions_total = Two::select('amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->sum('amount');
         }
         
         if ($time == 'false') {
-            $two_transactions = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
-            $two_transactions_total = Two::select('amount')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->sum('amount');
+            $two_transactions = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->groupBy('two')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
+            $two_transactions_total = Two::select('amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->sum('amount');
         }
 
-        return view('backend.components.twohistorytable', compact('two_transactions', 'two_transactions_total'))->render();
+        return view('backend.components.twohistorytable', compact('two_transactions', 'two_transactions_total', 'date'))->render();
     }
 }

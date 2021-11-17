@@ -25,7 +25,7 @@
                     <table class="table table-bordered table-hover" id="three-table">
                         <thead>
                             <th>Name</th>
-                            <th>2D</th>
+                            <th>3D</th>
                             <th>Amount</th>
                             <th>Date</th>
                             <th>Action</th>

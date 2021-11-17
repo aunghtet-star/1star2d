@@ -17,6 +17,7 @@
         </div>
     </div>
     <div class="container">
+        @include('frontend.flash')
         <div class="card">
             <div class="card-body">
                 <form action="{{url('admin/store')}}" method="POST" id="create">
@@ -29,10 +30,24 @@
                         <label for="">Phone</label>
                         <input type="text" name="phone" class="form-control">
                     </div>
+
+                    
                     <div class="form-group">
                         <label for="">Email</label>
                         <input type="email" name="email" class="form-control">
                     </div>
+
+                    <div class="form-group">
+                        <label for="">ရာထူး</label>
+                        <select name="roles[]" class="form-control select-role" multiple>
+                            <option value="">Select Role</option>
+                            @foreach ($roles as $role)
+                            <option value="{{$role->name}}" >{{$role->name}} 
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="form-group">
                         <label for="">Password</label>
                         <input type="password" name="password" class="form-control">
