@@ -32,7 +32,6 @@ class HtaitPaitController extends Controller
         $zerohtaits = $onehtaits = $twohtaits = $threehtaits = $fourhtaits = $fivehtaits = $sixhtaits = $sevenhtaits = $eighthtaits = $ninehtaits = '';
         $amount = $request->amount ;
         
-       
         if (!is_null($request->zerohtait)) {
             $zerohtaits =  explode('-', $request->zerohtait);
         }
@@ -226,398 +225,298 @@ class HtaitPaitController extends Controller
             $brothers =  explode('-', $request->brother);
         }
 
+        $from_account_wallet = Auth()->user()->wallet;
+        $to_account = AdminUser::where('id', Auth()->user()->admin_user_id)->first();
+        $to_account_wallet = Wallet::where('admin_user_id', $to_account->id)->where('status', 'admin')->first();
         
         $totals = 0;
-        $disallowedall =[];
-        $disallowedonly =[];
-
-
-        if ($zerohtaits) {
-            $zerohtaits = HtaitPaitForeach::Brake($zerohtaits, $amount);
-        }
        
+        //-------------- insufficient condition for  htait---------------
+        if ($zerohtaits) {
+            foreach ($zerohtaits as $key=>$zerohtait) {
+                $totals += $request->amount;
+            }
+        }
+        
         if ($onehtaits) {
-            $onehtaits = HtaitPaitForeach::Brake($onehtaits, $amount);
+            foreach ($onehtaits as $key=>$onehtait) {
+                $totals += $request->amount;
+            }
         }
 
         if ($twohtaits) {
-            $twohtaits = HtaitPaitForeach::Brake($twohtaits, $amount);
+            foreach ($twohtaits as $key=>$twohtait) {
+                $totals += $request->amount;
+            }
         }
 
         if ($threehtaits) {
-            $threehtaits = HtaitPaitForeach::Brake($threehtaits, $amount);
+            foreach ($threehtaits as $key=>$threehtait) {
+                $totals += $request->amount;
+            }
         }
 
         if ($fourhtaits) {
-            $fourhtaits = HtaitPaitForeach::Brake($fourhtaits, $amount);
+            foreach ($fourhtaits as $key=>$fourhtait) {
+                $totals += $request->amount;
+            }
         }
 
         if ($fivehtaits) {
-            $fivehtaits = HtaitPaitForeach::Brake($fivehtaits, $amount);
+            foreach ($fivehtaits as $key=>$fivehtait) {
+                $totals += $request->amount;
+            }
         }
 
         if ($sixhtaits) {
-            $sixhtaits = HtaitPaitForeach::Brake($sixhtaits, $amount);
+            foreach ($sixhtaits as $key=>$sixhtait) {
+                $totals += $request->amount;
+            }
         }
 
         if ($sevenhtaits) {
-            $sevenhtaits = HtaitPaitForeach::Brake($sevenhtaits, $amount);
+            foreach ($sevenhtaits as $key=>$sevenhtait) {
+                $totals += $request->amount;
+            }
         }
 
         if ($eighthtaits) {
-            $eighthtaits = HtaitPaitForeach::Brake($eighthtaits, $amount);
+            foreach ($eighthtaits as $key=>$eighthtait) {
+                $totals += $request->amount;
+            }
         }
 
         if ($ninehtaits) {
-            $ninehtaits = HtaitPaitForeach::Brake($ninehtaits, $amount);
+            foreach ($ninehtaits as $key=>$ninehtait) {
+                $totals += $request->amount;
+            }
         }
 
-
-        
-
-
-        if ($zerohtaits == []) {
-            return back()->withErrors(['0 ထိပ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($onehtaits == []) {
-            return back()->withErrors(['1 ထိပ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($twohtaits == []) {
-            return back()->withErrors(['2 ထိပ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($threehtaits == []) {
-            return back()->withErrors(['3 ထိပ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($fourhtaits == []) {
-            return back()->withErrors(['4 ထိပ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($fivehtaits == []) {
-            return back()->withErrors(['5 ထိပ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($sixhtaits == []) {
-            return back()->withErrors(['6 ထိပ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($sevenhtaits == []) {
-            return back()->withErrors(['7 ထိပ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($eighthtaits == []) {
-            return back()->withErrors(['8 ထိပ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($ninehtaits == []) {
-            return back()->withErrors(['9 ထိပ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        // --------------------- Pait ----------------------------------
-
+        //------------------------ insufficient condition for a pait------------------------
         if ($zeropaits) {
-            $zeropaits = HtaitPaitForeach::Brake($zeropaits, $amount);
+            foreach ($zeropaits as $key=>$zeropait) {
+                $totals += $request->amount;
+            }
         }
 
-       
         if ($onepaits) {
-            $onepaits = HtaitPaitForeach::Brake($onepaits, $amount);
+            foreach ($onepaits as $key=>$onepait) {
+                $totals += $request->amount;
+            }
         }
 
         if ($twopaits) {
-            $twopaits = HtaitPaitForeach::Brake($twopaits, $amount);
+            foreach ($twopaits as $key=>$twopait) {
+                $totals += $request->amount;
+            }
         }
 
         if ($threepaits) {
-            $threepaits = HtaitPaitForeach::Brake($threepaits, $amount);
+            foreach ($threepaits as $key=>$threepait) {
+                $totals += $request->amount;
+            }
         }
 
         if ($fourpaits) {
-            $fourpaits = HtaitPaitForeach::Brake($fourpaits, $amount);
+            foreach ($fourpaits as $key=>$fourpait) {
+                $totals += $request->amount;
+            }
         }
 
         if ($fivepaits) {
-            $fivepaits = HtaitPaitForeach::Brake($fivepaits, $amount);
+            foreach ($fivepaits as $key=>$fivepait) {
+                $totals += $request->amount;
+            }
         }
 
         if ($sixpaits) {
-            $sixpaits = HtaitPaitForeach::Brake($sixpaits, $amount);
+            foreach ($sixpaits as $key=>$sixpait) {
+                $totals += $request->amount;
+            }
         }
 
         if ($sevenpaits) {
-            $sevenpaits = HtaitPaitForeach::Brake($sevenpaits, $amount);
+            foreach ($sevenpaits as $key=>$sevenpait) {
+                $totals += $request->amount;
+            }
         }
 
         if ($eightpaits) {
-            $eightpaits = HtaitPaitForeach::Brake($eightpaits, $amount);
+            foreach ($eightpaits as $key=>$eightpait) {
+                $totals += $request->amount;
+            }
         }
 
         if ($ninepaits) {
-            $ninepaits = HtaitPaitForeach::Brake($ninepaits, $amount);
+            foreach ($ninepaits as $key=>$ninepait) {
+                $totals += $request->amount;
+            }
         }
 
-
-
-        if ($zeropaits == []) {
-            return back()->withErrors(['0 ပိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($onepaits == []) {
-            return back()->withErrors(['1 ပိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($twopaits == []) {
-            return back()->withErrors(['2 ပိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($threepaits == []) {
-            return back()->withErrors(['3 ပိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($fourpaits == []) {
-            return back()->withErrors(['4 ပိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($fivepaits == []) {
-            return back()->withErrors(['5 ပိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($sixpaits == []) {
-            return back()->withErrors(['6 ပိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($sevenpaits == []) {
-            return back()->withErrors(['7 ပိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($eightpaits == []) {
-            return back()->withErrors(['8 ပိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($ninepaits == []) {
-            return back()->withErrors(['9 ပိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-
-        // --------------------- Brakes  ----------------------------------
-
+        //------------------------ insufficient condition for a Brake------------------------
         if ($zerobrakes) {
-            $zerobrakes = HtaitPaitForeach::Brake($zerobrakes, $amount);
+            foreach ($zerobrakes as $key=>$zerobrake) {
+                $totals += $request->amount;
+            }
         }
 
-       
         if ($onebrakes) {
-            $onebrakes = HtaitPaitForeach::Brake($onebrakes, $amount);
+            foreach ($onebrakes as $key=>$onebrake) {
+                $totals += $request->amount;
+            }
         }
 
         if ($twobrakes) {
-            $twobrakes = HtaitPaitForeach::Brake($twobrakes, $amount);
+            foreach ($twobrakes as $key=>$twobrake) {
+                $totals += $request->amount;
+            }
         }
 
         if ($threebrakes) {
-            $threebrakes = HtaitPaitForeach::Brake($threebrakes, $amount);
+            foreach ($threebrakes as $key=>$threebrake) {
+                $totals += $request->amount;
+            }
         }
 
         if ($fourbrakes) {
-            $fourbrakes = HtaitPaitForeach::Brake($fourbrakes, $amount);
+            foreach ($fourbrakes as $key=>$fourbrake) {
+                $totals += $request->amount;
+            }
         }
 
         if ($fivebrakes) {
-            $fivebrakes = HtaitPaitForeach::Brake($fivebrakes, $amount);
+            foreach ($fivebrakes as $key=>$fivebrake) {
+                $totals += $request->amount;
+            }
         }
 
         if ($sixbrakes) {
-            $sixbrakes = HtaitPaitForeach::Brake($sixbrakes, $amount);
+            foreach ($sixbrakes as $key=>$sixbrake) {
+                $totals += $request->amount;
+            }
         }
 
         if ($sevenbrakes) {
-            $sevenbrakes = HtaitPaitForeach::Brake($sevenbrakes, $amount);
+            foreach ($sevenbrakes as $key=>$sevenbrake) {
+                $totals += $request->amount;
+            }
         }
 
         if ($eightbrakes) {
-            $eightbrakes = HtaitPaitForeach::Brake($eightbrakes, $amount);
+            foreach ($eightbrakes as $key=>$eightbrake) {
+                $totals += $request->amount;
+            }
         }
 
         if ($ninebrakes) {
-            $ninebrakes = HtaitPaitForeach::Brake($ninebrakes, $amount);
+            foreach ($ninebrakes as $key=>$ninebrake) {
+                $totals += $request->amount;
+            }
         }
 
 
-
-        if ($zerobrakes == []) {
-            return back()->withErrors(['0 ဘရိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($onebrakes == []) {
-            return back()->withErrors(['1 ဘရိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($twobrakes == []) {
-            return back()->withErrors(['2 ဘရိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($threebrakes == []) {
-            return back()->withErrors(['3 ဘရိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($fourbrakes == []) {
-            return back()->withErrors(['4 ဘရိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($fivebrakes == []) {
-            return back()->withErrors(['5 ဘရိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($sixbrakes == []) {
-            return back()->withErrors(['6 ဘရိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($sevenbrakes == []) {
-            return back()->withErrors(['7 ဘရိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($eightbrakes == []) {
-            return back()->withErrors(['8 ဘရိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($ninebrakes == []) {
-            return back()->withErrors(['9 ဘရိတ်သည် မရတော့ပါ'])->withInput();
-        }
-
-        // --------------------- Pait ----------------------------------
-
+        //------------------------ insufficient condition for a parr ------------------------
         if ($zeropars) {
-            $zeropars = HtaitPaitForeach::Brake($zeropars, $amount);
+            foreach ($zeropars as $key=>$zeropar) {
+                $totals += $request->amount;
+            }
         }
 
-       
         if ($onepars) {
-            $onepars = HtaitPaitForeach::Brake($onepars, $amount);
+            foreach ($onepars as $key=>$onepar) {
+                $totals += $request->amount;
+            }
         }
 
         if ($twopars) {
-            $twopars = HtaitPaitForeach::Brake($twopars, $amount);
+            foreach ($twopars as $key=>$twopar) {
+                $totals += $request->amount;
+            }
         }
 
         if ($threepars) {
-            $threepars = HtaitPaitForeach::Brake($threepars, $amount);
+            foreach ($threepars as $key=>$threepar) {
+                $totals += $request->amount;
+            }
         }
 
         if ($fourpars) {
-            $fourpars = HtaitPaitForeach::Brake($fourpars, $amount);
+            foreach ($fourpars as $key=>$fourpar) {
+                $totals += $request->amount;
+            }
         }
 
         if ($fivepars) {
-            $fivepars = HtaitPaitForeach::Brake($fivepars, $amount);
+            foreach ($fivepars as $key=>$fivepar) {
+                $totals += $request->amount;
+            }
         }
 
         if ($sixpars) {
-            $sixpars = HtaitPaitForeach::Brake($sixpars, $amount);
+            foreach ($sixpars as $key=>$sixpar) {
+                $totals += $request->amount;
+            }
         }
 
         if ($sevenpars) {
-            $sevenpars = HtaitPaitForeach::Brake($sevenpars, $amount);
+            foreach ($sevenpars as $key=>$sevenpar) {
+                $totals += $request->amount;
+            }
         }
 
         if ($eightpars) {
-            $eightpars = HtaitPaitForeach::Brake($eightpars, $amount);
+            foreach ($eightpars as $key=>$eightpar) {
+                $totals += $request->amount;
+            }
         }
 
         if ($ninepars) {
-            $ninepars = HtaitPaitForeach::Brake($ninepars, $amount);
+            foreach ($ninepars as $key=>$ninepar) {
+                $totals += $request->amount;
+            }
         }
-
-
-
-        if ($zeropars == []) {
-            return back()->withErrors(['0 အပါသည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($onepars == []) {
-            return back()->withErrors(['1 အပါသည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($twopars == []) {
-            return back()->withErrors(['2 အပါသည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($threepars == []) {
-            return back()->withErrors(['3 အပါသည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($fourpars == []) {
-            return back()->withErrors(['4 အပါသည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($fivepars == []) {
-            return back()->withErrors(['5 အပါသည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($sixpars == []) {
-            return back()->withErrors(['6 အပါသည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($sevenpars == []) {
-            return back()->withErrors(['7 အပါသည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($eightpars == []) {
-            return back()->withErrors(['8 အပါသည် မရတော့ပါ'])->withInput();
-        }
-
-        if ($ninepars == []) {
-            return back()->withErrors(['9 အပါသည် မရတော့ပါ'])->withInput();
-        }
-
-        // --------------------- a puu -------------------------------------
-        if ($apuus) {
-            $apuus = HtaitPaitForeach::Brake($apuus, $amount);
-        }
-
-        if ($apuus == []) {
-            return back()->withErrors(['အပူးသည် မရတော့ပါ'])->withInput();
-        }
-
-        // --------------------- tens -------------------------------------
+        // insufficient condition balance for tens
         if ($tens) {
-            $tens = HtaitPaitForeach::Brake($tens, $amount);
+            foreach ($tens as $key=>$ten) {
+                $totals += $request->amount;
+            }
         }
 
-        if ($tens == []) {
-            return back()->withErrors(['ဆယ်ပြည့်သည် မရတော့ပါ'])->withInput();
-        }
-
-        // --------------------- powers -------------------------------------
+        // insufficient condition balance for powers
         if ($powers) {
-            $powers = HtaitPaitForeach::Brake($powers, $amount);
+            foreach ($powers as $key=>$power) {
+                $totals += $request->amount;
+            }
         }
 
-        if ($powers == []) {
-            return back()->withErrors(['ပါ၀ါသည် မရတော့ပါ'])->withInput();
-        }
 
-        // --------------------- natkhats -------------------------------------
+        // insufficient condition balance for natkhats
         if ($natkhats) {
-            $natkhats = HtaitPaitForeach::Brake($natkhats, $amount);
+            foreach ($natkhats as $key=>$natkhat) {
+                $totals += $request->amount;
+            }
         }
 
-        if ($natkhats == []) {
-            return back()->withErrors(['နက္ခတ်သည် မရတော့ပါ'])->withInput();
-        }
 
-        // --------------------- brother -------------------------------------
+        // insufficient condition balance for brothers
         if ($brothers) {
-            $brothers = HtaitPaitForeach::Brake($brothers, $amount);
+            foreach ($brothers as $key=>$brother) {
+                $totals += $request->amount;
+            }
         }
 
-        if ($brothers == []) {
-            return back()->withErrors(['ညီအကိုသည် မရတော့ပါ'])->withInput();
+        // insufficient condition balance for apuus
+        if ($apuus) {
+            foreach ($apuus as $key=>$apuu) {
+                $totals += $request->amount;
+            }
         }
 
-        return view('frontend.two.htaitpaitconfirm', compact('amount', 'zerohtaits', 'onehtaits', 'twohtaits', 'threehtaits', 'fourhtaits', 'fivehtaits', 'sixhtaits', 'sevenhtaits', 'eighthtaits', 'ninehtaits', 'zeropaits', 'onepaits', 'twopaits', 'threepaits', 'fourpaits', 'fivepaits', 'sixpaits', 'sevenpaits', 'eightpaits', 'ninepaits', 'zerobrakes', 'onebrakes', 'twobrakes', 'threebrakes', 'fourbrakes', 'fivebrakes', 'sixbrakes', 'sevenbrakes', 'eightbrakes', 'ninebrakes', 'zeropars', 'onepars', 'twopars', 'threepars', 'fourpars', 'fivepars', 'sixpars', 'sevenpars', 'eightpars', 'ninepars', 'apuus', 'tens', 'powers', 'natkhats', 'brothers', 'disallowedall', 'disallowedonly'));
+        if ($from_account_wallet->amount < $totals) {
+            return redirect('/two/htaitpait')->withErrors(['fail' => 'You have no sufficient balance']);
+        }
+
+        return view('frontend.two.htaitpaitconfirm', compact('amount', 'zerohtaits', 'onehtaits', 'twohtaits', 'threehtaits', 'fourhtaits', 'fivehtaits', 'sixhtaits', 'sevenhtaits', 'eighthtaits', 'ninehtaits', 'zeropaits', 'onepaits', 'twopaits', 'threepaits', 'fourpaits', 'fivepaits', 'sixpaits', 'sevenpaits', 'eightpaits', 'ninepaits', 'zerobrakes', 'onebrakes', 'twobrakes', 'threebrakes', 'fourbrakes', 'fivebrakes', 'sixbrakes', 'sevenbrakes', 'eightbrakes', 'ninebrakes', 'zeropars', 'onepars', 'twopars', 'threepars', 'fourpars', 'fivepars', 'sixpars', 'sevenpars', 'eightpars', 'ninepars', 'apuus', 'tens', 'powers', 'natkhats', 'brothers'));
     }
 
     public function store(StoreHtaitPait $request)

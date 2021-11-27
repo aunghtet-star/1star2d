@@ -42,10 +42,23 @@
                                     <input type="number" name="two[]" class="form-control" id="two" required>
                                 </div>
                             </div>
-                            <div class="col-9">
+                            
+                            <div class="col-1" >
+                                <label for="r" >R</label>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="r[]" id="r" value="0" style="margin-top:13px">
+                                </div>
+                            </div>
+                            <div class="col-4 col-md-6">
                                 <div class="form-group" id="inputs">
                                     <label for="">Amount</label>
                                     <input type="number" name="amount[]" class="form-control" id="amount"  required>
+                                </div>
+                            </div>
+                            <div class="col-3 col-md-1" style="margin-top:5px">
+                                <label for=""></label>
+                                <div class="" >
+                                    <a href="" class="btn btn-danger btn-sm remove-btn " style="font-weight:900;"><i class="fas fa-minus-circle"></i></a>     
                                 </div>
                             </div>
                             
@@ -89,25 +102,44 @@
                 }
         });
 
+        var i = 0;
         $('.add-btn').on('click',function(e){
             e.preventDefault();
              var two = $('#two').val();
-             var form = '<div class="row">'+
-                            '<div class="col-3">'+
-                                '<div class="form-group">'+
-                                    '<label for="">2D</label>'+
-                                    '<input type="number" name="two[]" class="form-control"  required>'+
-                                    '</div>'+
-                                    '</div>'+
-                                    '<div class="col-9">'+
-                                '<div class="form-group">'+
-                                    '<label for="">Amount</label>'+
-                                    '<input type="number" name="amount[]" class="form-control " required>'+
-                                    '</div>'+
-                                    '</div>'+
-                                    '</div>'
+              i++;
+             var form = `<div class="row" id="row">
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="">2D</label>
+                                    <input type="number" name="two[]" class="form-control"  required>
+                                </div>
+                            </div>
+                            <div class="col-1" >
+                                <label for="">R</label>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="r[]" id="r" value="${i}" style="margin-top:13px">
+                                </div>
+                             </div>
+                             <div class="col-4 col-md-6">
+                                <div class="form-group" id="inputs">
+                                    <label for="">Amount</label>
+                                    <input type="number" name="amount[]" class="form-control" id="amount"  required>
+                                </div>
+                            </div>
+                            <div class="col-3 col-md-1" style="margin-top:5px">
+                                <label for=""></label>
+                                <div class="" >
+                                    <a href="" class="btn btn-danger btn-sm remove-btn " style="font-weight:900;"><i class="fas fa-minus-circle"></i></a>     
+                                </div>
+                            </div>
+                        </div>`
             
             $('.test').append(form);
+
+            $(document).on('click','.remove-btn',function(e){
+                e.preventDefault();
+                $(this).parents('#row').remove();
+            })
 
         })
         

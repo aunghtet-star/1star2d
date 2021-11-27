@@ -40,6 +40,9 @@ Route::prefix('admin')->middleware('auth:adminuser')->group(function () {
     Route::get('two/datatables/ssd', 'TwoController@ssd');
     Route::get('two-overview/history', 'TwoController@twoHistory')->name('two-overview.history');
     Route::get('two-overview/two-history-table', 'TwoController@twoHistoryTable')->name('two-overview.history-table');
+    Route::get('two-overview/two-kyon', 'TwoController@twoKyon')->name('two-overview.kyon');
+    Route::get('two-overview/two-kyon-table', 'TwoController@twoKyonTable')->name('two-overview.kyon-table');
+
 
     Route::get('/two-overview/twopout/{two}/date={date}', 'PoutController@twoPout');
     Route::get('/three-overview/threepout/{three}/from={from}/to={to}', 'PoutController@threePout');
@@ -47,9 +50,10 @@ Route::prefix('admin')->middleware('auth:adminuser')->group(function () {
     Route::resource('three', 'ThreeController');
     Route::get('three/datatables/ssd', 'ThreeController@ssd');
     Route::get('three-overview/history', 'ThreeController@threeHistory')->name('three-overview.history');
+    Route::get('three-overview/kyon', 'ThreeController@threeKyon')->name('three-overview.kyon');
 
-    Route::resource('amountbreaks', 'BreakNumberController');
-    Route::get('amountbreaks/datatables/ssd', 'BreakNumberController@ssd');
+    // Route::resource('amountbreaks', 'BreakNumberController');
+    // Route::get('amountbreaks/datatables/ssd', 'BreakNumberController@ssd');
 
     Route::resource('allbreakwithamount', 'AllBreakWithAmountController');
     Route::get('allbreakwithamount/datatables/ssd', 'AllBreakWithAmountController@ssd');

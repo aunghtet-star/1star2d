@@ -56,6 +56,7 @@ class AllBreakWithAmountController extends Controller
         $all_break_with_amount = AllBrakeWithAmount::findOrFail($id);
         $numbers = AllBrakeWithAmount::where('admin_user_id', Auth::guard('adminuser')->user()->id)->get();
 
+       
         return view('backend.all_break_with_amount.edit', compact('all_break_with_amount', 'numbers'));
     }
 

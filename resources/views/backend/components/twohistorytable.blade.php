@@ -17,7 +17,7 @@
     <div class="column" >
         @foreach($two_transactions as $two_transaction)
         <div class="d-flex" style="width:100px">
-            <p class="mb-2 mr-3 ">{{$two_transaction->two}} </p> => <span class="ml-2">{{number_format($two_transaction->total)}}</span>
+            <p class="mb-2 mr-3 ">{{$two_transaction->two}} </p> => <span class="ml-2 @if($two_brake->amount < $two_transaction->total)  text-danger @endif">{{number_format($two_transaction->total)}}</span>
             <a href="{{url('/admin/two-overview/twopout/'.$two_transaction->two.'/date='.$date)}}"><span><i class="fas fa-eye ml-3"></i></span></a>
         </div>
     @endforeach

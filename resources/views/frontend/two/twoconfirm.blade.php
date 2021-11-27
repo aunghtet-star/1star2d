@@ -30,18 +30,28 @@
                     <form action="{{url('two/create')}}" method="POST">
                         @csrf
                         <div>
-                            @php 
+                            {{-- @php 
                             $total = 0;
-                        @endphp
-                        @foreach($twos as $key=>$two)
+                            @endphp --}}
+                        @foreach($twos ?? [] as $key=>$two)
                             <input type="hidden" name="two[]" value="{{$two}}">
                             <input type="hidden" name="amount[]" value="{{$amount[$key]}}">
+                            
                             <p class="mb-1">{{$two}} => <span class="mb-1">{{$amount[$key]}}</span> </p>
-                            @php
-                                $total += $amount[$key];
-                            @endphp
+                           
+                            {{-- @php
+                                $total += $amount;
+                            @endphp --}}
+                        @endforeach
+                        @foreach ($r_keys ?? [] as $r_key)
+                            <input type="hidden" name="r_key[]" value="{{$r_key}}" >
+                        @endforeach
+                        @foreach($reverse_two ?? [] as $key=>$r_two)
+                        <input type="hidden" name="r_two[]" value="{{$r_two}}" >
+                        <p class="mb-1">{{$r_two}} => <span class="mb-1">{{$amount[$key]}}</span> </p>
+                     
                         @endforeach    
-
+              
                         </div>
                         <p class="text-success" style="font-size: 20px;font-weight:700">စုစုပေါင်း - 
                             @php

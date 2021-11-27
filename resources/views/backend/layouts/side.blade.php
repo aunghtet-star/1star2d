@@ -94,6 +94,13 @@
                 </li>
 
                 <li>
+                    <a href="{{route('two-overview.kyon')}}" class="@yield('2D-over-kyon')">
+                        <i class="metismenu-icon fas fa-stopwatch-20 text-warning"></i>
+                        <span class="text-warning">2D ကျွံ</span>
+                    </a>
+                </li>
+
+                <li>
                     <a href="{{route('three.index')}}" class="@yield('3D')">
                         <i class="metismenu-icon fa-duotone fa-3">d</i>
                         <span class="text-danger">3D</span>
@@ -108,16 +115,23 @@
                 </li>
 
                 <li>
+                    <a href="{{route('three-overview.kyon')}}" class="@yield('3D-over-kyon')">
+                        <i class="metismenu-icon fa-duotone fa-3 text-dark">d</i>
+                        <span class="text-warning">3D ကျွံ</span>
+                    </a>
+                </li>
+
+                {{-- <li>
                     <a href="{{route('amountbreaks.index')}}" class="@yield('break_number')">
                         <i class="metismenu-icon fas fa-hand-paper text-dark"></i>
                         <span class="text-danger">သီးသန့်ဘရိတ်နံပါတ်</span>
                     </a>
-                </li>
+                </li> --}}
 
                 <li>
                     <a href="{{route('allbreakwithamount.index')}}" class="@yield('allbreakwithamount')">
                         <i class="metismenu-icon fas fa-hand-paper text-dark"></i>
-                        <span class="text-danger">ဘရိတ်ပမာဏ(All)</span>
+                        <span class="text-danger">ဘရိတ်ပမာဏ</span>
                     </a>
                 </li>
 

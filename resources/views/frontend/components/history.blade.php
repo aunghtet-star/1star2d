@@ -14,9 +14,7 @@
 </div>
 <hr>
 @endforeach
-{{-- <div class="d-flex justify-content-between mb-2">
-    <p class="mb-0">Amount</p> <span>{{$user->amount}}</span>
-</div> --}}
+
 
 <hr>
 <div class="d-flex justify-content-between mb-2">
@@ -44,9 +42,6 @@
 </div>
 <hr>
 @endforeach
-{{-- <div class="d-flex justify-content-between mb-2">
-    <p class="mb-0">Amount</p> <span>{{$user->amount}}</span>
-</div> --}}
 
 <hr>
 <div class="d-flex justify-content-between mb-2">

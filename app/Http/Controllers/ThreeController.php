@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Three;
 use Carbon\Carbon;
+use App\AllBrakeWithAmount;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use App\Http\Requests\StoreThree;
@@ -95,11 +96,28 @@ class ThreeController extends Controller
         $from = $request->startdate ?? now()->format('Y-m-d');
         $to = $request->enddate ?? date('Y-m-d', strtotime(now(). '+10 days'));
         
+        $three_brake = AllBrakeWithAmount::select('amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->where('type', '3D')->first();
+
         $three_transactions = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->where('admin_user_id', Auth()->user()->id)->whereBetween('date', [$from,$to])->paginate(144);
         $three_transactions->withPath('/admin/three-overview/history?startdate='.$from.'&enddate='.$to);
         
         $three_transactions_total = Three::select('amount')->where('admin_user_id', Auth()->user()->id)->whereBetween('date', [$from,$to])->sum('amount');
 
-        return view('backend.three_overview.history', compact('three_transactions', 'three_transactions_total', 'from', 'to'));
+        return view('backend.three_overview.history', compact('three_transactions', 'three_transactions_total', 'three_brake', 'from', 'to'));
+    }
+
+    public function threeKyon(Request $request)
+    {
+        $from = $request->startdate ?? now()->format('Y-m-d');
+        $to = $request->enddate ?? date('Y-m-d', strtotime(now(). '+10 days'));
+        
+        $three_brake = AllBrakeWithAmount::select('amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->where('type', '3D')->first();
+        
+        $three_transactions = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->where('admin_user_id', Auth()->user()->id)->whereBetween('date', [$from,$to])->paginate(144);
+        $three_transactions->withPath('/admin/three-overview/history?startdate='.$from.'&enddate='.$to);
+        
+        $three_transactions_total = Three::select('amount')->where('admin_user_id', Auth()->user()->id)->whereBetween('date', [$from,$to])->sum('amount');
+
+        return view('backend.three_overview.threekyon', compact('three_transactions', 'three_transactions_total', 'three_brake', 'from', 'to'));
     }
 }

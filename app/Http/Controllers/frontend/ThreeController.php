@@ -41,73 +41,73 @@ class ThreeController extends Controller
             }
         }
 
-        $sum_three_totals =  Three::select('three', DB::raw('SUM(amount) as total'))->where('admin_user_id', Auth()->user()->admin_user_id)->whereIn('three', $closed_three)->groupBy('three')->get();
+        // $sum_three_totals =  Three::select('three', DB::raw('SUM(amount) as total'))->where('admin_user_id', Auth()->user()->admin_user_id)->whereIn('three', $closed_three)->groupBy('three')->get();
         
-        $allbreakwithamountthrees = Three::select('three', DB::raw('SUM(amount) as total'))->where('admin_user_id', Auth()->user()->admin_user_id)->groupBy('three')->get();
+        // $allbreakwithamountthrees = Three::select('three', DB::raw('SUM(amount) as total'))->where('admin_user_id', Auth()->user()->admin_user_id)->groupBy('three')->get();
        
-        foreach ($allbreakwithamountthrees as $allbreakwithamountthree) {
-            $allBreakWithAmount = AllBrakeWithAmount::select('amount')->where('type', '3D')->where('admin_user_id', Auth()->user()->admin_user_id)->first();
+        // foreach ($allbreakwithamountthrees as $allbreakwithamountthree) {
+        //     $allBreakWithAmount = AllBrakeWithAmount::select('amount')->where('type', '3D')->where('admin_user_id', Auth()->user()->admin_user_id)->first();
             
-            if ($allBreakWithAmount) {
-                for ($i=0;$i<count($request->three);$i++) {
-                    if ($allbreakwithamountthree->three == $request->three[$i]) {
-                        $need =  $allbreakwithamountthree->total+ $request->amount[$i];
-                        $lo_at_amount = $allBreakWithAmount->amount - $allbreakwithamountthree->total;
+        //     if ($allBreakWithAmount) {
+        //         for ($i=0;$i<count($request->three);$i++) {
+        //             if ($allbreakwithamountthree->three == $request->three[$i]) {
+        //                 $need =  $allbreakwithamountthree->total+ $request->amount[$i];
+        //                 $lo_at_amount = $allBreakWithAmount->amount - $allbreakwithamountthree->total;
                         
-                        if ($need >  $allBreakWithAmount->amount) {
-                            return redirect(url('three'))->withErrors([
-                            $request->three[$i].' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
-                            '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '. $lo_at_amount .'ကျပ်လိုပါသေးသည်'
-                        ]);
-                        }
-                    }
-                }
-            }
-        }
+        //                 if ($need >  $allBreakWithAmount->amount) {
+        //                     return redirect(url('three'))->withErrors([
+        //                     $request->three[$i].' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
+        //                     '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '. $lo_at_amount .'ကျပ်လိုပါသေးသည်'
+        //                 ]);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
-        for ($i=0;$i<count($request->three);$i++) {
-            $emptybreak = AllBrakeWithAmount::where('type', '3D')->where('admin_user_id', Auth()->user()->admin_user_id)->first();
+        // for ($i=0;$i<count($request->three);$i++) {
+        //     $emptybreak = AllBrakeWithAmount::where('type', '3D')->where('admin_user_id', Auth()->user()->admin_user_id)->first();
             
-            if ($emptybreak) {
-                if ($request->amount[$i] > $emptybreak->amount) {
-                    return redirect(url('three'))->withErrors([
-                        $request->three[$i].' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
-                        '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '.$emptybreak->amount .'ကျပ်လိုပါသေးသည်'
-                    ]);
-                }
-            }
-        }
+        //     if ($emptybreak) {
+        //         if ($request->amount[$i] > $emptybreak->amount) {
+        //             return redirect(url('three'))->withErrors([
+        //                 $request->three[$i].' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
+        //                 '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '.$emptybreak->amount .'ကျပ်လိုပါသေးသည်'
+        //             ]);
+        //         }
+        //     }
+        // }
 
-        foreach ($sum_three_totals as $sum_three_total) {
-            $closed_amount =  Amountbreak::select('amount')->where('closed_number', $sum_three_total->three)->where('admin_user_id', Auth()->user()->admin_user_id)->first();
+        // foreach ($sum_three_totals as $sum_three_total) {
+        //     $closed_amount =  Amountbreak::select('amount')->where('closed_number', $sum_three_total->three)->where('admin_user_id', Auth()->user()->admin_user_id)->first();
             
-            $closed_number = Amountbreak::select('closed_number')->where('closed_number', $sum_three_total->three)->where('type', '3D')->where('admin_user_id', Auth()->user()->admin_user_id)->first();
-            $needAmount = $closed_amount->amount - $sum_three_total->total ;
-            for ($i=0;$i<count($request->three);$i++) {
-                $real_total = $sum_three_total->total + $request->amount[$i];
-                if ($request->three[$i] == $closed_number->closed_number) {
-                    if ($real_total > $closed_amount->amount) {
-                        return back()->withErrors([
-                            $closed_number->closed_number.' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
-                            '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '. $needAmount .'ကျပ်လိုပါသေးသည်'
-                        ]);
-                    }
-                }
-            }
-        }
+        //     $closed_number = Amountbreak::select('closed_number')->where('closed_number', $sum_three_total->three)->where('type', '3D')->where('admin_user_id', Auth()->user()->admin_user_id)->first();
+        //     $needAmount = $closed_amount->amount - $sum_three_total->total ;
+        //     for ($i=0;$i<count($request->three);$i++) {
+        //         $real_total = $sum_three_total->total + $request->amount[$i];
+        //         if ($request->three[$i] == $closed_number->closed_number) {
+        //             if ($real_total > $closed_amount->amount) {
+        //                 return back()->withErrors([
+        //                     $closed_number->closed_number.' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
+        //                     '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '. $needAmount .'ကျပ်လိုပါသေးသည်'
+        //                 ]);
+        //             }
+        //         }
+        //     }
+        // }
 
-        for ($i=0;$i<count($request->three);$i++) {
-            $emptybreak = Amountbreak::where('closed_number', $request->three[$i])->where('type', '3D')->where('admin_user_id', Auth()->user()->admin_user_id)->first();
+        // for ($i=0;$i<count($request->three);$i++) {
+        //     $emptybreak = Amountbreak::where('closed_number', $request->three[$i])->where('type', '3D')->where('admin_user_id', Auth()->user()->admin_user_id)->first();
             
-            if ($emptybreak) {
-                if ($request->amount[$i] > $emptybreak->amount) {
-                    return redirect(url('three'))->withErrors([
-                        $emptybreak->closed_number.' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
-                        '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '.$emptybreak->amount .'ကျပ်လိုပါသေးသည်'
-                    ]);
-                }
-            }
-        }
+        //     if ($emptybreak) {
+        //         if ($request->amount[$i] > $emptybreak->amount) {
+        //             return redirect(url('three'))->withErrors([
+        //                 $emptybreak->closed_number.' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
+        //                 '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '.$emptybreak->amount .'ကျပ်လိုပါသေးသည်'
+        //             ]);
+        //         }
+        //     }
+        // }
         
         $threes = $request->three;
         $amount = $request->amount;
@@ -117,39 +117,39 @@ class ThreeController extends Controller
 
     public function three(Request $request)
     {
-        $closed_three = Amountbreak::select('closed_number')->where('type', '3D')->where('admin_user_id', Auth()->user()->admin_user_id)->get();
+        // $closed_three = Amountbreak::select('closed_number')->where('type', '3D')->where('admin_user_id', Auth()->user()->admin_user_id)->get();
 
-        $sum_three_totals =  Three::select('three', DB::raw('SUM(amount) as total'))->where('admin_user_id', Auth()->user()->admin_user_id)->whereIn('three', $closed_three)->groupBy('three')->get();
-        foreach ($sum_three_totals as $sum_three_total) {
-            $closed_amount =  Amountbreak::select('amount')->where('closed_number', $sum_three_total->three)->where('admin_user_id', Auth()->user()->admin_user_id)->first();
+        // $sum_three_totals =  Three::select('three', DB::raw('SUM(amount) as total'))->where('admin_user_id', Auth()->user()->admin_user_id)->whereIn('three', $closed_three)->groupBy('three')->get();
+        // foreach ($sum_three_totals as $sum_three_total) {
+        //     $closed_amount =  Amountbreak::select('amount')->where('closed_number', $sum_three_total->three)->where('admin_user_id', Auth()->user()->admin_user_id)->first();
             
-            $closed_number = Amountbreak::select('closed_number')->where('closed_number', $sum_three_total->three)->where('type', '3D')->where('admin_user_id', Auth()->user()->admin_user_id)->first();
-            $needAmount = $closed_amount->amount - $sum_three_total->total ;
-            for ($i=0;$i<count($request->three);$i++) {
-                $real_total = $sum_three_total->total + $request->amount[$i];
-                if ($request->three[$i] == $closed_number->closed_number) {
-                    if ($real_total > $closed_amount->amount) {
-                        return back()->withErrors([
-                            $closed_number->closed_number.' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
-                            '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '. $needAmount .'ကျပ်လိုပါသေးသည်'
-                        ]);
-                    }
-                }
-            }
-        }
+        //     $closed_number = Amountbreak::select('closed_number')->where('closed_number', $sum_three_total->three)->where('type', '3D')->where('admin_user_id', Auth()->user()->admin_user_id)->first();
+        //     $needAmount = $closed_amount->amount - $sum_three_total->total ;
+        //     for ($i=0;$i<count($request->three);$i++) {
+        //         $real_total = $sum_three_total->total + $request->amount[$i];
+        //         if ($request->three[$i] == $closed_number->closed_number) {
+        //             if ($real_total > $closed_amount->amount) {
+        //                 return back()->withErrors([
+        //                     $closed_number->closed_number.' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
+        //                     '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '. $needAmount .'ကျပ်လိုပါသေးသည်'
+        //                 ]);
+        //             }
+        //         }
+        //     }
+        // }
 
-        for ($i=0;$i<count($request->three);$i++) {
-            $emptybreak = Amountbreak::where('closed_number', $request->three[$i])->where('type', '3D')->where('admin_user_id', Auth()->user()->admin_user_id)->first();
+        // for ($i=0;$i<count($request->three);$i++) {
+        //     $emptybreak = Amountbreak::where('closed_number', $request->three[$i])->where('type', '3D')->where('admin_user_id', Auth()->user()->admin_user_id)->first();
             
-            if ($emptybreak) {
-                if ($request->amount[$i] > $emptybreak->amount) {
-                    return redirect(url('three'))->withErrors([
-                        $emptybreak->closed_number.' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
-                        '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '.$emptybreak->amount .'ကျပ်လိုပါသေးသည်'
-                    ]);
-                }
-            }
-        }
+        //     if ($emptybreak) {
+        //         if ($request->amount[$i] > $emptybreak->amount) {
+        //             return redirect(url('three'))->withErrors([
+        //                 $emptybreak->closed_number.' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
+        //                 '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '.$emptybreak->amount .'ကျပ်လိုပါသေးသည်'
+        //             ]);
+        //         }
+        //     }
+        // }
 
         $from_account_wallet = Auth()->user()->wallet;
         $to_account = AdminUser::where('id', Auth()->user()->admin_user_id)->first();

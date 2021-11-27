@@ -7,9 +7,9 @@ class HtaitPaitForeach
 {
     public static function htaitpait($datas, $amount)
     {
-        if ($datas == []) {
-            return back()->withErrors(['0 ထိပ်သည် မရတော့ပါ'])->withInput();
-        }
+        // if ($datas == []) {
+        //     return back()->withErrors(['0 ထိပ်သည် မရတော့ပါ'])->withInput();
+        // }
         foreach ($datas as $key=>$data) {
             $htaitpait = new Two();
             $htaitpait->user_id = Auth()->user()->id;

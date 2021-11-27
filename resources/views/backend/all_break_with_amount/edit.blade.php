@@ -27,8 +27,7 @@
                         <select name="type" class="form-control">
                             <option value="">Select Number</option>
                             @foreach($numbers as $number)
-                            <option value="2D" @if($number->type == '2D') selected @endif>2D</option>
-                            <option value="3D" @if($number->type == '3D') selected @endif>3D</option>
+                            <option value="{{$number->type}}" @if($number->type == $all_break_with_amount->type) selected @endif>{{$number->type}}</option>
                             @endforeach
                         </select>
                     </div>

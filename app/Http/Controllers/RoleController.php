@@ -25,7 +25,7 @@ class RoleController extends Controller
         ->addColumn('permission', function ($each) {
             $output = '';
             foreach ($each->permissions as $permission) {
-                $output .= '<span class="badge badge-pill badge-primary p-1 m-1">'.$permission->name.'</span>';
+                $output .= '<span class="badge badge-pill badge-success p-1 m-1">'.$permission->name.'</span>';
             }
             return $output;
         })
