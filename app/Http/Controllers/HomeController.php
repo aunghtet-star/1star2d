@@ -49,12 +49,12 @@ class HomeController extends Controller
             foreach ($request->r as $r) {
                 foreach ($request->two as $key=>$two) {
                     if ($key == $r) {
-                        $reverse_two[] += strrev($two);
+                        $reverse_two[] .= strrev((string)$two);
                     }
                 }
             }
         }
-
+        
         
         foreach ($request->amount as $key=>$amount) {
             if (!is_null($request->r)) {
