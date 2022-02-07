@@ -87,16 +87,30 @@
                     </a>
                 </li> --}}
                 <li>
-                    <a href="{{route('two-overview.history')}}" class="@yield('2D-over-history')">
+                    <a href="{{route('two-overview.am_history')}}" class="@yield('2D-over-history-am')">
                         <i class="metismenu-icon fas fa-stopwatch-20 text-warning"></i>
-                        <span class="text-warning">2D overview</span>
+                        <span class="text-warning">2D overview AM</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="{{route('two-overview.kyon')}}" class="@yield('2D-over-kyon')">
+                    <a href="{{route('two-overview.pm_history')}}" class="@yield('2D-over-history-pm')">
+                        <i class="metismenu-icon fas fa-stopwatch-20 text-success"></i>
+                        <span class="text-success">2D overview PM</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{route('two-overview.kyon-am')}}" class="@yield('2D-over-kyon-am')">
                         <i class="metismenu-icon fas fa-stopwatch-20 text-warning"></i>
-                        <span class="text-warning">2D ကျွံ</span>
+                        <span class="text-warning">2D ကျွံ AM</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{route('two-overview.kyon-pm')}}" class="@yield('2D-over-kyon-pm')">
+                        <i class="metismenu-icon fas fa-stopwatch-20 text-success"></i>
+                        <span class="text-success">2D ကျွံ PM</span>
                     </a>
                 </li>
 

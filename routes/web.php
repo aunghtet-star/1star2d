@@ -38,9 +38,10 @@ Route::prefix('admin')->middleware('auth:adminuser')->group(function () {
 
     Route::resource('two', 'TwoController');
     Route::get('two/datatables/ssd', 'TwoController@ssd');
-    Route::get('two-overview/history', 'TwoController@twoHistory')->name('two-overview.history');
-    Route::get('two-overview/two-history-table', 'TwoController@twoHistoryTable')->name('two-overview.history-table');
-    Route::get('two-overview/two-kyon', 'TwoController@twoKyon')->name('two-overview.kyon');
+    Route::get('two-overview/am_history', 'TwoController@twoHistoryAM')->name('two-overview.am_history');
+    Route::get('two-overview/pm_history', 'TwoController@twoHistoryPM')->name('two-overview.pm_history');
+    Route::get('two-overview/am-two-kyon', 'TwoController@twoKyonAM')->name('two-overview.kyon-am');
+    Route::get('two-overview/pm-two-kyon', 'TwoController@twoKyonPM')->name('two-overview.kyon-pm');
     Route::get('two-overview/two-kyon-table', 'TwoController@twoKyonTable')->name('two-overview.kyon-table');
 
 
@@ -84,7 +85,7 @@ Route::prefix('admin')->middleware('auth:adminuser')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/', 'HomeController@home')->name('home');
 
     Route::get('/two', 'HomeController@index')->name('two.index.blade');
     Route::post('/two/confirm', 'HomeController@twoconfirm');

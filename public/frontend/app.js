@@ -1,0 +1,7 @@
+// $.getJSON(`https://lm.facebook.com/l.php?u=https%3A%2F%2Fscript.googleusercontent.com%2Fmacros%2Fecho%3Fuser_content_key%3D-4PRxiSnM6MxlXdK0fYVyLWJ9PgnapxhmwDzx94fIB5CWufAWfSxZ85kV4Szcz2VfLoW_W13vRo2Bd0hOfQykuPIBLgAuQBOm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnBhMKdr3mjZlOgpWGgftRlCZZJ-qd3lNGu_IBuGnyapFnqJ7rg5NvOFWn12Fp1Dxq7d8MAdYOYtX%26lib%3DMYSvdm741KiQvKD1gOuNd9lc8OvjxXfAZ&h=AT09ccpHf2Y2w5gkB-SabD1Hj5w0HEN9TD0MThYeBwhX1W_P1nosgNqu_Gv9iMIjz_cgZ1Iig6CaoTsE1Q-E7XXkXdYxEA1asH8LTpv6f43zA7uUyqwMnyL0lz7ydph_ULU
+// `,function(data){
+//     console.log(data)
+// })
+
+// $.getJSON({ url: 'https://lm.facebook.com/l.php?u=https%3A%2F%2Fscript.googleusercontent.com%2Fmacros%2Fecho%3Fuser_content_key%3D-4PRxiSnM6MxlXdK0fYVyLWJ9PgnapxhmwDzx94fIB5CWufAWfSxZ85kV4Szcz2VfLoW_W13vRo2Bd0hOfQykuPIBLgAuQBOm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnBhMKdr3mjZlOgpWGgftRlCZZJ-qd3lNGu_IBuGnyapFnqJ7rg5NvOFWn12Fp1Dxq7d8MAdYOYtX%26lib%3DMYSvdm741KiQvKD1gOuNd9lc8OvjxXfAZ&h=AT09ccpHf2Y2w5gkB-SabD1Hj5w0HEN9TD0MThYeBwhX1W_P1nosgNqu_Gv9iMIjz_cgZ1Iig6CaoTsE1Q-E7XXkXdYxEA1asH8LTpv6f43zA7uUyqwMnyL0lz7ydph_ULU' 
+//   });

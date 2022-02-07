@@ -13,31 +13,88 @@
         <div class="col-md-8">
             <span id="message_error"></span>
             
-            <div class="card">
-                <div class="d-flex justify-content-end">
-                    <a href="" class="btn btn-success mt-3 btn-sm add-btn" style="margin-bottom: -16px; margin-right:23px"><i class="fas fa-plus-circle"></i> Add </a>
-                </div>
+            <h6 class="text-center">Updated {{$AmtwoDs[0]->Date}}</h6>
+
+            <div class="card mb-3">
                 <div class="card-body">
-                    <form id="validate" action="{{url('two/confirm')}}" method="POST" id="">
-                        @csrf
-                        <div class="row" >
-                            <div class="col-3">
-                                <div class="form-group" id="inputs">
-                                    <label for="">2D</label>
-                                    <input type="number" name="two[]" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <div class="form-group" id="inputs">
-                                    <label for="">Amount</label>
-                                    <input type="number" name="amount[]" class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="test"></div>
-                        <button type="submit" id="submit" class="btn btn-primary m-0 btn-sm">Confirm</button>
+                    <h5 class="text-center mb-3">12:01 PM</h5>
+                    <hr>
+                    <div class="d-flex justify-content-between ">
+                        <p class="pl-2">SET</p>
+                        <p>VALUE</p>
+                        <p>2D</p>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        
+                        <p>
+                            @if($AmtwoDs[0]->Set)
+                            @php
+                             echo $AmtwoDs[0]->Set;
+                            @endphp
+                            @else
+                                <p>--</p>
+                            @endif
+                        </p> 
+                        <p>
+                            @if($AmtwoDs[0]->Value)
+                            @php
+                             echo $AmtwoDs[0]->Value;
+                            @endphp
+                            @else
+                                <p>--</p>
+                            @endif
+                        </p> 
+                        <p>
+                            @if($AmtwoDs[0]->{'No.'})
+                            @php
+                             echo $AmtwoDs[0]->{'No.'};
+                            @endphp
+                            @else
+                                <p>--</p>
+                            @endif
+                        </p>
+                    </div>
+                    
                 </div>
-                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="text-center mb-3">4:31 PM</h5>
+                    <hr>
+                    <div class="d-flex justify-content-between ">
+                        <p class="pl-2">SET</p>
+                        <p>VALUE</p>
+                        <p>2D</p>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        
+                        <p style="margin-left: 14px">
+                            @if($PmtwoDs[0]->Set)
+                            @php
+                             echo $PmtwoDs[0]->Set;
+                            @endphp
+                            @endif
+                        </p> 
+                        <p>
+                            @if($PmtwoDs[0]->Value)
+                            @php
+                             echo $PmtwoDs[0]->Value;
+                            @endphp
+                            @endif
+                        </p> 
+                        <p>
+                            @if($PmtwoDs[0]->{'No.'})
+                            @php
+                             echo $PmtwoDs[0]->{'No.'};
+                            @endphp
+                            @endif
+                        </p>
+                    </div>
+                    
+                </div>
             </div>
         </div>
     </div>

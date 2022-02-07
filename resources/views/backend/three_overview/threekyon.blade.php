@@ -68,7 +68,6 @@
                    
                 <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($total)}}</h5>
 
-                {{$three_transactions->links()}}
                 </div>
             </div>
         </div>

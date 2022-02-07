@@ -15,6 +15,7 @@ use App\Helpers\UUIDGenerator;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class ThreeController extends Controller
 {

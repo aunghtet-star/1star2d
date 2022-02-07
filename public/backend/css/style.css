@@ -17,7 +17,7 @@
     border-radius: 10px;
 }
 
-  .column {
+.column {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -27,5 +27,8 @@
 }
 .column p {
     display: flex;
-     width: 400px;
+    width: 400px;
+}
+.app-sidebar {
+    overflow: scroll;
 }

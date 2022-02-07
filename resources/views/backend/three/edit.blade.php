@@ -48,7 +48,7 @@
 </div>
 @endsection
 @section('scripts')
-{!! JsValidator::formRequest('App\Http\Requests\Updatethree','#update') !!}
+{!! JsValidator::formRequest('App\Http\Requests\UpdateThree','#update') !!}
 
 <script>
     $(document).ready(function() {

@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreUserTwoD;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\VarDumper\VarDumper;
+use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
@@ -29,6 +30,22 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
+    
+    public function home()
+    {
+        $am_response = Http::get('https://script.googleusercontent.com/macros/echo?user_content_key=R7HG-0BT8iQRqPeFrkb5lvyOk8tNYN3n6xyjSvuh32gFliP6tXp1Eia5TlvHF2bWp37Xxv68Bh_W2wdQh1kvpPt2uCIXHhTVm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnBhMKdr3mjZlOgpWGgftRlCZZJ-qd3lNGu_IBuGnyapFnqJ7rg5NvOFWn12Fp1Dxq7d8MAdYOYtX&lib=MYSvdm741KiQvKD1gOuNd9lc8OvjxXfAZ');
+        $AmtwoDs = json_decode($am_response->body());
+        $AmtwoDs = $AmtwoDs->twoD;
+
+        $pm_response = Http::get('https://script.googleusercontent.com/macros/echo?user_content_key=ZGszFeS4kLVhqAibEdp6d_LSJ02GtSml-MC1kOf4_F2DS-W6X-85AWrAoJrZZbtA8j5ajZkraMjYAFo0BP1yoYlfhGykH_HUm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnA7wpYBcbC8hS8Zu_VBreS6KtPupjXSgETgIjyauKKelwsQVRMwQshXOk5PE_R0eujOmbnRGq-tk&lib=MZI6bu7bMuCZFcGtLMvcWq-02rlMmUn9c');
+        $PmtwoDs = json_decode($pm_response->body());
+        
+        $PmtwoDs = $PmtwoDs->twoD;
+
+        return view('frontend.home', compact('AmtwoDs', 'PmtwoDs'));
+    }
+
     public function index()
     {
         $twoform = ShowHide::where('name', 'twoform')->where('admin_user_id', Auth::guard('web')->user()->admin_user_id)->first();
@@ -184,13 +201,14 @@ class HomeController extends Controller
                     }
                 }
             }
+
             $total += $amount;
             
             if ($from_account_wallet->amount < $total) {
                 return redirect('/')->withErrors(['fail' => 'You have no sufficient balance']);
             }
         }
-    
+        
         DB::beginTransaction();
 
         try {

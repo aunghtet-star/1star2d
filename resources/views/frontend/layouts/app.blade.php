@@ -40,6 +40,9 @@
 </head>
 
 <body>
+   @php
+       header('Access-Control-Allow-Headers: *');
+   @endphp
     <div id="app mb-4">
 
 
@@ -155,14 +158,14 @@
     <!-- Bootstrap tooltips -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js">
     </script>
-
+    
         <!-- Bootstrap core JavaScript -->
         <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
         <!-- MDB core JavaScript -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js">
         </script>
-
+    <script src="{{asset('frontend/app.js')}}"></script>
 
     {{-- sweet alert --}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -182,6 +185,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     
     <script src="{{asset('js/validate.js')}}"></script>
+
+    
     @yield('scripts')
 </body>
 

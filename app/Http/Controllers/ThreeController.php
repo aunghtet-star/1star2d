@@ -113,8 +113,8 @@ class ThreeController extends Controller
         
         $three_brake = AllBrakeWithAmount::select('amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->where('type', '3D')->first();
         
-        $three_transactions = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->where('admin_user_id', Auth()->user()->id)->whereBetween('date', [$from,$to])->paginate(144);
-        $three_transactions->withPath('/admin/three-overview/history?startdate='.$from.'&enddate='.$to);
+        $three_transactions = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->where('admin_user_id', Auth()->user()->id)->whereBetween('date', [$from,$to])->get();
+        //$three_transactions->withPath('/admin/three-overview/history?startdate='.$from.'&enddate='.$to);
         
         $three_transactions_total = Three::select('amount')->where('admin_user_id', Auth()->user()->id)->whereBetween('date', [$from,$to])->sum('amount');
 
