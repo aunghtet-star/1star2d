@@ -71,7 +71,7 @@
     $(document).ready(function() {
 
                 
-                    $('.date').daterangepicker({
+        $('.date').daterangepicker({
                         "singleDatePicker": true,
                         "autoApply": true,
                         "autoUpdateInput" :false,
@@ -80,42 +80,12 @@
                     },
                     });
 
-                    // $('.date').on('apply.daterangepicker', function(ev, picker) {
-                    //     $(this).val(picker.startDate.format('YYYY-MM-DD'));
-                    //     var date = $('.date').val();
-                    //     history.pushState(null, '' , `?date=${date}`);
-                    //     window.location.reload();
-                    // });
-                    twoHistoryTable();
-
-
-                    function twoHistoryTable(){
-                        var date = $('.date').val();
-                        var time = $('.time').val();
-                        
-                        $.ajax({
-                            url : `/admin/two-overview/two-history-table?date=${date}&time=${time}`,
-                            type : 'GET',
-                            success : function(res){
-                                    $('.two-history-table').html(res);
-                            }
-                        })
-                        
-                     }
-
-                       
-
-                     $('.date').on('apply.daterangepicker',function(event,picker){
+                    $('.date').on('apply.daterangepicker', function(ev, picker) {
                         $(this).val(picker.startDate.format('YYYY-MM-DD'));
-                            twoHistoryTable();
-
-                     })
-
-                     $('.time').on('change',function(){
-                        twoHistoryTable();
-                     })
-
-                    
+                        var date = $('.date').val();
+                        history.pushState(null, '' , `?date=${date}`);
+                        window.location.reload();
+                    }); 
 
        });
     
