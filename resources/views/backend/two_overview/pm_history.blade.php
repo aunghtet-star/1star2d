@@ -94,25 +94,19 @@
 
                     function newAmount(id){
                         let new_amount = prompt(`Enter Amount ${id}`);
-                        
-                        let data_id = $('#data_id').data('id');
-                        
+                        var date = $('.date').val() ?? moment('YYYY-MM-DD');
                         $.ajax({
-                            url : `/admin/two-overview/pm_new_amount/${data_id}`,
+                            url : `/admin/two-overview/pm_new_amount/${date}/${id}`,
                             method : 'post',
                             data : {
                                 new_amount : new_amount,
                                 two_d : id,
-                                id : data_id
+                                date : date
                             },
                             success : function(res){
-                                if(res == 'success'){
-                                    Toast.fire({
-                                    icon: 'success',
-                                    title: res
-                                });
+                                console.log(res);
                             }
-                        }
+                        
                     });
                     }
     
