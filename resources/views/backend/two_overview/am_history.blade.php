@@ -52,7 +52,7 @@
                         @foreach($two_overviews_am as $two_transaction)
                         <div class="d-flex" style="width:100px">
                             <p class="mb-2 mr-3 ">{{$two_transaction->two }} </p> => <span class="ml-2 @if( ($two_brake->amount ?? 9999999999999999999999) < ($two_transaction->amount - $two_transaction->new_amount))  text-danger @endif">{{number_format($two_transaction->amount - $two_transaction->new_amount)}}</span>
-                            <a href="#" onclick="newAmount('{{$two_transaction->two}}')"><span><i class="fas fa-edit ml-3"></i></span></a>
+                            <a href="#" data-id="{{$two_transaction->id}}" id="data_id" onclick="newAmount('{{$two_transaction->two}}')"><span><i class="fas fa-edit ml-3"></i></span></a>
                             <a href="{{url('/admin/two-overview/twopout/'.$two_transaction->two.'/date='.$date)}}"><span><i class="fas fa-eye ml-3"></i></span></a>
                         </div>
                     @endforeach
@@ -90,14 +90,18 @@
 
        });
 
-                    function newAmount(id){
+                function newAmount(id){
                         let new_amount = prompt(`Enter Amount ${id}`);
+
+                        let data_id = $('#data_id').data('id');
+
                         $.ajax({
-                            url : `/admin/two-overview/new_amount/${id}`,
+                            url : `/admin/two-overview/new_amount/${data_id}`,
                             method : 'post',
                             data : {
                                 new_amount : new_amount,
-                                two_d : id
+                                two_d : id,
+                                id : data_id
                             },
                             success : function(res){
                                 if(res == 'success'){

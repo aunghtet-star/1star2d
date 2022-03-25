@@ -43,8 +43,9 @@ class TwoOverviewController extends Controller
     public function NewAmount(Request $request){
         $new_amount = $request->new_amount;
         $two_d = $request->two_d;
+        $id = $request->id;
 
-        $two_over_pm = TwoOverview::where('two',$two_d);
+        $two_over_pm = TwoOverview::where('two',$two_d)->where('id',$id);
         $two_over_pm->increment('new_amount',$new_amount);
 
         return 'success';
@@ -53,8 +54,9 @@ class TwoOverviewController extends Controller
     public function pmNewAmount(Request $request){
         $new_amount = $request->new_amount;
         $two_d = $request->two_d;
+        $id = $request->id;
 
-        $two_over_pm = TwoOverviewPM::where('two',$two_d);
+        $two_over_pm = TwoOverviewPM::where('two',$two_d)->where('id',$id);
         $two_over_pm->increment('new_amount',$new_amount);
 
         return 'success';
