@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class TwoOverviewPM extends Model
 {
-    use HasFactory;
 
     protected $guarded = [];
 }
