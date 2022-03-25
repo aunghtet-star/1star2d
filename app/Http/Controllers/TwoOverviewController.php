@@ -8,49 +8,44 @@ use App\TwoOverview;
 use Illuminate\Http\Request;
 use Laravel\Ui\Presets\React;
 use Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class TwoOverviewController extends Controller
 {
     public function index(Request $request)
     {
-        for ($i=0;$i<100;$i++) {
-            $amounts[] = Two::where('two', $i)->whereDate('created_at', now()->format('Y-m-d'))->whereTime('created_at', '>=', Carbon::parse('00:00:00'))->whereTime('created_at', '<=', Carbon::parse('11:59:00'))->sum('amount');
-        }
-
-        foreach ($amounts as $key=>$amount) {
-            $exist1 = TwoOverview::where('two', $key)->whereDate('date', now()->format('Y-m-d'))->whereTime('created_at', '>=', Carbon::parse('00:00:00'))->whereTime('created_at', '<=', Carbon::parse('11:59:00'))->exists();
-            $exist2 = TwoOverview::where('two', $key)->whereDate('date', now()->format('Y-m-d'))->whereTime('created_at', '>=', Carbon::parse('12:00:00'))->whereTime('created_at', '<=', Carbon::parse('23:59:00'))->exists();
-            
-            if ($exist1) {
-                TwoOverview::where('two', $key)->where('date', now()->format('Y-m-d'))->update([
-                        'date' => now(),
-                        'amount' => $amount,
-                     ]);
-            } elseif ($exist2) {
-                TwoOverview::where('two', $key)->where('date', now()->format('Y-m-d'))->update([
-                    'date' => now(),
-                    'amount' => $amount,
-                 ]);
-            } else {
-                TwoOverview::where('two', $key)->where('date', now()->format('Y-m-d'))->create([
-                    'date' => now(),
-                    'two' => $key,
-                    'amount' => $amount,
-                 ]);
-            }
-        }
-
+        $date = $request->date ?? now()->format('Y-m-d');
+        $two_transactions = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->groupBy('two')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
         
-        return view('backend.two_overview.index');
+        foreach($two_transactions as $two_transaction){
+            $exist = TwoOverview::where('two',$two_transaction->two)->where('date',now()->format('Y-m-d'))->exists();
+            if($exist){
+                $two_overview = TwoOverview::where('two',$two_transaction->two);
+                $two_overview->update([
+                    'amount' => $two_transaction->total
+                ]);
+            }else{
+            $two_overview = new TwoOverview();
+                $two_overview->date = $date;
+                $two_overview->two =  $two_transaction->two;
+                $two_overview->amount = $two_transaction->total;
+                $two_overview->save();
+            }
+            
+        }
+        //return view('backend.two_overview.index');
     }
 
-    public function ssd()
-    {
-        return Datatables::of(TwoOverview::query())
-        
-        ->editColumn('updated_at', function ($each) {
-            return Carbon::parse($each->updated_at)->format('d-m-Y h:i:s A');
-        })
-        ->make(true);
+
+    public function NewAmount(Request $request){
+        $new_amount = $request->new_amount;
+        $two_d = $request->two_d;
+
+        $two_over_pm = TwoOverview::where('two',$two_d);
+        $two_over_pm->increment('new_amount',$new_amount);
+
+        return 'success';
     }
 }

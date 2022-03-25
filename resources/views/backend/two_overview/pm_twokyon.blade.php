@@ -54,12 +54,12 @@
                             <div class="column" >
                                 @foreach($two_transactions as $two_transaction)
                                 <div class="d-flex" style="width:100px">
-                                        @if( ($two_brake ? $two_brake->amount : 99999999999999999999999999999999999999) < $two_transaction->total)
+                                        @if( ($two_brake ? $two_brake->amount : 99999999999999999999999999999999999999) < ($two_transaction->amount-$two_transaction->new_amount))
                                             @php
-                                            $total += $two_transaction->total - $two_brake->amount;
+                                            $total += ($two_transaction->amount - $two_transaction->new_amount) - $two_brake->amount;
                                             @endphp
                                             <p class="mb-2 mr-3 ">{{$two_transaction->two}} </p> => <span class="ml-2 ">
-                                        {{number_format($two_transaction->total - $two_brake->amount) }} 
+                                            {{number_format(($two_transaction->amount - $two_transaction->new_amount) - $two_brake->amount) }} 
                                         </span>
                                         @endif
                                 </div>
