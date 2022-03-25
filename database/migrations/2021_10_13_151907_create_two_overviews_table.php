@@ -15,9 +15,11 @@ class CreateTwoOverviewsTable extends Migration
     {
         Schema::create('two_overviews', function (Blueprint $table) {
             $table->id();
-            $table->integer('two')->nullable();
+            $table->unsignedBigInteger('admin_user_id')->nullable();
+            $table->string('two')->nullable();
             $table->date('date')->nullable();
             $table->decimal('amount', 20)->default('0')->nullable();
+            $table->decimal('new_amount', 20)->default('0')->nullable();
             $table->timestamps();
         });
     }

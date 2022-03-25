@@ -36,12 +36,18 @@ Route::prefix('admin')->middleware('auth:adminuser')->group(function () {
     Route::get('users/datatables/ssd', 'UserController@ssd');
     Route::get('users/detail/{date}', 'UserController@userDetail')->name('users.detail');
 
+    Route::get('twooverview','TwoOverviewController@index');
     Route::resource('two', 'TwoController');
     Route::get('two/datatables/ssd', 'TwoController@ssd');
     Route::get('two-overview/am_history', 'TwoController@twoHistoryAM')->name('two-overview.am_history');
     Route::get('two-overview/pm_history', 'TwoController@twoHistoryPM')->name('two-overview.pm_history');
+    
+    Route::post('two-overview/new_amount/{twoD}', 'TwoOverviewController@NewAmount');
+    
+    
     Route::get('two-overview/am-two-kyon', 'TwoController@twoKyonAM')->name('two-overview.kyon-am');
     Route::get('two-overview/pm-two-kyon', 'TwoController@twoKyonPM')->name('two-overview.kyon-pm');
+    
     Route::get('two-overview/two-kyon-table', 'TwoController@twoKyonTable')->name('two-overview.kyon-table');
 
 

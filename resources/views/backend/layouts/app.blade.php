@@ -115,6 +115,14 @@
             });
 
 
+            @if(session('success'))
+            Toast.fire({
+            icon: 'success',
+            title: '{{session('success')}}'
+            })
+            @endif()
+
+
             @if(session('create'))
             Toast.fire({
             icon: 'success',
