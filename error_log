@@ -1,0 +1,5 @@
+[07-Feb-2022 06:45:15 America/New_York] PHP Fatal error:  Uncaught Error: Class "Illuminate\Foundation\Application" not found in /home/vstamrif/twodbanker.1star2d.com/bootstrap/app.php:14
+Stack trace:
+#0 /home/vstamrif/twodbanker.1star2d.com/artisan(20): require_once()
+#1 {main}
+  thrown in /home/vstamrif/twodbanker.1star2d.com/bootstrap/app.php on line 14
