@@ -90,7 +90,7 @@
 
        });
 
-       function newAmount(id){
+       f                unction newAmount(id){
                         let new_amount = prompt(`Enter Amount ${id}`);
                         $.ajax({
                             url : `/admin/two-overview/new_amount/${id}`,

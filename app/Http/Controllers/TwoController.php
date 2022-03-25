@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\AllBrakeWithAmount;
 use App\Two;
-
 use App\User;
+
 use stdClass;
 use Carbon\Carbon;
 use App\TwoOverview;
+use App\TwoOverviewPM;
 use Carbon\CarbonPeriod;
+use App\AllBrakeWithAmount;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTwo;
 use App\Http\Requests\UpdateTwo;
@@ -120,10 +121,10 @@ class TwoController extends Controller
             }
         }
 
-        $two_overviews_am = TwoOverview::where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->get();
+        $two_overviews_am = TwoOverview::where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->get();
 
-        $two_transactions_total = TwoOverview::select('amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->sum('amount');
-        $new_amount_total = TwoOverview::select('new_amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->sum('new_amount');
+        $two_transactions_total = TwoOverview::select('amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->sum('amount');
+        $new_amount_total = TwoOverview::select('new_amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->sum('new_amount');
         
         return view('backend.two_overview.am_history', compact('two_overviews_am', 'two_transactions_total','new_amount_total', 'date', 'two_brake'));
     }
@@ -137,14 +138,14 @@ class TwoController extends Controller
         $two_transactions = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->groupBy('two')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
         
         foreach($two_transactions as $two_transaction){
-            $exist = TwoOverview::where('two',$two_transaction->two)->where('date',$date)->exists();
+            $exist = TwoOverviewPM::where('two',$two_transaction->two)->where('date',$date)->exists();
             if($exist){
-                $two_overviews = TwoOverview::where('two',$two_transaction->two);
+                $two_overviews = TwoOverviewPM::where('two',$two_transaction->two);
                 $two_overviews = $two_overviews->update([
                     'amount' => $two_transaction->total
                 ]);
             }else{
-            $two_overviews = new TwoOverview();
+            $two_overviews = new TwoOverviewPM();
             $two_overviews->admin_user_id = Auth::guard('adminuser')->user()->id;
             $two_overviews->two =  $two_transaction->two;
             $two_overviews->amount = $two_transaction->total;
@@ -153,10 +154,10 @@ class TwoController extends Controller
             }
         }
 
-        $two_overviews_pm = TwoOverview::where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->get();
+        $two_overviews_pm = TwoOverviewPM::where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->get();
 
-        $two_transactions_total = TwoOverview::select('amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->sum('amount');
-        $new_amount_total = TwoOverview::select('new_amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->sum('new_amount');
+        $two_transactions_total = TwoOverviewPM::select('amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->sum('amount');
+        $new_amount_total = TwoOverviewPM::select('new_amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->sum('new_amount');
         
         return view('backend.two_overview.pm_history', compact('two_overviews_pm', 'two_transactions_total','new_amount_total', 'date', 'two_brake'));
     }
@@ -165,8 +166,8 @@ class TwoController extends Controller
     public function twoKyonAM(Request $request)
     {
         $date = $request->date ?? now()->format('Y-m-d');
-        $two_transactions = TwoOverview::where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->get();
-        $two_transactions_total = TwoOverview::select('amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->sum('amount');
+        $two_transactions = TwoOverview::where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->get();
+        $two_transactions_total = TwoOverview::select('amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->sum('amount');
         
         $two_brake = AllBrakeWithAmount::select('amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->where('type', '2D')->first();
         return view('backend.two_overview.am_twokyon', compact('two_transactions', 'two_transactions_total', 'date', 'two_brake'));
@@ -176,8 +177,8 @@ class TwoController extends Controller
     {
         $date = $request->date ?? now()->format('Y-m-d');
 
-        $two_transactions = TwoOverview::where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'11:59:00'),Carbon::parse($date.' '.'23:59:00')])->get();
-        $two_transactions_total = TwoOverview::select('amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->sum('amount');
+        $two_transactions = TwoOverviewPM::where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->get();
+        $two_transactions_total = TwoOverviewPM::select('amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->sum('amount');
         
         $two_brake = AllBrakeWithAmount::select('amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->where('type', '2D')->first();
         return view('backend.two_overview.pm_twokyon', compact('two_transactions', 'two_transactions_total', 'date', 'two_brake'));

@@ -48,4 +48,14 @@ class TwoOverviewController extends Controller
 
         return 'success';
     }
+
+    public function pmNewAmount(Request $request){
+        $new_amount = $request->new_amount;
+        $two_d = $request->two_d;
+
+        $two_over_pm = TwoOverviewPM::where('two',$two_d);
+        $two_over_pm->increment('new_amount',$new_amount);
+
+        return 'success';
+    }
 }

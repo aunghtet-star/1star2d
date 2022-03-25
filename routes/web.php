@@ -43,6 +43,7 @@ Route::prefix('admin')->middleware('auth:adminuser')->group(function () {
     Route::get('two-overview/pm_history', 'TwoController@twoHistoryPM')->name('two-overview.pm_history');
     
     Route::post('two-overview/new_amount/{twoD}', 'TwoOverviewController@NewAmount');
+    Route::post('two-overview/pm_new_amount/{twoD}', 'TwoOverviewController@pmNewAmount');
     
     
     Route::get('two-overview/am-two-kyon', 'TwoController@twoKyonAM')->name('two-overview.kyon-am');

@@ -95,7 +95,7 @@
                     function newAmount(id){
                         let new_amount = prompt(`Enter Amount ${id}`);
                         $.ajax({
-                            url : `/admin/two-overview/new_amount/${id}`,
+                            url : `/admin/two-overview/pm_new_amount/${id}`,
                             method : 'post',
                             data : {
                                 new_amount : new_amount,
