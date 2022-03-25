@@ -1,0 +1,20 @@
+[07-Feb-2022 06:43:38 America/New_York] PHP Warning:  require(/home/vstamrif/twodbanker.1star2d.com/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/vstamrif/twodbanker.1star2d.com/public/index.php on line 24
+[07-Feb-2022 06:43:38 America/New_York] PHP Fatal error:  Uncaught Error: Failed opening required '/home/vstamrif/twodbanker.1star2d.com/public/../vendor/autoload.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/vstamrif/twodbanker.1star2d.com/public/index.php:24
+Stack trace:
+#0 {main}
+  thrown in /home/vstamrif/twodbanker.1star2d.com/public/index.php on line 24
+[07-Feb-2022 06:43:42 America/New_York] PHP Warning:  require(/home/vstamrif/twodbanker.1star2d.com/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/vstamrif/twodbanker.1star2d.com/public/index.php on line 24
+[07-Feb-2022 06:43:42 America/New_York] PHP Fatal error:  Uncaught Error: Failed opening required '/home/vstamrif/twodbanker.1star2d.com/public/../vendor/autoload.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/vstamrif/twodbanker.1star2d.com/public/index.php:24
+Stack trace:
+#0 {main}
+  thrown in /home/vstamrif/twodbanker.1star2d.com/public/index.php on line 24
+[07-Feb-2022 06:43:43 America/New_York] PHP Warning:  require(/home/vstamrif/twodbanker.1star2d.com/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/vstamrif/twodbanker.1star2d.com/public/index.php on line 24
+[07-Feb-2022 06:43:43 America/New_York] PHP Fatal error:  Uncaught Error: Failed opening required '/home/vstamrif/twodbanker.1star2d.com/public/../vendor/autoload.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/vstamrif/twodbanker.1star2d.com/public/index.php:24
+Stack trace:
+#0 {main}
+  thrown in /home/vstamrif/twodbanker.1star2d.com/public/index.php on line 24
+[07-Feb-2022 06:44:46 America/New_York] PHP Warning:  require(/home/vstamrif/twodbanker.1star2d.com/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/vstamrif/twodbanker.1star2d.com/public/index.php on line 24
+[07-Feb-2022 06:44:46 America/New_York] PHP Fatal error:  Uncaught Error: Failed opening required '/home/vstamrif/twodbanker.1star2d.com/public/../vendor/autoload.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/vstamrif/twodbanker.1star2d.com/public/index.php:24
+Stack trace:
+#0 {main}
+  thrown in /home/vstamrif/twodbanker.1star2d.com/public/index.php on line 24
