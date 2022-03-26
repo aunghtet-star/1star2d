@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class FakeNumber extends Model
 {
-    use HasFactory;
 
     protected $fillable =  ['number'];
 }
