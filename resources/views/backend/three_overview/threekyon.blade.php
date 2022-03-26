@@ -52,7 +52,7 @@
                         @endphp
                         @foreach($three_transactions as $three_transaction)
                                 <div class="d-flex " style="width:100px; margin-right : 70px">
-                                    @if(($thee_brake ? $three_brake->amount : 99999999999999999999) < $three_transaction->total)
+                                    @if(($three_brake ? $three_brake->amount : 99999999999999999999) < $three_transaction->total)
                                     <p class="mb-2 mr-3">{{$three_transaction->three}} </p> => <span class="ml-2">
                                          @php
                                              $total += $three_transaction->total - $three_brake->amount
