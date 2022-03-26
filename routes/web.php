@@ -89,6 +89,11 @@ Route::prefix('admin')->middleware('auth:adminuser')->group(function () {
     Route::post('/two/showhide', 'ShowHideController@TwoShowHide');
     Route::post('/htaitpait/showhide', 'ShowHideController@HtaitPaitShowHide');
     Route::post('/three/showhide', 'ShowHideController@ThreeShowHide');
+
+    Route::resource('/fake_number','FakeNumberController');
+    Route::get('/fake_number/datatables/ssd','FakeNumberController@ssd');
+
+    Route::get('/real_number','RealNumberController@realNumber')->name('real_number');
 });
 
 Route::middleware('auth')->group(function () {

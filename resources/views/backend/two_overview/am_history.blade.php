@@ -45,7 +45,7 @@
             
         </div>
         <div class="col">
-            <div class="card">
+            <div class="card overview">
                 <div class="card-body">
                     @if($two_overviews_am)
                     <div class="column" >
@@ -59,7 +59,7 @@
                     </div>
                 @endif
                 
-                <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($two_transactions_total - $new_amount_total)}}</h5>
+                <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($fake_number ? $fake_number->number : ($two_transactions_total - $new_amount_total))}}</h5>
                 </div>
             </div>
         </div>
@@ -103,7 +103,7 @@
                                 date : date
                             },
                             success : function(res){
-                                console.log(res);
+                                window.location.reload();
                             }
                         
                     });

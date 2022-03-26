@@ -7,6 +7,7 @@ use App\User;
 
 use stdClass;
 use Carbon\Carbon;
+use App\FakeNumber;
 use App\TwoOverview;
 use App\TwoOverviewPM;
 use Carbon\CarbonPeriod;
@@ -127,7 +128,9 @@ class TwoController extends Controller
         $two_transactions_total = TwoOverview::select('amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->sum('amount');
         $new_amount_total = TwoOverview::select('new_amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->sum('new_amount');
         
-        return view('backend.two_overview.am_history', compact('two_overviews_am', 'two_transactions_total','new_amount_total', 'date', 'two_brake'));
+        $fake_number = FakeNumber::first();
+        
+        return view('backend.two_overview.am_history', compact('two_overviews_am', 'two_transactions_total','new_amount_total', 'date', 'two_brake','fake_number'));
     }
 
     public function twoHistoryPM(Request $request)
@@ -160,7 +163,9 @@ class TwoController extends Controller
         $two_transactions_total = TwoOverviewPM::select('amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->sum('amount');
         $new_amount_total = TwoOverviewPM::select('new_amount')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->whereDate('date', $date)->sum('new_amount');
         
-        return view('backend.two_overview.pm_history', compact('two_overviews_pm', 'two_transactions_total','new_amount_total', 'date', 'two_brake'));
+        $fake_number = FakeNumber::first();
+
+        return view('backend.two_overview.pm_history', compact('two_overviews_pm', 'two_transactions_total','new_amount_total', 'date', 'two_brake','fake_number'));
     }
 
 
