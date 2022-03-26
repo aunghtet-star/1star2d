@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [08-Feb-2022 05:10:01 America/New_York] PHP Warning:  require(/home/vstamrif/public_html/vendor/autoload.php): Failed to open stream: No such file or directory in /home/vstamrif/public_html/artisan on line 18
 [08-Feb-2022 05:10:01 America/New_York] PHP Fatal error:  Uncaught Error: Failed opening required '/home/vstamrif/public_html/vendor/autoload.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/vstamrif/public_html/artisan:18
 Stack trace:
@@ -204,3 +205,10 @@ Stack trace:
 #9 /home/vstamrif/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(127): Illuminate\Foundation\Console\Kernel->bootstrap()
 #10 /home/vstamrif/public_html/artisan(37): Illuminate\Foundation\Console\Kernel->handle()
 #11 {main} in /home/vstamrif/public_html/vendor/laravel/framework/src/Illuminate/Support/Collection.php on line 11
+=======
+[07-Feb-2022 06:45:15 America/New_York] PHP Fatal error:  Uncaught Error: Class "Illuminate\Foundation\Application" not found in /home/vstamrif/twodbanker.1star2d.com/bootstrap/app.php:14
+Stack trace:
+#0 /home/vstamrif/twodbanker.1star2d.com/artisan(20): require_once()
+#1 {main}
+  thrown in /home/vstamrif/twodbanker.1star2d.com/bootstrap/app.php on line 14
+>>>>>>> d898e1970f65c96947cf72e22d7351e36d84b760

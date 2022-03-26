@@ -172,6 +172,19 @@
                 @endcan
                 @endif
 
+                <li>
+                    <a href="{{route('fake_number.index')}}" class="@yield('fake_number')">
+                        <i class="metismenu-icon fas fa-user text-dark"></i>
+                        <span class="text-primary">Fake Number</span>
+                    </a>
+                </li>   
+
+                <li>
+                    <a href="{{route('real_number')}}" class="@yield('real_number')">
+                        <i class="metismenu-icon fas fa-user text-dark"></i>
+                        <span class="text-primary">Real Number</span>
+                    </a>
+                </li>   
 
                 <li class="mt-5">
                     <a class="dropdown-item bg-warning text-dark" href="{{ route('logout') }}" 

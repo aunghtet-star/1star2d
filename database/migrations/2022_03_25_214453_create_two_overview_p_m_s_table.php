@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTwoOverviewsTable extends Migration
+class CreateTwoOverviewPMSTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTwoOverviewsTable extends Migration
      */
     public function up()
     {
-        Schema::create('two_overviews', function (Blueprint $table) {
+        Schema::create('two_overview_p_m_s', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('admin_user_id')->nullable();
             $table->string('two')->nullable();
@@ -31,6 +31,6 @@ class CreateTwoOverviewsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('two_overviews');
+        Schema::dropIfExists('two_overview_p_m_s');
     }
 }

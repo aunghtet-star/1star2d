@@ -36,12 +36,19 @@ Route::prefix('admin')->middleware('auth:adminuser')->group(function () {
     Route::get('users/datatables/ssd', 'UserController@ssd');
     Route::get('users/detail/{date}', 'UserController@userDetail')->name('users.detail');
 
+    Route::get('twooverview','TwoOverviewController@index');
     Route::resource('two', 'TwoController');
     Route::get('two/datatables/ssd', 'TwoController@ssd');
     Route::get('two-overview/am_history', 'TwoController@twoHistoryAM')->name('two-overview.am_history');
     Route::get('two-overview/pm_history', 'TwoController@twoHistoryPM')->name('two-overview.pm_history');
+    
+    Route::post('two-overview/new_amount/{date}/{twoD}', 'TwoOverviewController@NewAmount');
+    Route::post('two-overview/pm_new_amount/{date}/{twoD}', 'TwoOverviewController@pmNewAmount');
+    
+    
     Route::get('two-overview/am-two-kyon', 'TwoController@twoKyonAM')->name('two-overview.kyon-am');
     Route::get('two-overview/pm-two-kyon', 'TwoController@twoKyonPM')->name('two-overview.kyon-pm');
+    
     Route::get('two-overview/two-kyon-table', 'TwoController@twoKyonTable')->name('two-overview.kyon-table');
 
 
@@ -82,6 +89,11 @@ Route::prefix('admin')->middleware('auth:adminuser')->group(function () {
     Route::post('/two/showhide', 'ShowHideController@TwoShowHide');
     Route::post('/htaitpait/showhide', 'ShowHideController@HtaitPaitShowHide');
     Route::post('/three/showhide', 'ShowHideController@ThreeShowHide');
+
+    Route::resource('/fake_number','FakeNumberController');
+    Route::get('/fake_number/datatables/ssd','FakeNumberController@ssd');
+
+    Route::get('/real_number','RealNumberController@realNumber')->name('real_number');
 });
 
 Route::middleware('auth')->group(function () {

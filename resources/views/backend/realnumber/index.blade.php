@@ -1,20 +1,6 @@
 @extends('backend.layouts.app')
-@section('2D-over-kyon-pm','mm-active')
+@section('real_number','mm-active')
 @section('extra_css')
-        <style>
-            .column {
-            display: flex;
-            flex-direction: column;
-            flex-wrap: wrap;
-            margin-right: 250px;
-            width: 1000px;
-            height: 80vh;
-        }
-        .column p {
-            display: flex;
-        }
-        }
-        </style>
 @endsection
 @section('main')
 <div class="app-main__inner">
@@ -25,7 +11,7 @@
                     <i class="pe-7s-display2 icon-gradient bg-mean-fruit">
                     </i>
                 </div>
-                <div>2D ကျွံ Dashboard PM
+                <div>2D RealNumber Dashboard AM
                     <div class="page-title-subheading">1Start2DMM
                     </div>
                 </div>
@@ -42,32 +28,13 @@
                     <input type="text" class="form-control date" value="{{request()->date ?? now()->format('Y-m-d')}}" placeholder="All">
                 </div>
             </div>
-
+            
         </div>
         <div class="col">
-            <div class="card">
+            <div class="card overview">
                 <div class="card-body">
-                    @if($two_transactions)
-                        @php
-                            $total = 0;
-                        @endphp
-                            <div class="column" >
-                                @foreach($two_transactions as $two_transaction)
-                                <div class="d-flex" style="width:100px">
-                                        @if( ($two_brake ? $two_brake->amount : 99999999999999999999999999999999999999) < ($two_transaction->amount-$two_transaction->new_amount))
-                                            @php
-                                            $total += ($two_transaction->amount - $two_transaction->new_amount) - $two_brake->amount;
-                                            @endphp
-                                            <p class="mb-2 mr-3 ">{{$two_transaction->two}} </p> => <span class="ml-2 ">
-                                            {{number_format(($two_transaction->amount - $two_transaction->new_amount) - $two_brake->amount) }} 
-                                        </span>
-                                        @endif
-                                </div>
-                            @endforeach
-                            </div>
-                        @endif
-                        
-                        <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($total)}}</h5>
+                <h5 class="text-success mb-5" style="font-weight: 700">Total amount AM => {{number_format($two_transactions_total_am - $new_amount_total_am)}}</h5>
+                <h5 class="text-success" style="font-weight: 700">Total amount PM => {{number_format($two_transactions_total_pm - $new_amount_total_pm)}}</h5>
                 </div>
             </div>
         </div>
@@ -80,7 +47,7 @@
     $(document).ready(function() {
 
                 
-                    $('.date').daterangepicker({
+        $('.date').daterangepicker({
                         "singleDatePicker": true,
                         "autoApply": true,
                         "autoUpdateInput" :false,
@@ -94,8 +61,7 @@
                         var date = $('.date').val();
                         history.pushState(null, '' , `?date=${date}`);
                         window.location.reload();
-                    });
-                    
+                    }); 
 
        });
     
