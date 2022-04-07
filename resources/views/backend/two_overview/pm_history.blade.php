@@ -74,7 +74,7 @@
 
                         <div class="d-flex justify-content-between">
                             <h5 class="text-success" style="font-weight: 700">Total amount =>
-                                {{ number_format($fake_number ? $fake_number->number : ($two_amount_total < $two_brake->amount ? $two_amount_total :    ( $two_amount_total - $new_amount_total - $kyon_amount_total))) }}
+                                {{ number_format($fake_number ? $fake_number->number : ($two_amount_total < ($two_brake ? $two_brake->amount : 99999999999999999999999999) ? $two_amount_total :    ( $two_amount_total - $new_amount_total - $kyon_amount_total))) }}
                             </h5>
                             <a href="#" class="btn btn-dark" onclick="kyonAmountPm()">Clear</a>
                         </div>
