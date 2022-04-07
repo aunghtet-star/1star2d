@@ -28,7 +28,11 @@ class WalletController extends Controller
     public function index()
     {
         PermissionChecker::CheckPermission('view_wallet');
-        $user_wallet = Wallet::where('user_id',Auth::guard('adminuser')->user()->id)->firstOrFail();
+        if(Auth::guard('adminuser')->user()->hasRole('Admin')){
+            $user_wallet = null;
+        }else{
+            $user_wallet = Wallet::where('user_id',Auth::guard('adminuser')->user()->id)->firstOrFail();
+        }
         return view('backend.wallet.index',compact('user_wallet'));
     }
 
