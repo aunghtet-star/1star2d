@@ -114,6 +114,6 @@ class AdminRoleSeeder extends Seeder
              'phone' => '09969861379',
              'password' => 'password'
          ]);
-         $user->assignRole($role1);
+         $user->assignRole($admin_role);
     }
 }
