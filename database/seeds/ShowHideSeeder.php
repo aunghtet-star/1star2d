@@ -29,7 +29,7 @@ class ShowHideSeeder extends Seeder
 
         DB::table('show_hides')->insert([
             'admin_user_id' => '1',
-            'name' => 'showhideform',
+            'name' => 'htaitpaitform',
             'status' => 'show'
         ]);
     }
