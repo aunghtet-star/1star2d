@@ -7,6 +7,7 @@ use App\Http\Controllers;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,9 +29,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Schema::defaultStringLength(100);
+        
         Paginator::useBootstrap();
 
-    
+        
         View::composer('*', function ($view) {
             $unread_noti = 0;
             if (Auth::guard('web')->check()) {
