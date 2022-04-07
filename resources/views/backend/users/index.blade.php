@@ -25,7 +25,6 @@
                     <table class="table table-bordered table-hover" id="users-table">
                         <thead>
                             <th>Name</th>
-                            <th>Email</th>
                             <th>Phone</th>
                             <th>Action</th>
                         </thead>
@@ -51,10 +50,6 @@
                             {
                                 data : "name",
                                 name : "name",
-                            },
-                            {
-                                data : "email",
-                                name : "email",
                             },
                             {
                                 data : "phone",

@@ -12,7 +12,7 @@
                     <div class="card-body ">
                         <div class="d-flex justify-content-between">
                             <p class="mb-1">နေ့စွဲနှင့်အချိန်</p>
-                            <p class="mb-1 small"> mark as read</p>
+                            <p class="mb-1 small">No. {{$notification->data['trx_id']}}</p>
                         </div>
                         <small class="mb-3 text-muted">{{$notification->created_at->format('Y-m-d h:i:s A')}}</small>
                         <p class="mb-2 text-muted text-center">{{$notification->data['title']}}</p>

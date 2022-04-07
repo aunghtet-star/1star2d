@@ -21,7 +21,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <p class="mb-0">သင်၏လက်ကျန်ငွေ </p>
-                        <p class="mb-0">{{Auth()->user()->wallet ? Auth()->user()->wallet->amount : '_'}} ကျပ် </p>
+                        <p class="mb-0">{{Auth()->user()->user_wallet ? Auth()->user()->user_wallet->amount : '_'}} ကျပ် </p>
                     </div>
                 </div>
             </div>

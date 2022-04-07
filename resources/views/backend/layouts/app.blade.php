@@ -144,6 +144,15 @@
             })
             @endif()
 
+            let screenHeight = $(window).height();
+            let currentsideHeight = $('.vertical-nav-menu li a.mm-active').offset().top;
+            console.log(currentsideHeight);
+            if(currentsideHeight > screenHeight*0.8){
+                $('.app-sidebar').animate({
+                    scrollTop : currentsideHeight-100
+                },1000);
+            }
+
             // document.addEventListener('contextmenu',event=>
             // event.preventDefault());
     });

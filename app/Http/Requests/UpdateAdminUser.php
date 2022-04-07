@@ -26,7 +26,6 @@ class UpdateAdminUser extends FormRequest
         return [
             'name' => 'required',
             'phone' => 'required | unique:admin_users,phone,'.$this->id,
-            'email' => 'required | unique:admin_users,email,'.$this->id,
         ];
     }
 }

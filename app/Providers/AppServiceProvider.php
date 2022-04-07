@@ -28,6 +28,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Paginator::useBootstrap();
+
+    
         View::composer('*', function ($view) {
             $unread_noti = 0;
             if (Auth::guard('web')->check()) {

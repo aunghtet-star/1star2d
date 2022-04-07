@@ -21,7 +21,6 @@ class AdminSeeder extends Seeder
             'name' => 'admin',
             'phone' => '09969861379',
             'user_id' => '1',
-            'email' => Str::random(10).'@gmail.com',
             'password' => Hash::make('password'),
         ]);
     }

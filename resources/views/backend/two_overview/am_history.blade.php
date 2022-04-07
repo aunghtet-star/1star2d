@@ -47,19 +47,32 @@
         <div class="col">
             <div class="card overview">
                 <div class="card-body">
-                    @if($two_overviews_am)
-                    <div class="column" >
-                        @foreach($two_overviews_am as $two_transaction)
-                        <div class="d-flex" style="width:100px">
-                            <p class="mb-2 mr-3 ">{{$two_transaction->two }} </p> => <span class="ml-2 @if( ($two_brake->amount ?? 9999999999999999999999) < ($two_transaction->amount - $two_transaction->new_amount))  text-danger @endif">{{number_format($two_transaction->amount - $two_transaction->new_amount)}}</span>
-                            <a href="#" data-id="{{$two_transaction->id}}" id="data_id" onclick="newAmount('{{$two_transaction->two}}')"><span><i class="fas fa-edit ml-3"></i></span></a>
-                            <a href="{{url('/admin/two-overview/twopout/'.$two_transaction->two.'/date='.$date)}}"><span><i class="fas fa-eye ml-3"></i></span></a>
-                        </div>
-                    @endforeach
-                    </div>
-                @endif
+                    @if ($two_overviews_am)
+                            <div class="column">
+                                @foreach ($two_overviews_am as $two_overview_am)
+
+                              
+
+                                    <div class="d-flex" style="width:100px">
+                         
+                                        <p class="mb-2 mr-3 ">{{ $two_overview_am->two }} </p> => <span
+                                            class="ml-2 
+                                        @if (($two_brake->amount ?? 9999999999999999999999) < ($two_overview_am->amount - $two_overview_am->new_amount - $two_overview_am->kyon_amount)) text-danger @endif">
+                                            {{ number_format(($two_overview_am->amount - $two_overview_am->new_amount - $two_overview_am->kyon_amount)) }}</span>
+
+                                        <a href="#" id="data_id" data-id="{{ $two_overview_am->id }}" onclick="newAmount('{{ $two_overview_am->two }}')"><span><i
+                                                    class="fas fa-edit ml-3"></i></span></a>
+
+                                        <a href="{{ url('/admin/two-overview/twopout/' . $two_overview_am->two . '/date=' . $date) }}"><span><i
+                                                    class="fas fa-eye ml-3"></i></span></a>
+
+                                        
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
                 
-                <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($fake_number ? $fake_number->number : ($two_transactions_total - $new_amount_total))}}</h5>
+                <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($fake_number ? $fake_number->number : ($two_amount_total < $two_brake->amount ? $two_amount_total :    ( $two_amount_total - $new_amount_total - $kyon_amount_total)))}}</h5>
                 </div>
             </div>
         </div>
@@ -107,6 +120,22 @@
                             }
                         
                     });
+                    }
+
+                    function kyonAmountAm(){
+
+                    var date = $('.date').val() ?? moment('YYYY-MM-DD');
+
+                    $.ajax({
+                        url : '/admin/two-overview/kyon_amount_am',
+                        method : 'post',
+                        data : {
+                            date : date
+                        },
+                        success : function(res){
+                            window.location.reload();
+                        }
+                    })
                     }
     
 </script>

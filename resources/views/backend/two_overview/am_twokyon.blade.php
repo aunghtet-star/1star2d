@@ -47,28 +47,21 @@
         <div class="col">
             <div class="card">
                 <div class="card-body">
-                    @if($two_transactions)
-                        @php
-                            $total = 0;
-                        @endphp
-                            <div class="column" >
-
-                                @foreach($two_transactions as $two_transaction)
-                                <div class="d-flex" style="width:100px">
-                                            @if( ($two_brake ? $two_brake->amount : 99999999999999999999999999999999999999) < ($two_transaction->amount-$two_transaction->new_amount))
-                                            @php
-                                            $total += ($two_transaction->amount - $two_transaction->new_amount) - $two_brake->amount;
-                                            @endphp
-                                            <p class="mb-2 mr-3 ">{{$two_transaction->two}} </p> => <span class="ml-2 ">
-                                            {{number_format(($two_transaction->amount - $two_transaction->new_amount) - $two_brake->amount) }} 
-                                        </span>
-                                        @endif
-                                </div>
-                            @endforeach
+                    @if($two_overviews_am)
+                        <div class="column" >
+                            @foreach($two_kyons_am as $two_kyon_am)
+                            <div class="d-flex" style="width:100px">
+                                @if (($two_kyon_am->amount - $two_kyon_am->new_amount - $two_kyon_am->new_kyon_amount) > 0)
+                                    <p class="mb-2 mr-3 ">{{$two_kyon_am->two}} </p> => <span class="ml-2 ">
+                                    {{number_format( $two_kyon_am->amount - $two_kyon_am->new_amount - $two_kyon_am->new_kyon_amount) }} 
+                                    </span>
+                                @endif  
                             </div>
-                        @endif
-                        
-                        <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($total)}}</h5>
+                        @endforeach
+                        </div>
+                    @endif
+                
+                <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($fake_number ? $fake_number->number : ($two_kyons_am_total - $two_kyons_new_amount_am_total - $two_kyons_new_kyon_am_total))}}</h5>
                 </div>
             </div>
         </div>

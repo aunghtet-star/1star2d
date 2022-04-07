@@ -13,11 +13,12 @@ class CreateAdminUsersTable extends Migration
      */
     public function up()
     {
+        //user_id column is owner_id column 
+        
         Schema::create('admin_users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->bigInteger('user_id')->nullable();
-            $table->string('email');
             $table->string('phone');
             $table->string('password');
             $table->timestamps();

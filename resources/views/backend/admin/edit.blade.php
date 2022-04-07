@@ -16,6 +16,7 @@
             </div>
         </div>
     </div>
+    @include('frontend.flash')
     <div class="container">
         <div class="card">
             <div class="card-body">
@@ -32,13 +33,9 @@
                         <input type="text" name="phone" value="{{old('phone') ?? $adminuser->phone }}"
                             class="form-control">
                     </div>
-                    <div class="form-group">
-                        <label for="">Email</label>
-                        <input type="email" name="email" value="{{old('email') ?? $adminuser->email}}"
-                            class="form-control">
-                    </div>
 
-                    <div class="form-group">
+
+                    {{-- <div class="form-group">
                         <label for="">ရာထူး</label>
                         <select name="roles[]" class="form-control select-role" multiple>
                             <option value="">Select Role</option>
@@ -47,7 +44,7 @@
                             </option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group">
                         <label for="">Password</label>

@@ -529,7 +529,7 @@
                                 <input type="number" name="amount" class="form-control">
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary m-0 btn-sm" style="font-weight: 700 ">ထိုးမည်</button>
+                        <button type="submit" id="checkBtn" class="btn btn-primary m-0 btn-sm" style="font-weight: 700 ">ထိုးမည်</button>
                   </div>
                 </form>
             </div>
@@ -550,7 +550,8 @@
 <script>
     $(document).ready(function(){
 
-        
+      
+
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -562,6 +563,20 @@
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
             })
+
+            $('#checkBtn').click(function() {
+              checked = $("input[type=checkbox]:checked").length;
+
+              if(!checked) {
+                
+                Toast.fire({
+                icon: 'error',
+                title: 'အနည်းဆုံးတစ်ခုရွေးပေးပါ'
+                })
+                  return false;
+              }
+
+            });
 
             
 

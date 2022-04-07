@@ -13,11 +13,49 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+
+    <!-- Primary Meta Tags -->
+    <title>1star2d.com</title>
+    <meta name="title" content="1star2d.com">
+    <meta name="description" content="Myanmar 2d 3d ထိုးရန် လင့်">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://1star2d.com/">
+    <meta property="og:title" content="1star2d.com">
+    <meta property="og:description" content="Myanmar 2d 3d ထိုးရန် လင့်">
+    <meta property="og:image" content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png">
+
+    @yield('extra_css')
+
+    <style>
+        main {
+            min-height: 100vh;
+            padding: 25px;
+            background-image: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.25),
+                rgba(0, 0, 0, 0.75)
+            );
+        }
+        
+        #app{
+            background: url('https://thumbs.dreamstime.com/b/poker-flush-royal-background-casino-chips-green-table-d-rendering-114800748.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
 </head>
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        {{-- <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -68,7 +106,7 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav> --}}
 
         <main class="py-4">
             @yield('content')
@@ -86,6 +124,7 @@
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js">
     </script>
+    @yield('script')
 </body>
 
 </html>

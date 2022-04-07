@@ -135,19 +135,26 @@
                     <div class="card" style="height: 60vh">
                         <div class="card-body">
                             <h5 class="text-center">History</h5>
-                            <div class="d-flex justify-content-between">
-                                <p class="mb-3 text-muted">Transaction No</p>
-                                <p class="mb-3 text-muted">Amount</p>
-                                <p class="mb-3 text-muted">Time</p>
-                            </div>
-                            @foreach($user_transactions as $user_transaction)
-                            <div class="d-flex justify-content-between">
-                                <p class="mb-1">{{$user_transaction->ref_no}}</p>
-                                <p class="mb-1 @if($user_transaction->type == 2) text-danger @else text-success  @endif">@if($user_transaction->type == 2) - @else + @endif {{number_format($user_transaction->amount)}}</p>
-                                <p class="mb-1">{{$user_transaction->created_at->format('h:i:s A')}}</p>
-                            </div>
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Transaction No</th>
+                                        <th>Amount</th>
+                                        <th>Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($user_transactions as $user_transaction)
+                                    <tr>
+                                        <td>{{$user_transaction->trx_id}}</td>
+                                        <td class="@if($user_transaction->is_deposit == 'bet' || $user_transaction->is_deposit == 'withdraw' ) text-danger @else text-success  @endif"> @if($user_transaction->is_deposit == 'bet' || $user_transaction->is_deposit == 'withdraw') - @else + @endif {{number_format($user_transaction->amount)}}</td>
+                                        <td>{{$user_transaction->created_at->format('h:i:s A')}}</td>
+                                    </tr>
+                                </tbody>
+                                @endforeach
+                            </table>
+
                             <hr>
-                            @endforeach
                         </div>
                     </div>
                 </div>

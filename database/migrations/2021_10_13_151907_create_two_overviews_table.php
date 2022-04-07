@@ -19,6 +19,7 @@ class CreateTwoOverviewsTable extends Migration
             $table->string('two')->nullable();
             $table->date('date')->nullable();
             $table->decimal('amount', 20)->default('0')->nullable();
+            $table->decimal('kyon_amount', 20)->default('0')->nullable();
             $table->decimal('new_amount', 20)->default('0')->nullable();
             $table->timestamps();
         });

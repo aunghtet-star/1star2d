@@ -74,10 +74,12 @@ return [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
+        
         'adminusers' => [
             'driver' => 'eloquent',
             'model' => App\AdminUser::class,
         ],
+        
 
         // 'users' => [
         //     'driver' => 'database',

@@ -20,6 +20,7 @@ class CreateTwoOverviewPMSTable extends Migration
             $table->date('date')->nullable();
             $table->decimal('amount', 20)->default('0')->nullable();
             $table->decimal('new_amount', 20)->default('0')->nullable();
+            $table->decimal('kyon_amount', 20)->default('0')->nullable();
             $table->timestamps();
         });
     }

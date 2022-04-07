@@ -24,6 +24,7 @@ class StoreHtaitPait extends FormRequest
     public function rules()
     {
         return [
+            // 'zerohtait' => 'required_without_all',
             'amount'=>'required'
         ];
     }
@@ -31,6 +32,7 @@ class StoreHtaitPait extends FormRequest
     public function messages()
     {
         return [
+            // 'zerohtait.required_without_all' => 'အနည်းဆုံးတစ်ခုရွေးပေးပါ',
             'amount.required' => 'ထိုးမည့် Amount ကိုဖြည့်သွင်းပါ'
         ];
     }

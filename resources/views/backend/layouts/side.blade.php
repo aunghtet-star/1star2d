@@ -34,7 +34,14 @@
         <div class="app-sidebar__inner">
             <ul class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Dashboards</li>
-                @if('view_admin')
+
+                <li>
+                    <a href="{{route('dashboard.index')}}" class="@yield('dashboard')">
+                        <i class="metismenu-icon pe-7s-display2 text-dark"></i>
+                        <span class="text-dark">Dashboard</span>
+                    </a>
+                </li>
+
                 @can('view_admin')
                 <li>
                     <a href="{{url('admin')}}" class="@yield('admin-users')">
@@ -43,16 +50,36 @@
                     </a>
                 </li>
                 @endcan
-                @endif
                 
+
+                @can('master')
+                <li>
+                    <a href="{{route('master.index')}}" class="@yield('master')">
+                        <i class="metismenu-icon pe-7s-users text-primary"></i>
+                        <span class="text-primary">Master</span>
+                    </a>
+                </li>
+                @endcan
+
+                @can('agent')
+                <li>
+                    <a href="{{route('agent.index')}}" class="@yield('agent')">
+                        <i class="metismenu-icon pe-7s-users text-primary"></i>
+                        <span class="text-primary">Agent</span>
+                    </a>
+                </li>
+                @endcan
+                
+
+                @can('user')
                 <li>
                     <a href="{{route('users.index')}}" class="@yield('users')">
                         <i class="metismenu-icon pe-7s-users text-primary"></i>
                         <span class="text-primary">Users</span>
                     </a>
                 </li>
+                @endcan 
 
-                @if('view_role')
                 @can('view_role')
                 <li>
                     <a href="{{route('roles.index')}}" class="@yield('roles')">
@@ -61,9 +88,7 @@
                     </a>
                 </li>
                  @endcan
-                @endif
 
-                @if('view_permission')
                 @can('view_permission')
                 <li>
                     <a href="{{route('permissions.index')}}" class="@yield('permissions')">
@@ -72,20 +97,23 @@
                     </a>
                 </li>
                 @endcan
-                @endif
 
+                @can('two')
                 <li>
                     <a href="{{route('two.index')}}" class="@yield('2D')">
                         <i class="metismenu-icon fas fa-stopwatch-20 text-success"></i>
                         <span class="text-success">2D</span>
                     </a>
                 </li>
+                @endcan
+                
                 {{-- <li>
                     <a href="{{route('two-overview.index')}}" class="@yield('2D-over')">
                         <i class="metismenu-icon pe-7s-note2"></i>
                         2D Overview
                     </a>
                 </li> --}}
+                @can('two_overview')
                 <li>
                     <a href="{{route('two-overview.am_history')}}" class="@yield('2D-over-history-am')">
                         <i class="metismenu-icon fas fa-stopwatch-20 text-warning"></i>
@@ -99,7 +127,9 @@
                         <span class="text-success">2D overview PM</span>
                     </a>
                 </li>
-
+                @endcan
+                
+                @can('two_kyon')
                 <li>
                     <a href="{{route('two-overview.kyon-am')}}" class="@yield('2D-over-kyon-am')">
                         <i class="metismenu-icon fas fa-stopwatch-20 text-warning"></i>
@@ -113,27 +143,38 @@
                         <span class="text-success">2D ကျွံ PM</span>
                     </a>
                 </li>
+                @endcan
+                
 
+                @can('three')
                 <li>
                     <a href="{{route('three.index')}}" class="@yield('3D')">
                         <i class="metismenu-icon fa-duotone fa-3">d</i>
                         <span class="text-danger">3D</span>
                     </a>
                 </li>
+                @endcan
+               
 
+                @can('three_overview')
                 <li>
                     <a href="{{route('three-overview.history')}}" class="@yield('3D-over-history')">
                         <i class="metismenu-icon fa-duotone fa-3 text-dark">d</i>
                         <span class="text-warning">3D overview</span>
                     </a>
                 </li>
+                @endcan
+                
 
+                @can('three_kyon')
                 <li>
                     <a href="{{route('three-overview.kyon')}}" class="@yield('3D-over-kyon')">
                         <i class="metismenu-icon fa-duotone fa-3 text-dark">d</i>
                         <span class="text-warning">3D ကျွံ</span>
                     </a>
                 </li>
+                @endcan
+               
 
                 {{-- <li>
                     <a href="{{route('amountbreaks.index')}}" class="@yield('break_number')">
@@ -142,15 +183,17 @@
                     </a>
                 </li> --}}
 
+                @can('brake')
                 <li>
                     <a href="{{route('allbreakwithamount.index')}}" class="@yield('allbreakwithamount')">
                         <i class="metismenu-icon fas fa-hand-paper text-dark"></i>
                         <span class="text-danger">ဘရိတ်ပမာဏ</span>
                     </a>
                 </li>
+                @endcan
+                
 
 
-                @if('view_wallet')
                 @can('view_wallet')
                 <li>
                     <a href="{{route('wallet.index')}}" class="@yield('wallet')">
@@ -159,32 +202,44 @@
                     </a>
                 </li>
                 @endcan
-                @endif
 
-                @if('view_profile')
-                @can('view_profile')
-                <li>
-                    <a href="{{route('profile')}}" class="@yield('profile')">
-                        <i class="metismenu-icon fas fa-user text-dark"></i>
-                        <span class="text-primary">Profile</span>
-                    </a>
+               @can('wallet_history')
+               <li>
+                <a href="{{route('history.index')}}" class="@yield('history')">
+                    <i class="metismenu-icon fas fa-coins text-dark"></i>
+                    <span class="text-danger">History</span>
+                </a>
                 </li>
-                @endcan
-                @endif
+               @endcan
 
+               @can('bet_history')
+               <li>
+                <a href="{{route('bet_history.index')}}" class="@yield('bet-history')">
+                    <i class="metismenu-icon fas fa-coins text-dark"></i>
+                    <span class="text-success">Bet History</span>
+                </a>
+                </li>
+               @endcan
+                
+
+                @can('fake_number')
                 <li>
                     <a href="{{route('fake_number.index')}}" class="@yield('fake_number')">
                         <i class="metismenu-icon fas fa-user text-dark"></i>
                         <span class="text-primary">Fake Number</span>
                     </a>
-                </li>   
-
+                </li> 
+                @endcan
+                 
+                @can('real_number')
                 <li>
                     <a href="{{route('real_number')}}" class="@yield('real_number')">
                         <i class="metismenu-icon fas fa-user text-dark"></i>
                         <span class="text-primary">Real Number</span>
                     </a>
                 </li>   
+                @endcan
+                
 
                 <li class="mt-5">
                     <a class="dropdown-item bg-warning text-dark" href="{{ route('logout') }}" 
@@ -206,3 +261,11 @@
         </div>
     </div>
 </div>
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+
+           
+        })
+    </script>
+@endsection

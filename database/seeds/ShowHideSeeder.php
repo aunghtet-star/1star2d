@@ -17,7 +17,19 @@ class ShowHideSeeder extends Seeder
     {
         DB::table('show_hides')->insert([
             'admin_user_id' => '1',
+            'name' => 'twoform',
+            'status' => 'show'
+        ]);
+
+        DB::table('show_hides')->insert([
+            'admin_user_id' => '1',
             'name' => 'threeform',
+            'status' => 'show'
+        ]);
+
+        DB::table('show_hides')->insert([
+            'admin_user_id' => '1',
+            'name' => 'showhideform',
             'status' => 'show'
         ]);
     }

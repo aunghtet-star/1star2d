@@ -6,7 +6,9 @@ use App\Two;
 use App\Wallet;
 use App\ShowHide;
 use App\AdminUser;
+use App\BetHistory;
 use App\Transaction;
+use App\WalletHistory;
 use App\AllBrakeWithAmount;
 use Illuminate\Http\Request;
 use App\Helpers\UUIDGenerator;
@@ -21,7 +23,7 @@ class HtaitPaitController extends Controller
 {
     public function index()
     {
-        $htaitpaitform = ShowHide::where('name', 'htaitpaitform')->where('admin_user_id', Auth::guard('web')->user()->admin_user_id)->first();
+        $htaitpaitform = ShowHide::where('name', 'htaitpaitform')->first();
         
         return view('frontend.two.htaitpait', compact('htaitpaitform'));
     }
@@ -225,7 +227,7 @@ class HtaitPaitController extends Controller
             $brothers =  explode('-', $request->brother);
         }
 
-        $from_account_wallet = Auth()->user()->wallet;
+        $from_account_wallet = Auth()->user()->user_wallet;
         $to_account = AdminUser::where('id', Auth()->user()->admin_user_id)->first();
         $to_account_wallet = Wallet::where('admin_user_id', $to_account->id)->where('status', 'admin')->first();
         
@@ -581,13 +583,14 @@ class HtaitPaitController extends Controller
         $apuus = $request->apuus;
 
 
-        $from_account_wallet = Auth()->user()->wallet;
+        $from_account_wallet = Auth()->user()->user_wallet;
         $to_account = AdminUser::where('id', Auth()->user()->admin_user_id)->first();
         $to_account_wallet = Wallet::where('admin_user_id', $to_account->id)->where('status', 'admin')->first();
         
         $totals = 0;
        
         //-------------- insufficient condition for  htait---------------
+
         if ($zerohtaits) {
             foreach ($zerohtaits as $key=>$zerohtait) {
                 $totals += $request->amount;
@@ -881,9 +884,7 @@ class HtaitPaitController extends Controller
             // -------------------- MOney From User to Admin  -------------------
             $from_account_wallet->decrement('amount', $totals);
             $from_account_wallet->update();
-        
-            $to_account_wallet->increment('amount', $totals);
-            $to_account_wallet->update();
+
             
 
             // -------------------- Store Htait -------------------
@@ -1091,36 +1092,54 @@ class HtaitPaitController extends Controller
                 HtaitPaitForeach::htaitpait($brothers, $amount);
             }
             
+            $history = new WalletHistory();
+            $history->admin_user_id = Auth()->user()->admin_user_id;
+            $history->user_id = Auth()->user()->id;
+            $history->trx_id = UUIDGenerator::TrxId();
+            $history->amount = $totals;
+            $history->is_deposit = 'bet';
+            $history->status = 'user';
+            $history->date = now()->format('Y-m-d H:i:s');
+            $history->save();
+
+            $bet_history = new BetHistory();
+            $bet_history->admin_user_id = Auth()->user()->admin_user_id;
+            $bet_history->user_id = Auth()->user()->id;
+            $bet_history->trx_id = UUIDGenerator::TrxId();
+            $bet_history->is_deposit = 'bet';
+            $bet_history->type = '2D';
+            $bet_history->amount = $totals;
+            $bet_history->date =  now()->format('Y-m-d H:i:s');
+            $bet_history->save();
+
+            // $ref_no = UUIDGenerator::RefNumber();
+
+            // $transactions = new Transaction();
+            // $transactions->ref_no = $ref_no;
+            // $transactions->trx_id = UUIDGenerator::TrxId();
+            // $transactions->user_id = Auth()->user()->id;
+            // $transactions->source_id = $to_account_wallet->id;
+            // $transactions->type = 2;
+            
+            // $transactions->amount = $totals;
+            // $transactions->save();
             
 
-            $ref_no = UUIDGenerator::RefNumber();
-
-            $transactions = new Transaction();
-            $transactions->ref_no = $ref_no;
-            $transactions->trx_id = UUIDGenerator::TrxId();
-            $transactions->user_id = Auth()->user()->id;
-            $transactions->source_id = $to_account_wallet->id;
-            $transactions->type = 2;
-            
-            $transactions->amount = $totals;
-            $transactions->save();
-            
-
-            $transactions = new Transaction();
-            $transactions->ref_no = $ref_no;
-            $transactions->trx_id = UUIDGenerator::TrxId();
-            $transactions->user_id = $to_account_wallet->id;
-            $transactions->source_id = Auth()->user()->id;
-            $transactions->type = 1;
+            // $transactions = new Transaction();
+            // $transactions->ref_no = $ref_no;
+            // $transactions->trx_id = UUIDGenerator::TrxId();
+            // $transactions->user_id = $to_account_wallet->id;
+            // $transactions->source_id = Auth()->user()->id;
+            // $transactions->type = 1;
            
-            $transactions->amount = $totals;
-            $transactions->save();
+            // $transactions->amount = $totals;
+            // $transactions->save();
             
             DB::commit();
             return redirect('two/htaitpait')->with('create', 'Done');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect('/')->withErrors(['fail' => 'Something wrong']);
+            return redirect('/two/htaitpait')->withErrors(['fail' => 'Something wrong']);
         }
     }
 }

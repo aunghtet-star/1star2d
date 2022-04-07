@@ -26,7 +26,6 @@ class StoreAdminUser extends FormRequest
         return [
             'name' => 'required',
             'phone' => 'required | unique:admin_users,phone',
-            'email' => 'required | unique:admin_users,email',
             'password' => 'required | min:6 | max:20'
         ];
     }

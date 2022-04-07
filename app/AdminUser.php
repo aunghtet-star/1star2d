@@ -19,7 +19,7 @@ class AdminUser extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','phone'
+        'name','password','phone','user_id'
     ];
 
     /**
@@ -30,6 +30,7 @@ class AdminUser extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
 
     /**
      * The attributes that should be cast to native types.
@@ -47,6 +48,8 @@ class AdminUser extends Authenticatable
 
     public function wallet()
     {
-        return $this->hasOne('App\Wallet', 'admin_user_id', 'id');
+        return $this->hasOne('App\Wallet','user_id');
     }
+
+    
 }

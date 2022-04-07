@@ -29,8 +29,6 @@
                         <thead>
                             <th>Name</th>
                             <th>Phone</th>
-                            <th>Email</th>
-                            <th>ရာထူး</th>
                             <th>Action</th>
                         </thead>
                         <tbody>
@@ -59,14 +57,6 @@
                             {
                                 data : "phone",
                                 name : "phone",
-                            },
-                            {
-                                data : "email",
-                                name : "email",
-                            },
-                            {
-                                data : "role",
-                                name : "role",
                             },
                             {
                                 data : "action",

@@ -33,8 +33,8 @@
         <div class="col">
             <div class="card overview">
                 <div class="card-body">
-                <h5 class="text-success mb-5" style="font-weight: 700">Total amount AM => {{number_format($two_transactions_total_am - $new_amount_total_am)}}</h5>
-                <h5 class="text-success" style="font-weight: 700">Total amount PM => {{number_format($two_transactions_total_pm - $new_amount_total_pm)}}</h5>
+                <h5 class="text-success mb-5" style="font-weight: 700">Total amount AM => {{number_format($two_amount_total_am < $two_brake->amount ? $two_amount_total_am :    ( $two_amount_total_am - $new_amount_total_pm - $kyon_amount_total_am))}}</h5>
+                <h5 class="text-success" style="font-weight: 700">Total amount PM => {{number_format($two_amount_total_pm < $two_brake->amount ? $two_amount_total_pm :    ( $two_amount_total_pm - $new_amount_total_pm - $kyon_amount_total_pm))}}</h5>
                 </div>
             </div>
         </div>

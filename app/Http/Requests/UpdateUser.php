@@ -27,7 +27,6 @@ class UpdateUser extends FormRequest
         return [
             'name' => 'required',
             'phone' => 'required | unique:users,phone,'.$id,
-            'email' => 'required | unique:users,email,'.$id,
         ];
     }
 }

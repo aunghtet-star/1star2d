@@ -36,7 +36,7 @@ class AdminLoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest:adminuser')->except('logout');
     }
 
     protected function guard()
@@ -52,5 +52,10 @@ class AdminLoginController extends Controller
     public function username()
     {
         return 'phone';
+    }
+
+    protected function authenticated()
+    {
+        return redirect($this->redirectTo);
     }
 }

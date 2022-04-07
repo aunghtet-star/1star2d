@@ -23,11 +23,13 @@
             </button>
         </span>
            
-        
+    
     </div>
+
+    @can('show_hide')
     <form action="{{url('admin/two/showhide')}}" method="POST">
         @csrf
-        @if($twoform->status == 'hide')
+        @if($twoform ? $twoform->status == 'hide' : null)
         <button class="btn btn-danger btn-sm mr-3" type="submit">2D</button>
         @else
         <button class="btn btn-success btn-sm mr-3" type="submit">2D</button>
@@ -36,7 +38,7 @@
 
     <form action="{{url('admin/htaitpait/showhide')}}" method="POST">
         @csrf
-        @if($htaitpaitform->status == 'hide')
+        @if($htaitpaitform ? $htaitpaitform->status == 'hide' : null)
         <button class="btn btn-danger btn-sm mr-3" type="submit" style="font-weight: 700">မြန်ထိုး</button>
         @else
         <button class="btn btn-success btn-sm mr-3" type="submit" style="font-weight: 700">မြန်ထိုး</button>
@@ -45,12 +47,14 @@
 
     <form action="{{url('admin/three/showhide')}}" method="POST">
         @csrf
-        @if($threeform->status == 'hide')
+        @if($threeform ? $threeform->status == 'hide' : null)
         <button class="btn btn-danger btn-sm mr-3" type="submit">3D</button>
         @else
         <button class="btn btn-success btn-sm mr-3" type="submit">3D</button>
         @endif
     </form>
+    @endcan
+    
 
     <div class="app-header__content">
 
