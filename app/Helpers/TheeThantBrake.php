@@ -8,10 +8,14 @@ class TheeThantBrake
 {
     public static function DigitBrake($datas,$digits,$amount){
         foreach ($datas as $data) {
-            if (strlen($data) == '2' ){
+
+            if (strlen($data->two) == '2' ){
                 $break_amount = Amountbreak::select('amount')->where('closed_number', $data->two)->where('type','2D')->first();
                 $break_number = Amountbreak::select('closed_number')->where('closed_number', $data->two)->where('type','2D')->first();
-            }else{
+
+            }
+
+            if (strlen($data->three) == '3'){
                 $break_amount = Amountbreak::select('amount')->where('closed_number', $data->three)->where('type','3D')->first();
                 $break_number = Amountbreak::select('closed_number')->where('closed_number', $data->three)->where('type','3D')->first();
             }

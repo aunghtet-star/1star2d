@@ -43,14 +43,27 @@
                                 $total += $amount;
                             @endphp --}}
                         @endforeach
-                        @foreach ($r_keys ?? [] as $r_key)
-                            <input type="hidden" name="r_key[]" value="{{$r_key}}" >
-                        @endforeach
-                        @foreach($reverse_two ?? [] as $key=>$r_two)
-                        <input type="hidden" name="r_two[]" value="{{$r_two}}" >
-                        <p class="mb-1">{{$r_two}} => <span class="mb-1">{{$amount[$key]}}</span> </p>
 
-                        @endforeach
+                            @foreach ($r_keys ?? [] as $r_key)
+                                <input type="hidden" name="r_key[]" value="{{$r_key}}" >
+                                <input type="hidden" name="r_amount[]" value="{{$amount[$r_key]}}" >
+                            @endforeach
+
+                            <div class="d-flex justify-content-center">
+                                <div>
+                                    @foreach($reverse_two ?? [] as $key=>$r_two)
+                                        <input type="hidden" name="r_two[]" value="{{$r_two}}" >
+                                        <p class="mb-1">{{$r_two}} =>  &nbsp;</p>
+                                    @endforeach
+                                </div>
+                                <div>
+                                    @foreach($r_amount as $r)
+                                        <p class="mb-1">
+                                            {{$r}}
+                                        </p>
+                                    @endforeach
+                                </div>
+                            </div>
 
                         </div>
                         <p class="text-success" style="font-size: 20px;font-weight:700">စုစုပေါင်း -

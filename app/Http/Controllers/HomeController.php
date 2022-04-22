@@ -54,6 +54,7 @@ class HomeController extends Controller
 
     public function twoconfirm(Request $request)
     {
+        //dd($request->all());
         $from_account_wallet = Auth()->user()->user_wallet;
 
         // R ဂဏန်းများ function
@@ -69,6 +70,7 @@ class HomeController extends Controller
                 }
             }
         }
+
 
         foreach ($request->amount as $key=>$amount) {
             if (!is_null($request->r)) {
@@ -94,6 +96,13 @@ class HomeController extends Controller
         $amount = $request->amount;
         $r_keys = $request->r;
         $total;
+
+
+        $r_amount = [];
+       foreach ($r_keys ?? [] as $r_key){
+           $r_amount[] = $amount[$r_key];
+       }
+
 
         //brake number condition
 
@@ -169,32 +178,29 @@ class HomeController extends Controller
             ])->withInput();
         }
 
-        return view('frontend.two.twoconfirm', compact('user_id', 'date', 'twos', 'amount', 'total', 'reverse_two', 'r_keys'));
+        return view('frontend.two.twoconfirm', compact('user_id', 'date', 'twos', 'amount', 'total', 'reverse_two', 'r_keys','r_amount'));
 
     }
 
     public function two(Request $request)
     {
+
         $from_account_wallet = Auth()->user()->user_wallet;
 
         $total = 0;
 
-
-        foreach ($request->amount as $key=>$amount) {
-            if (!is_null($request->r_key)) {
-                foreach ($request->r_key as $r_key) {
-                    if ($key == $r_key) {
-                        $total += $amount;
-                    }
-                }
+        foreach ($request->amount ?? [] as $key=>$amount) {
+                $total += $amount;
             }
 
-            $total += $amount;
-
-            if ($from_account_wallet->amount < $total) {
-                return redirect('/two')->withErrors(['fail' => 'You have no sufficient balance']);
+        foreach ($request->r_amount ?? [] as $key=>$amount) {
+                $total += $amount;
             }
+
+        if ($from_account_wallet->amount < $total) {
+            return redirect('/two')->withErrors(['fail' => 'You have no sufficient balance']);
         }
+
 
         DB::beginTransaction();
 
@@ -215,7 +221,7 @@ class HomeController extends Controller
                 $two->admin_user_id = Auth()->user()->admin_user_id;
                 $two->date = now()->format('Y-m-d');
                 $two->two = $twor;
-                $two->amount = $request->amount[$key];
+                $two->amount = $request->r_amount[$key];
                 $two->save();
             }
 

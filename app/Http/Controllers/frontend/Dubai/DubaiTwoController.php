@@ -67,6 +67,11 @@ class DubaiTwoController extends Controller
         $r_keys = $request->r;
         $total;
 
+        $r_amount = [];
+        foreach ($r_keys ?? [] as $r_key){
+            $r_amount[] = $amount[$r_key];
+        }
+
         //brake number condition
 
         $breakNumbers = Amountbreak::select('closed_number')->where('type', 'Dubai_2D')->get();
@@ -140,7 +145,7 @@ class DubaiTwoController extends Controller
             ])->withInput();
         }
 
-        return view('frontend.dubai-two.twoconfirm', compact('user_id', 'date', 'twos', 'amount', 'total', 'reverse_two', 'r_keys'));
+        return view('frontend.dubai-two.twoconfirm', compact('user_id', 'date', 'twos', 'amount', 'total', 'reverse_two', 'r_keys','r_amount'));
 
     }
 
@@ -151,21 +156,19 @@ class DubaiTwoController extends Controller
         $total = 0;
 
 
-        foreach ($request->amount as $key=>$amount) {
-            if (!is_null($request->r_key)) {
-                foreach ($request->r_key as $r_key) {
-                    if ($key == $r_key) {
-                        $total += $amount;
-                    }
-                }
-            }
-
+        foreach ($request->amount ?? [] as $key=>$amount) {
             $total += $amount;
-
-            if ($from_account_wallet->amount < $total) {
-                return redirect('/dubai-two')->withErrors(['fail' => 'You have no sufficient balance']);
-            }
         }
+
+        foreach ($request->r_amount ?? [] as $key=>$amount) {
+            $total += $amount;
+        }
+
+
+        if ($from_account_wallet->amount < $total) {
+            return redirect('/dubai-two')->withErrors(['fail' => 'You have no sufficient balance']);
+        }
+
 
         DB::beginTransaction();
 
@@ -186,7 +189,7 @@ class DubaiTwoController extends Controller
                 $two->admin_user_id = Auth()->user()->admin_user_id;
                 $two->date = now()->format('Y-m-d');
                 $two->two = $twor;
-                $two->amount = $request->amount[$key];
+                $two->amount = $request->r_amount[$key];
                 $two->save();
             }
 
