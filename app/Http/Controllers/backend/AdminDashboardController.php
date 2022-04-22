@@ -20,7 +20,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreAdminUser;
 use App\Http\Requests\UpdateAdminUser;
-use App\Http\Controllers\backend\AdminDashboardController;
 
 class AdminDashboardController extends Controller
 {
@@ -29,7 +28,7 @@ class AdminDashboardController extends Controller
         PermissionChecker::CheckPermission('view_admin');
         $adminusers = AdminUser::all();
         return view('backend.admin.index', compact('adminusers'));
-        
+
     }
 
     public function ssd()
@@ -44,21 +43,21 @@ class AdminDashboardController extends Controller
         })
         ->addColumn('action', function ($each) {
             PermissionChecker::CheckPermission('edit_admin');
-            $edit_icon = '<a href="'.url('admin/'.$each->id.'/edit').'" class="text-warning"><i class="fas fa-user-edit"></i></a>';
-            
+            $edit_icon = '<a href="'.url('admin/admin-user/'.$each->id.'/edit').'" class="text-warning"><i class="fas fa-user-edit"></i></a>';
+
 
             // if (Auth()->user()->can('delete_admin')) {
             //     //$delete_icon = '<a href="'.url('admin/'.$each->id).'" data-id="'.$each->id.'" class="text-danger" id="delete"><i class="fas fa-trash"></i></a>';
             // } else {
             //     return abort(404);
             // }
-           
+
             return '<div class="action-icon">'.$edit_icon .'</div>';
         })
         ->rawColumns(['role','action'])
         ->make(true);
     }
-    
+
     public function create()
     {
             PermissionChecker::CheckPermission('create_admin');
@@ -104,37 +103,21 @@ class AdminDashboardController extends Controller
             $roles = Role::all();
             $old_roles = $adminuser->roles->pluck('name')->toArray();
             return view('backend.admin.edit', compact('adminuser', 'roles', 'old_roles'));
-        
+
     }
 
     public function update(UpdateAdminUser $request, $id)
     {
-        DB::beginTransaction();
 
-        try {
             $adminuser = AdminUser::findOrFail($id);
-
             $adminuser->name = $request->name;
             $adminuser->phone = $request->phone;
-    
-            $adminuser->syncRoles($request->roles);
             $adminuser->password = $request->password ? Hash::make($request->password) : $adminuser->password ;
+            $adminuser->assignRole('Admin');
             $adminuser->update();
-            
-            Wallet::firstOrCreate([
-                'user_id' => $adminuser->id
-            ], [
-                'admin_user_id' => $adminuser->id,
-                'account_numbers' => UUIDGenerator::AccountNumber(),
-                'amount' => 0,
-                'status' => 'admin'
-            ]);
-            DB::commit();
-            return redirect('/admin')->with('update', 'Updated Successfully');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect('/admin/create')->withErrors(['fail'=>'something wrong'.$e->getMessage()]);
-        }
+
+            return redirect('/admin/admin-user')->with('update', 'Updated Successfully');
+
     }
 
     public function destroy($id)

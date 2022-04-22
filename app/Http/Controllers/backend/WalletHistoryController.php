@@ -14,24 +14,24 @@ class WalletHistoryController extends Controller
     public function index()
     {
         PermissionChecker::CheckPermission('wallet_history');
-        
+
         return view('backend.history.index');
     }
 
     public function ssd()
     {
         $user = Auth::guard('adminuser')->user();
-        
+
         if($user->hasRole('Admin') ){
-            $wallet_hisotry = WalletHistory::where('status','master')->where('admin_user_id',Auth::guard('adminuser')->user()->id)->limit(10);
+            $wallet_hisotry = WalletHistory::where('type','master')->where('admin_user_id',Auth::guard('adminuser')->user()->id)->limit(10);
         }
 
         if($user->hasRole('Master') ){
-            $wallet_hisotry = WalletHistory::where('status','agent')->where('admin_user_id',Auth::guard('adminuser')->user()->id)->limit(10);
+            $wallet_hisotry = WalletHistory::where('type','agent')->where('admin_user_id',Auth::guard('adminuser')->user()->id)->limit(10);
         }
 
         if($user->hasRole('Agent') ){
-            $wallet_hisotry = WalletHistory::where('status','user')->where('admin_user_id',Auth::guard('adminuser')->user()->id)->limit(10);
+            $wallet_hisotry = WalletHistory::where('type','user')->where('admin_user_id',Auth::guard('adminuser')->user()->id)->limit(10);
         }
 
         if($user->hasRole('Admin') || $user->hasRole('Master') ){
@@ -51,7 +51,7 @@ class WalletHistoryController extends Controller
                 });
             });
         }
-        
+
         return $data->addColumn('type', function ($each) {
             if ($each->is_deposit == 'deposit' || $each->is_deposit == 'bet') {
                 return '<span class="badge badge-success p-2"> '.$each->is_deposit.'</span>';

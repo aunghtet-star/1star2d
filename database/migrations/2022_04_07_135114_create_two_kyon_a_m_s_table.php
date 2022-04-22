@@ -19,7 +19,7 @@ class CreateTwoKyonAMSTable extends Migration
             $table->string('two');
             $table->integer('amount')->default(0);
             $table->integer('new_amount')->default(0);
-            $table->integer('new_kyon_amount')->default(0);
+            $table->integer('kyon_amount')->default(0);
             $table->date('date');
             $table->timestamps();
         });

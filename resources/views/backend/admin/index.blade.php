@@ -18,7 +18,7 @@
     </div>
     @if('create_admin')
     @can('create_admin')
-    <a href="{{url('admin/create')}}" class="btn btn-success mb-3 ml-3"><i class="fas fa-circle-plus"></i> Create</a>
+    <a href="{{url('admin/admin-user/create')}}" class="btn btn-success mb-3 ml-3"><i class="fas fa-circle-plus"></i> Create</a>
     @endcan
     @endif
     <div class="container p-0">
@@ -47,9 +47,9 @@
             var table = $('#adminusers-table').DataTable({
                         "processing": true,
                         "serverSide": true,
-                        "ajax": "admin/admin/datatables/ssd",
+                        "ajax": "/admin/admin-user/datatables/ssd",
                         "columns" : [
-                            
+
                             {
                                 data : "name",
                                 name : "name",
@@ -88,7 +88,7 @@
                                 }).then((result) => {
                                 if (result.isConfirmed) {
                                     $.ajax({
-                                        url : "admin/delete/"+id,
+                                        url : "/admin/admin-user/delete/"+id,
                                         type : "DELETE",
                                         success : function(){
                                             table.ajax.reload();
@@ -103,8 +103,8 @@
                                     )
                                 }
                                 })
-                      });    
+                      });
        });
-    
+
 </script>
 @endsection

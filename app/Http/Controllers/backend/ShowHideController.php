@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\Helpers\ForShowHideStatus;
 use App\ShowHide;
 use Illuminate\Http\Request;
 use App\Helpers\PermissionChecker;
@@ -13,35 +14,14 @@ class ShowHideController extends Controller
     public function TwoShowHide()
     {
         PermissionChecker::CheckPermission('show_hide');
-        $twoform = ShowHide::where('name', 'twoform')->first();
-
-        if ($twoform->status == 'show') {
-            $twoform->update([
-            'status' => 'hide'
-        ]);
-        } else {
-            $twoform->update([
-                'status' => 'show'
-            ]);
-        }
-
+        ForShowHideStatus::Status('twoform');
         return back();
     }
 
     public function HtaitPaitShowHide()
     {
         PermissionChecker::CheckPermission('show_hide');
-        $htaitpaitform = ShowHide::where('name', 'htaitpaitform')->first();
-
-        if ($htaitpaitform->status == 'show') {
-            $htaitpaitform->update([
-            'status' => 'hide'
-        ]);
-        } else {
-            $htaitpaitform->update([
-                'status' => 'show'
-            ]);
-        }
+        ForShowHideStatus::Status('htaitpaitform');
 
         return back();
     }
@@ -49,18 +29,21 @@ class ShowHideController extends Controller
     public function ThreeShowHide()
     {
         PermissionChecker::CheckPermission('show_hide');
-        $threeform = ShowHide::where('name', 'threeform')->first();
+        ForShowHideStatus::Status('threeform');
+        return back();
+    }
 
-        if ($threeform->status == 'show') {
-            $threeform->update([
-            'status' => 'hide'
-        ]);
-        } else {
-            $threeform->update([
-                'status' => 'show'
-            ]);
-        }
+    public function DubaiTwoShowHide()
+    {
+        PermissionChecker::CheckPermission('show_hide');
+        ForShowHideStatus::Status('dubai_twoform');
+        return back();
+    }
 
+    public function DubaiHtaitPaitShowHide()
+    {
+        PermissionChecker::CheckPermission('show_hide');
+        ForShowHideStatus::Status('dubai_htaitpaitform');
         return back();
     }
 }

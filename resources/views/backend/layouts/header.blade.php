@@ -22,8 +22,8 @@
                 </span>
             </button>
         </span>
-           
-    
+
+
     </div>
 
     @can('show_hide')
@@ -53,8 +53,26 @@
         <button class="btn btn-success btn-sm mr-3" type="submit">3D</button>
         @endif
     </form>
+
+    <form action="{{url('admin/dubai-two/showhide')}}" method="POST">
+        @csrf
+        @if($dubai_twoform ? $dubai_twoform->status == 'hide' : null)
+            <button class="btn btn-danger btn-sm mr-3" type="submit">Dubai2D</button>
+        @else
+            <button class="btn btn-success btn-sm mr-3" type="submit">Dubai2D</button>
+        @endif
+    </form>
+
+    <form action="{{url('admin/dubai-htaitpait/showhide')}}" method="POST">
+        @csrf
+        @if($dubai_htaitpaitform ? $dubai_htaitpaitform->status == 'hide' : null)
+            <button class="btn btn-danger btn-sm mr-3" type="submit" style="font-weight: 700">Dubaiမြန်ထိုး</button>
+        @else
+            <button class="btn btn-success btn-sm mr-3" type="submit" style="font-weight: 700">Dubaiမြန်ထိုး</button>
+        @endif
+    </form>
     @endcan
-    
+
 
     <div class="app-header__content">
 
@@ -85,7 +103,7 @@
                                     </form>
                                 </div> --}}
                             </div>
-                            
+
                         </div>
                         <div class="widget-content-left  ml-3 header-user-info">
                             <div class="widget-heading">

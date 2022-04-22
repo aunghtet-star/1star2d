@@ -27,9 +27,9 @@
                         <input type="text" class="form-control date" value="{{request()->date ?? now()->format('Y-m-d')}}" placeholder="All">
                     </div>
                 </div>
-                
+
             </div>
-            
+
             <div class="row mb-3">
                 <div class="col-md-6">
                     <div class="card" style="height : 70vh">
@@ -98,7 +98,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
@@ -108,7 +108,173 @@
                 </div>
             </div>
 
+            <div class="row mb-3">
+                <div class="col-xl-6">
+                    <div class="card" style="height : 70vh">
+                        <div class="card-body">
+                            <h6 class="text-center">Dubai 11AM</h6>
+                            @foreach($dubai_twos_11am as $dubai_two)
+                                <div class="row">
+                                    <div class="col-6 pl-5">
+                                        <p class="mb-1">{{ $dubai_two->two }} => <span>{{$dubai_two->amount}} </span></p>
+                                    </div>
+                                    <div class="col-6 text-center">
+                                        <p class="mb-1">{{$dubai_two->created_at->format('h:i:s A')}}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
 
+                <div class="col-xl-6">
+                    <div class="card" style="height : 70vh">
+                        <div class="card-body">
+                            <h6 class="text-center">Dubai 1PM</h6>
+                            @foreach($dubai_twos_1pm as $dubai_two)
+                                <div class="row">
+                                    <div class="col-6 pl-5">
+                                        <p class="mb-1">{{ $dubai_two->two }} => <span>{{$dubai_two->amount}} </span></p>
+                                    </div>
+                                    <div class="col-6 text-center">
+                                        <p class="mb-1">{{$dubai_two->created_at->format('h:i:s A')}}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="mb-0 text-success">Total amount => <span>{{number_format($dubai_twos_11am_sum)}}</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="mb-0 text-success">Total amount => <span>{{number_format($dubai_twos_1pm_sum)}}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-xl-6">
+                    <div class="card" style="height : 70vh">
+                        <div class="card-body">
+                            <h6 class="text-center">Dubai 3PM</h6>
+                            @foreach($dubai_twos_3pm as $dubai_two)
+                                <div class="row">
+                                    <div class="col-6 pl-5">
+                                        <p class="mb-1">{{ $dubai_two->two }} => <span>{{$dubai_two->amount}} </span></p>
+                                    </div>
+                                    <div class="col-6 text-center">
+                                        <p class="mb-1">{{$dubai_two->created_at->format('h:i:s A')}}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6">
+                    <div class="card" style="height : 70vh">
+                        <div class="card-body">
+                            <h6 class="text-center">Dubai 5PM</h6>
+                            @foreach($dubai_twos_5pm as $dubai_two)
+                                <div class="row">
+                                    <div class="col-6 pl-5">
+                                        <p class="mb-1">{{ $dubai_two->two }} => <span>{{$dubai_two->amount}} </span></p>
+                                    </div>
+                                    <div class="col-6 text-center">
+                                        <p class="mb-1">{{$dubai_two->created_at->format('h:i:s A')}}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="mb-0 text-success">Total amount => <span>{{number_format($dubai_twos_3pm_sum)}}</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="mb-0 text-success">Total amount => <span>{{number_format($dubai_twos_5pm_sum)}}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-xl-6">
+                    <div class="card" style="height : 70vh">
+                        <div class="card-body">
+                            <h6 class="text-center">Dubai 7PM</h6>
+                            @foreach($dubai_twos_7pm as $dubai_two)
+                                <div class="row">
+                                    <div class="col-6 pl-5">
+                                        <p class="mb-1">{{ $dubai_two->two }} => <span>{{$dubai_two->amount}} </span></p>
+                                    </div>
+                                    <div class="col-6 text-center">
+                                        <p class="mb-1">{{$dubai_two->created_at->format('h:i:s A')}}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6">
+                    <div class="card" style="height : 70vh">
+                        <div class="card-body">
+                            <h6 class="text-center">Dubai 9PM</h6>
+                            @foreach($dubai_twos_9pm as $dubai_two)
+                                <div class="row">
+                                    <div class="col-6 pl-5">
+                                        <p class="mb-1">{{ $dubai_two->two }} => <span>{{$dubai_two->amount}} </span></p>
+                                    </div>
+                                    <div class="col-6 text-center">
+                                        <p class="mb-1">{{$dubai_two->created_at->format('h:i:s A')}}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="mb-0 text-success">Total amount => <span>{{number_format($dubai_twos_7pm_sum)}}</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="mb-0 text-success">Total amount => <span>{{number_format($dubai_twos_9pm_sum)}}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-6">
@@ -167,10 +333,10 @@
 @endsection
 @section('scripts')
 <script>
-    
+
     $(document).ready(function() {
 
-       
+
         $('.date').daterangepicker({
                         "singleDatePicker": true,
                         "autoApply": true,
@@ -181,18 +347,18 @@
                     });
 
 
-            
+
                 $('.date').on('apply.daterangepicker',function(event,picker){
                 $(this).val(picker.startDate.format('YYYY-MM-DD'));
                 var date = $('.date').val();
                 history.pushState(null, '' , `?date=${date}`);
                 window.location.reload();
         });
-                    
 
-                     
-                    
+
+
+
        });
-    
+
 </script>
 @endsection

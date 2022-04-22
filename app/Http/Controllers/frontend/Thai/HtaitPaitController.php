@@ -1,30 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\frontend;
+namespace App\Http\Controllers\frontend\Thai;
 
-use App\Two;
-use App\Wallet;
-use App\ShowHide;
 use App\AdminUser;
 use App\BetHistory;
-use App\Transaction;
-use App\WalletHistory;
-use App\AllBrakeWithAmount;
-use Illuminate\Http\Request;
-use App\Helpers\UUIDGenerator;
-use App\Helpers\BrakeHtaitPait;
+use App\Helpers\ForWalletAndBetHistory;
 use App\Helpers\HtaitPaitForeach;
-use Illuminate\Support\Facades\DB;
+use App\Helpers\UUIDGenerator;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreHtaitPait;
+use App\ShowHide;
+use App\Wallet;
+use App\WalletHistory;
+use Illuminate\Support\Facades\DB;
 
 class HtaitPaitController extends Controller
 {
     public function index()
     {
         $htaitpaitform = ShowHide::where('name', 'htaitpaitform')->first();
-        
+
         return view('frontend.two.htaitpait', compact('htaitpaitform'));
     }
 
@@ -33,213 +28,259 @@ class HtaitPaitController extends Controller
     {
         $zerohtaits = $onehtaits = $twohtaits = $threehtaits = $fourhtaits = $fivehtaits = $sixhtaits = $sevenhtaits = $eighthtaits = $ninehtaits = '';
         $amount = $request->amount ;
-        
+
         if (!is_null($request->zerohtait)) {
             $zerohtaits =  explode('-', $request->zerohtait);
+            $zerohtaits = HtaitPaitForeach::Brake($zerohtaits,$amount);
         }
 
         if (!is_null($request->onehtait)) {
             $onehtaits =  explode('-', $request->onehtait);
+            $onehtaits = HtaitPaitForeach::Brake($onehtaits,$amount);
         }
 
         if (!is_null($request->twohtait)) {
             $twohtaits =  explode('-', $request->twohtait);
+            $twohtaits = HtaitPaitForeach::Brake($twohtaits,$amount);
         }
 
         if (!is_null($request->threehtait)) {
             $threehtaits =  explode('-', $request->threehtait);
+            $threehtaits = HtaitPaitForeach::Brake($threehtaits,$amount);
         }
 
         if (!is_null($request->fourhtait)) {
             $fourhtaits =  explode('-', $request->fourhtait);
+            $fourhtaits = HtaitPaitForeach::Brake($fourhtaits,$amount);
         }
 
         if (!is_null($request->fivehtait)) {
             $fivehtaits =  explode('-', $request->fivehtait);
+            $fivehtaits = HtaitPaitForeach::Brake($fivehtaits,$amount);
         }
 
         if (!is_null($request->sixhtait)) {
             $sixhtaits =  explode('-', $request->sixhtait);
+            $sixhtaits = HtaitPaitForeach::Brake($sixhtaits,$amount);
         }
 
 
         if (!is_null($request->sevenhtait)) {
             $sevenhtaits =  explode('-', $request->sevenhtait);
+            $sevenhtaits = HtaitPaitForeach::Brake($sevenhtaits,$amount);
         }
 
         if (!is_null($request->eighthtait)) {
             $eighthtaits =  explode('-', $request->eighthtait);
+            $eighthtaits = HtaitPaitForeach::Brake($eighthtaits,$amount);
         }
 
         if (!is_null($request->ninehtait)) {
             $ninehtaits =  explode('-', $request->ninehtait);
+            $ninehtaits = HtaitPaitForeach::Brake($ninehtaits,$amount);
         }
 
 
         $zeropaits = $onepaits = $twopaits = $threepaits = $fourpaits = $fivepaits = $sixpaits = $sevenpaits = $eightpaits = $ninepaits = '';
-        
+
         if (!is_null($request->zeropait)) {
             $zeropaits =  explode('-', $request->zeropait);
+            $zeropaits = HtaitPaitForeach::Brake($zeropaits,$amount);
+
         }
 
         if (!is_null($request->onepait)) {
             $onepaits =  explode('-', $request->onepait);
+            $onepaits = HtaitPaitForeach::Brake($onepaits,$amount);
         }
 
         if (!is_null($request->twopait)) {
             $twopaits =  explode('-', $request->twopait);
+            $twopaits = HtaitPaitForeach::Brake($twopaits,$amount);
         }
 
         if (!is_null($request->threepait)) {
             $threepaits =  explode('-', $request->threepait);
+            $threepaits = HtaitPaitForeach::Brake($threepaits,$amount);
         }
 
         if (!is_null($request->fourpait)) {
             $fourpaits =  explode('-', $request->fourpait);
+            $fourpaits = HtaitPaitForeach::Brake($fourpaits,$amount);
         }
 
         if (!is_null($request->fivepait)) {
             $fivepaits =  explode('-', $request->fivepait);
+            $fivepaits = HtaitPaitForeach::Brake($fivepaits,$amount);
         }
 
         if (!is_null($request->sixpait)) {
             $sixpaits =  explode('-', $request->sixpait);
+            $sixpaits = HtaitPaitForeach::Brake($sixpaits,$amount);
         }
 
 
         if (!is_null($request->sevenpait)) {
             $sevenpaits =  explode('-', $request->sevenpait);
+            $sevenpaits = HtaitPaitForeach::Brake($sevenpaits,$amount);
         }
 
         if (!is_null($request->eightpait)) {
             $eightpaits =  explode('-', $request->eightpait);
+            $eightpaits = HtaitPaitForeach::Brake($eightpaits,$amount);
         }
 
         if (!is_null($request->ninepait)) {
             $ninepaits =  explode('-', $request->ninepait);
+            $ninepaits = HtaitPaitForeach::Brake($ninepaits,$amount);
         }
 
         $zerobrakes = $onebrakes = $twobrakes = $threebrakes = $fourbrakes = $fivebrakes = $sixbrakes = $sevenbrakes = $eightbrakes = $ninebrakes = '';
-        
+
         if (!is_null($request->zerobrake)) {
             $zerobrakes =  explode('-', $request->zerobrake);
+            $zerobrakes = HtaitPaitForeach::Brake($zerobrakes,$amount);
+
         }
 
         if (!is_null($request->onebrake)) {
             $onebrakes =  explode('-', $request->onebrake);
+            $onebrakes = HtaitPaitForeach::Brake($onebrakes,$amount);
         }
 
         if (!is_null($request->twobrake)) {
             $twobrakes =  explode('-', $request->twobrake);
+            $twobrakes = HtaitPaitForeach::Brake($twobrakes,$amount);
         }
 
         if (!is_null($request->threebrake)) {
             $threebrakes =  explode('-', $request->threebrake);
+            $threebrakes = HtaitPaitForeach::Brake($threebrakes,$amount);
         }
 
         if (!is_null($request->fourbrake)) {
             $fourbrakes =  explode('-', $request->fourbrake);
+            $fourbrakes = HtaitPaitForeach::Brake($fourbrakes,$amount);
         }
 
         if (!is_null($request->fivebrake)) {
             $fivebrakes =  explode('-', $request->fivebrake);
+            $fivebrakes = HtaitPaitForeach::Brake($fivebrakes,$amount);
         }
 
         if (!is_null($request->sixbrake)) {
             $sixbrakes =  explode('-', $request->sixbrake);
+            $sixbrakes = HtaitPaitForeach::Brake($sixbrakes,$amount);
         }
 
 
         if (!is_null($request->sevenbrake)) {
             $sevenbrakes =  explode('-', $request->sevenbrake);
+            $sevenbrakes = HtaitPaitForeach::Brake($sevenbrakes,$amount);
         }
 
         if (!is_null($request->eightbrake)) {
             $eightbrakes =  explode('-', $request->eightbrake);
+            $eightbrakes = HtaitPaitForeach::Brake($eightbrakes,$amount);
         }
 
         if (!is_null($request->ninebrake)) {
             $ninebrakes =  explode('-', $request->ninebrake);
+            $ninebrakes = HtaitPaitForeach::Brake($ninebrakes,$amount);
         }
 
 
         $zeropars = $onepars = $twopars = $threepars = $fourpars = $fivepars = $sixpars = $sevenpars = $eightpars = $ninepars = '';
-        
+
         if (!is_null($request->zeropar)) {
             $zeropars =  explode('-', $request->zeropar);
+            $zeropars = HtaitPaitForeach::Brake($zeropars,$amount);
+
         }
 
         if (!is_null($request->onepar)) {
             $onepars =  explode('-', $request->onepar);
+            $onepars = HtaitPaitForeach::Brake($onepars,$amount);
         }
 
         if (!is_null($request->twopar)) {
             $twopars =  explode('-', $request->twopar);
+            $twopars = HtaitPaitForeach::Brake($twopars,$amount);
         }
 
         if (!is_null($request->threepar)) {
             $threepars =  explode('-', $request->threepar);
+            $threepars = HtaitPaitForeach::Brake($threepars,$amount);
         }
 
         if (!is_null($request->fourpar)) {
             $fourpars =  explode('-', $request->fourpar);
+            $fourpars = HtaitPaitForeach::Brake($fourpars,$amount);
         }
 
         if (!is_null($request->fivepar)) {
             $fivepars =  explode('-', $request->fivepar);
+            $fivepars = HtaitPaitForeach::Brake($fivepars,$amount);
         }
 
         if (!is_null($request->sixpar)) {
             $sixpars =  explode('-', $request->sixpar);
+            $sixpars = HtaitPaitForeach::Brake($sixpars,$amount);
         }
 
 
         if (!is_null($request->sevenpar)) {
             $sevenpars =  explode('-', $request->sevenpar);
+            $sevenpars = HtaitPaitForeach::Brake($sevenpars,$amount);
         }
 
         if (!is_null($request->eightpar)) {
             $eightpars =  explode('-', $request->eightpar);
+            $eightpars = HtaitPaitForeach::Brake($eightpars,$amount);
         }
 
         if (!is_null($request->ninepar)) {
             $ninepars =  explode('-', $request->ninepar);
+            $ninepars = HtaitPaitForeach::Brake($ninepars,$amount);
         }
 
         $apuus = $tens = $powers = $natkhats = $brothers = '';
         if (!is_null($request->apuu)) {
             $apuus =  explode('-', $request->apuu);
+            $apuus = HtaitPaitForeach::Brake($apuus,$amount);
         }
 
         if (!is_null($request->ten)) {
             $tens =  explode('-', $request->ten);
+            $tens = HtaitPaitForeach::Brake($tens,$amount);
         }
 
         if (!is_null($request->power)) {
             $powers =  explode('-', $request->power);
+            $powers = HtaitPaitForeach::Brake($powers,$amount);
         }
 
         if (!is_null($request->natkhat)) {
             $natkhats =  explode('-', $request->natkhat);
+            $natkhats = HtaitPaitForeach::Brake($natkhats,$amount);
         }
 
         if (!is_null($request->brother)) {
             $brothers =  explode('-', $request->brother);
+            $brothers = HtaitPaitForeach::Brake($brothers,$amount);
         }
 
         $from_account_wallet = Auth()->user()->user_wallet;
-        $to_account = AdminUser::where('id', Auth()->user()->admin_user_id)->first();
-        $to_account_wallet = Wallet::where('admin_user_id', $to_account->id)->where('status', 'admin')->first();
-        
+
         $totals = 0;
-       
+
         //-------------- insufficient condition for  htait---------------
         if ($zerohtaits) {
             foreach ($zerohtaits as $key=>$zerohtait) {
                 $totals += $request->amount;
             }
         }
-        
+
         if ($onehtaits) {
             foreach ($onehtaits as $key=>$onehtait) {
                 $totals += $request->amount;
@@ -523,7 +564,7 @@ class HtaitPaitController extends Controller
 
     public function store(StoreHtaitPait $request)
     {
-        
+
         //----------------- htait ------------------------------
         $zerohtaits = $request->zerohtaits;
         $onehtaits = $request->onehtaits;
@@ -535,9 +576,9 @@ class HtaitPaitController extends Controller
         $sevenhtaits = $request->sevenhtaits;
         $eighthtaits = $request->eighthtaits;
         $ninehtaits = $request->ninehtaits;
-        
+
         //----------------- Pait ------------------------------
-    
+
         $zeropaits = $request->zeropaits;
         $onepaits = $request->onepaits;
         $twopaits = $request->twopaits;
@@ -550,7 +591,7 @@ class HtaitPaitController extends Controller
         $ninepaits = $request->ninepaits;
 
         //----------------- Brake ------------------------------
-    
+
         $zerobrakes = $request->zerobrakes;
         $onebrakes = $request->onebrakes;
         $twobrakes = $request->twobrakes;
@@ -561,7 +602,7 @@ class HtaitPaitController extends Controller
         $sevenbrakes = $request->sevenbrakes;
         $eightbrakes = $request->eightbrakes;
         $ninebrakes = $request->ninebrakes;
-        
+
         //----------------- A par ------------------------------
         $zeropars = $request->zeropars;
         $onepars = $request->onepars;
@@ -573,7 +614,7 @@ class HtaitPaitController extends Controller
         $sevenpars = $request->sevenpars;
         $eightpars = $request->eightpars;
         $ninepars = $request->ninepars;
-            
+
         //----------------- A Sone------------------------------
 
         $tens = $request->tens;
@@ -586,9 +627,9 @@ class HtaitPaitController extends Controller
         $from_account_wallet = Auth()->user()->user_wallet;
         $to_account = AdminUser::where('id', Auth()->user()->admin_user_id)->first();
         $to_account_wallet = Wallet::where('admin_user_id', $to_account->id)->where('status', 'admin')->first();
-        
+
         $totals = 0;
-       
+
         //-------------- insufficient condition for  htait---------------
 
         if ($zerohtaits) {
@@ -596,7 +637,7 @@ class HtaitPaitController extends Controller
                 $totals += $request->amount;
             }
         }
-        
+
         if ($onehtaits) {
             foreach ($onehtaits as $key=>$onehtait) {
                 $totals += $request->amount;
@@ -874,9 +915,9 @@ class HtaitPaitController extends Controller
         if ($from_account_wallet->amount < $totals) {
             return redirect('/')->withErrors(['fail' => 'You have no sufficient balance']);
         }
-        
+
         $amount = $request->amount;
-       
+
         DB::beginTransaction();
 
         try {
@@ -885,7 +926,7 @@ class HtaitPaitController extends Controller
             $from_account_wallet->decrement('amount', $totals);
             $from_account_wallet->update();
 
-            
+
 
             // -------------------- Store Htait -------------------
             if ($zerohtaits) {
@@ -908,31 +949,31 @@ class HtaitPaitController extends Controller
             if ($fourhtaits) {
                 HtaitPaitForeach::htaitpait($fourhtaits, $amount);
             }
-    
+
             if ($fivehtaits) {
                 HtaitPaitForeach::htaitpait($fivehtaits, $amount);
             }
-            
-           
+
+
             if ($sixhtaits) {
                 HtaitPaitForeach::htaitpait($sixhtaits, $amount);
             }
-    
+
             if ($sevenhtaits) {
                 HtaitPaitForeach::htaitpait($sevenhtaits, $amount);
             }
-    
+
             if ($eighthtaits) {
                 HtaitPaitForeach::htaitpait($eighthtaits, $amount);
             }
-    
+
             if ($ninehtaits) {
                 HtaitPaitForeach::htaitpait($ninehtaits, $amount);
             }
-    
-    
+
+
             //    -----------------------Store Pait -----------------------------
-    
+
             if ($zeropaits) {
                 $zeropaits = HtaitPaitForeach::htaitpait($zeropaits, $amount);
             }
@@ -953,31 +994,31 @@ class HtaitPaitController extends Controller
             if ($fourpaits) {
                 HtaitPaitForeach::htaitpait($fourpaits, $amount);
             }
-    
+
             if ($fivepaits) {
                 HtaitPaitForeach::htaitpait($fivepaits, $amount);
             }
-            
-           
+
+
             if ($sixpaits) {
                 HtaitPaitForeach::htaitpait($sixpaits, $amount);
             }
-    
+
             if ($sevenpaits) {
                 HtaitPaitForeach::htaitpait($sevenpaits, $amount);
             }
-    
+
             if ($eightpaits) {
                 HtaitPaitForeach::htaitpait($eightpaits, $amount);
             }
-    
+
             if ($ninepaits) {
                 HtaitPaitForeach::htaitpait($ninepaits, $amount);
             }
-            
-    
+
+
             //----------------- Store Brake ------------------------------
-    
+
             if ($zerobrakes) {
                 $zerobrakes = HtaitPaitForeach::htaitpait($zerobrakes, $amount);
             }
@@ -998,32 +1039,32 @@ class HtaitPaitController extends Controller
             if ($fourbrakes) {
                 HtaitPaitForeach::htaitpait($fourbrakes, $amount);
             }
-    
+
             if ($fivebrakes) {
                 HtaitPaitForeach::htaitpait($fivebrakes, $amount);
             }
-            
-           
+
+
             if ($sixbrakes) {
                 HtaitPaitForeach::htaitpait($sixbrakes, $amount);
             }
-    
+
             if ($sevenbrakes) {
                 HtaitPaitForeach::htaitpait($sevenbrakes, $amount);
             }
-    
+
             if ($eightbrakes) {
                 HtaitPaitForeach::htaitpait($eightbrakes, $amount);
             }
-    
+
             if ($ninebrakes) {
                 HtaitPaitForeach::htaitpait($ninebrakes, $amount);
             }
-    
-    
+
+
             //-----------------Store a par ------------------------------
-    
-    
+
+
             if ($zeropars) {
                 $zeropars = HtaitPaitForeach::htaitpait($zeropars, $amount);
             }
@@ -1044,97 +1085,60 @@ class HtaitPaitController extends Controller
             if ($fourpars) {
                 HtaitPaitForeach::htaitpait($fourpars, $amount);
             }
-    
+
             if ($fivepars) {
                 HtaitPaitForeach::htaitpait($fivepars, $amount);
             }
-            
-           
+
+
             if ($sixpars) {
                 HtaitPaitForeach::htaitpait($sixpars, $amount);
             }
-    
+
             if ($sevenpars) {
                 HtaitPaitForeach::htaitpait($sevenpars, $amount);
             }
-    
+
             if ($eightpars) {
                 HtaitPaitForeach::htaitpait($eightpars, $amount);
             }
-    
+
             if ($ninepars) {
                 HtaitPaitForeach::htaitpait($ninepars, $amount);
             }
-    
+
             //  -------------------- Apuus -----------------------------
             if ($apuus) {
                 HtaitPaitForeach::htaitpait($apuus, $amount);
             }
 
             //  -------------------- Ten -----------------------------
-    
+
             if ($tens) {
                 HtaitPaitForeach::htaitpait($tens, $amount);
             }
-           
+
             //  -------------------- Power -----------------------------
             if ($powers) {
                 HtaitPaitForeach::htaitpait($powers, $amount);
             }
-       
+
             //  -------------------- Natkhats -----------------------------
             if ($natkhats) {
                 HtaitPaitForeach::htaitpait($natkhats, $amount);
             }
-            
+
             //  -------------------- Brothers -----------------------------
             if ($brothers) {
                 HtaitPaitForeach::htaitpait($brothers, $amount);
             }
-            
-            $history = new WalletHistory();
-            $history->admin_user_id = Auth()->user()->admin_user_id;
-            $history->user_id = Auth()->user()->id;
-            $history->trx_id = UUIDGenerator::TrxId();
-            $history->amount = $totals;
-            $history->is_deposit = 'bet';
-            $history->status = 'user';
-            $history->date = now()->format('Y-m-d H:i:s');
-            $history->save();
 
-            $bet_history = new BetHistory();
-            $bet_history->admin_user_id = Auth()->user()->admin_user_id;
-            $bet_history->user_id = Auth()->user()->id;
-            $bet_history->trx_id = UUIDGenerator::TrxId();
-            $bet_history->is_deposit = 'bet';
-            $bet_history->type = '2D';
-            $bet_history->amount = $totals;
-            $bet_history->date =  now()->format('Y-m-d H:i:s');
-            $bet_history->save();
+            $trx_id = UUIDGenerator::TrxId();
 
-            // $ref_no = UUIDGenerator::RefNumber();
+            ForWalletAndBetHistory::Slip(new WalletHistory,Auth()->user()->admin_user_id,Auth()->user()->id,$trx_id,$totals,'bet','user');
 
-            // $transactions = new Transaction();
-            // $transactions->ref_no = $ref_no;
-            // $transactions->trx_id = UUIDGenerator::TrxId();
-            // $transactions->user_id = Auth()->user()->id;
-            // $transactions->source_id = $to_account_wallet->id;
-            // $transactions->type = 2;
-            
-            // $transactions->amount = $totals;
-            // $transactions->save();
-            
+            ForWalletAndBetHistory::Slip(new BetHistory,Auth()->user()->admin_user_id,Auth()->user()->id,$trx_id,$totals,'bet','2D');
 
-            // $transactions = new Transaction();
-            // $transactions->ref_no = $ref_no;
-            // $transactions->trx_id = UUIDGenerator::TrxId();
-            // $transactions->user_id = $to_account_wallet->id;
-            // $transactions->source_id = Auth()->user()->id;
-            // $transactions->type = 1;
-           
-            // $transactions->amount = $totals;
-            // $transactions->save();
-            
             DB::commit();
             return redirect('two/htaitpait')->with('create', 'Done');
         } catch (\Exception $e) {

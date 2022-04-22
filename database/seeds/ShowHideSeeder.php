@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Database\Seeders\ShowHideSeeder;
 
 class ShowHideSeeder extends Seeder
 {
@@ -30,6 +29,18 @@ class ShowHideSeeder extends Seeder
         DB::table('show_hides')->insert([
             'admin_user_id' => '1',
             'name' => 'htaitpaitform',
+            'status' => 'show'
+        ]);
+
+        DB::table('show_hides')->insert([
+            'admin_user_id' => '1',
+            'name' => 'dubai_twoform',
+            'status' => 'show'
+        ]);
+
+        DB::table('show_hides')->insert([
+            'admin_user_id' => '1',
+            'name' => 'dubai_htaitpaitform',
             'status' => 'show'
         ]);
     }

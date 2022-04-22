@@ -43,9 +43,9 @@
                 rgba(0, 0, 0, 0.75)
             );
         }
-        
+
         #app{
-            background: url('https://thumbs.dreamstime.com/b/poker-flush-royal-background-casino-chips-green-table-d-rendering-114800748.jpg');
+            background: url('https://media.istockphoto.com/photos/black-and-blue-abstract-cement-wall-interior-texture-for-display-picture-id1293140237?b=1&k=20&m=1293140237&s=170667a&w=0&h=qIgkX_gfv3gQihobMnLp5tZeddAePY1TpQrnfyd-aQ4=');
             background-repeat: no-repeat;
             background-size: cover;
             height: 100vh;

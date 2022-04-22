@@ -15,6 +15,7 @@
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
+        "myanlottery/lottery": "dev-main",
         "nao-pon/flysystem-google-drive": "~1.1",
         "proengsoft/laravel-jsvalidation": "^4.5",
         "spatie/laravel-backup": "^6.14",

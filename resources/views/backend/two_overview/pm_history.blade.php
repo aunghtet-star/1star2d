@@ -52,21 +52,21 @@
                     <div class="card-body">
                         @if ($two_overviews_pm)
                             <div class="column">
-                                @foreach ($two_overviews_pm as $two_overview_pm)
+                                @foreach ($two_overviews_pm as $two_overview)
 
                                     <div class="d-flex" style="width:100px">
-                                        <p class="mb-2 mr-3 ">{{ $two_overview_pm->two }} </p> => <span
-                                            class="ml-2 
-                                        @if (($two_brake->amount ?? 9999999999999999999999) < ($two_overview_pm->amount - $two_overview_pm->new_amount - $two_overview_pm->kyon_amount)) text-danger @endif">
-                                            {{ number_format(($two_overview_pm->amount - $two_overview_pm->new_amount - $two_overview_pm->kyon_amount)) }}</span>
+                                        <p class="mb-2 mr-3 ">{{ $two_overview->two }} </p> => <span
+                                            class="ml-2
+                                        @if (($two_brake->amount ?? 9999999999999999999999) < ($two_overview->amount - $two_overview->new_amount - $two_overview->kyon_amount)) text-danger @endif">
+                                            {{ number_format(($two_overview->amount - $two_overview->new_amount - $two_overview->kyon_amount)) }}</span>
 
-                                        <a href="#" id="data_id" data-id="{{ $two_overview_pm->id }}" onclick="newAmount('{{ $two_overview_pm->two }}')"><span><i
+                                        <a href="#" id="data_id" data-id="{{ $two_overview->id }}" onclick="newAmount('{{ $two_overview->two }}')"><span><i
                                                     class="fas fa-edit ml-3"></i></span></a>
 
-                                        <a href="{{ url('/admin/two-overview/twopout/' . $two_overview_pm->two . '/date=' . $date) }}"><span><i
+                                        <a href="{{ url('/admin/two-overview/twopout/' . $two_overview->two . '/date=' . $date) }}"><span><i
                                                     class="fas fa-eye ml-3"></i></span></a>
 
-                                        
+
                                     </div>
                                 @endforeach
                             </div>
@@ -74,7 +74,7 @@
 
                         <div class="d-flex justify-content-between">
                             <h5 class="text-success" style="font-weight: 700">Total amount =>
-                                {{ number_format($fake_number ? $fake_number->number : ($two_amount_total < ($two_brake ? $two_brake->amount : 99999999999999999999999999) ? $two_amount_total :    ( $two_amount_total - $new_amount_total - $kyon_amount_total))) }}
+                                {{ number_format($fake_number ? $fake_number->number : ( ( $amount_total - $new_amount_total - $kyon_amount_total))) }}
                             </h5>
                             <a href="#" class="btn btn-dark" onclick="kyonAmountPm()">Clear</a>
                         </div>

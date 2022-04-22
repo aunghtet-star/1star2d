@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\Helpers\ForTwoKyon;
+use App\Helpers\ForTwoOverview;
 use App\Two;
+use App\twoKyonAM;
 use App\User;
 
 use stdClass;
@@ -48,13 +51,13 @@ class TwoController extends Controller
         ->addColumn('action', function ($each) {
             $edit_icon = '<a href="'.url('admin/two/'.$each->id.'/edit').'" class="text-warning"><i class="fas fa-user-edit"></i></a>';
             //$delete_icon = '<a href="'.url('admin/two/'.$each->id).'" data-id="'.$each->id.'" data-two="'.$each->two.'" data-amount="'.$each->amount.'" class="text-danger" id="delete"><i class="fas fa-trash"></i></a>';
-            
-           
+
+
             return '<div class="action-icon">'.$edit_icon .'</div>';
         })
         ->make(true);
     }
-    
+
     public function create()
     {
         PermissionChecker::CheckPermission('two');
@@ -112,35 +115,24 @@ class TwoController extends Controller
         $date = $request->date ?? now()->format('Y-m-d');
 
         $two_brake = AllBrakeWithAmount::select('amount')->first();
-      
-        $twos = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->get();
-        
-        foreach($twos as $two){
-            $exist = TwoOverview::where('two',$two->two)->where('date',$date)->exists();
-            if($exist){
-                $two_overviews = TwoOverview::where('two',$two->two);
-                $two_overviews = $two_overviews->update([
-                    'amount' => $two->total
-                ]);
-            }else{
-            $two_overviews = new TwoOverview();
-            $two_overviews->admin_user_id = Auth::guard('adminuser')->user()->id;
-            $two_overviews->two =  $two->two;
-            $two_overviews->amount = $two->total;
-            $two_overviews->date = $date;
-            $two_overviews->save();
-            }
-        }
 
+        $twos = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->get();
+
+        ForTwoOverview::Overview($twos,$date,new TwoOverview);
+
+        //to store two overview table if exist to update
         $two_overviews_am = TwoOverview::whereDate('date', $date)->orderBy('two','asc')->get();
 
-        $two_amount_total = TwoOverview::select('amount')->whereDate('date', $date)->sum('amount');
-        $new_amount_total = TwoOverview::select('new_amount')->whereDate('date', $date)->sum('new_amount');
-        $kyon_amount_total = TwoOverviewPM::select('kyon_amount')->whereDate('date', $date)->sum('kyon_amount');
+        //TwoOverview Total Amount for am
+        $overview_total = ForTwoOverview::OverviewTotal(new TwoOverview,$date);
+
+        $amount_total = $overview_total['amount'];
+        $new_amount_total = $overview_total['new_amount'];
+        $kyon_amount_total = $overview_total['kyon_amount'];
 
         $fake_number = FakeNumber::first();
-        
-        return view('backend.two_overview.am_history', compact('two_overviews_am', 'two_amount_total','new_amount_total', 'kyon_amount_total', 'two_brake','fake_number'));
+
+        return view('backend.two_overview.am_history', compact('date','two_overviews_am', 'amount_total','new_amount_total', 'kyon_amount_total', 'two_brake','fake_number'));
     }
 
     public function twoHistoryPM(Request $request)
@@ -148,41 +140,26 @@ class TwoController extends Controller
         PermissionChecker::CheckPermission('two_overview');
 
         $date = $request->date ?? now()->format('Y-m-d');
-        
-        $two_brake = AllBrakeWithAmount::select('amount')->first();
-        
-        $twos = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
-        
 
-        foreach($twos as $two_transaction){
-            $exist = TwoOverviewPM::where('two',$two_transaction->two)->where('date',$date)->exists();
-            if($exist){
-                $two_overviews = TwoOverviewPM::where('two',$two_transaction->two);
-                $two_overviews = $two_overviews->update([
-                    'amount' => $two_transaction->total
-                ]);
-            }else{
-            $two_overviews = new TwoOverviewPM();
-            $two_overviews->admin_user_id = Auth::guard('adminuser')->user()->id;
-            $two_overviews->two =  $two_transaction->two;
-            $two_overviews->amount = $two_transaction->total;
-            $two_overviews->date = $date;
-            $two_overviews->save();
-            }
-        }
+        $two_brake = AllBrakeWithAmount::select('amount')->first();
+
+        $twos = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
+
+        //to store two overview table if exist to update
+        ForTwoOverview::Overview($twos,$date,new TwoOverviewPM);
 
         $two_overviews_pm = TwoOverviewPM::whereDate('date', $date)->orderBy('two','asc')->get();
 
-        $two_amount_total = TwoOverviewPM::select('amount')->whereDate('date', $date)->sum('amount');
-        $new_amount_total = TwoOverviewPM::select('new_amount')->whereDate('date', $date)->sum('new_amount');
-        $kyon_amount_total = TwoOverviewPM::select('kyon_amount')->whereDate('date', $date)->sum('kyon_amount');
-        
-        
-        
+        //TwoOverview Total Amount for pm
+        $overview_total = ForTwoOverview::OverviewTotal(new TwoOverviewPM,$date);
+
+        $amount_total = $overview_total['amount'];
+        $new_amount_total = $overview_total['new_amount'];
+        $kyon_amount_total = $overview_total['kyon_amount'];
 
         $fake_number = FakeNumber::first();
 
-        return view('backend.two_overview.pm_history', compact('two_overviews_pm', 'two_amount_total','new_amount_total','kyon_amount_total', 'date', 'two_brake','fake_number'));
+        return view('backend.two_overview.pm_history', compact('two_overviews_pm', 'amount_total','new_amount_total','kyon_amount_total', 'date', 'two_brake','fake_number'));
     }
 
 
@@ -192,85 +169,33 @@ class TwoController extends Controller
 
         $date = $request->date ?? now()->format('Y-m-d');
         $two_overviews_am = TwoOverview::whereDate('date', $date)->orderBy('two','asc')->get();
-        
-        $two_brake = AllBrakeWithAmount::select('amount')->where('type', '2D')->first();
 
-        //for Two kyon table am
-        foreach($two_overviews_am as $two_overview_am){
-            $two_kyon_am = ($two_overview_am->amount - $two_overview_am->new_amount) - $two_brake->amount;
-        
-            $exist = twoKyonAM::where('two',$two_overview_am->two)->where('date',$date)->exists();
-            if($exist){
-                $two_kyons_am = twoKyonAM::where('two',$two_overview_am->two);
-                $two_kyons_am = $two_kyons_am->update([
-                    'amount' => $two_overview_am->amount > $two_brake->amount ? ($two_overview_am->amount - $two_brake->amount) : 0,
-                    'new_amount' => $two_overview_am->new_amount
-                ]);
-            }else{
-            $two_kyons_am = new twoKyonAM();
-            $two_kyons_am->admin_user_id = Auth::guard('adminuser')->user()->id;
-            $two_kyons_am->two =  $two_overview_am->two;
-            $two_kyons_am->new_amount =  $two_overview_am->new_amount;
-            $two_kyons_am->amount = $two_overview_am->amount > $two_brake->amount ? ($two_overview_am->amount - $two_brake->amount) : 0;
-            $two_kyons_am->date = $date;
-            $two_kyons_am->save();
-        
-        }
+        //To Store Two kyon table am
+       ForTwoKyon::Kyon($two_overviews_am,$date,new twoKyonAM);
 
-    }
-        
-        $two_kyons_am = twoKyonPM::where('date',$date)->get();
-        $two_kyons_am_total = twoKyonPM::select('amount')->where('date',$date)->sum('amount');
-        $two_kyons_new_amount_am_total = twoKyonPM::select('new_amount')->where('date',$date)->sum('new_amount');
-        $two_kyons_new_kyon_am_total = twoKyonPM::select('new_kyon_amount')->where('date',$date)->sum('new_kyon_amount');
-        
+        $two_kyons_am = twoKyonAM::where('date',$date)->get();
+
         $fake_number = FakeNumber::first();
 
-        return view('backend.two_overview.am_twokyon', compact('two_overviews_am', 'date', 'two_brake','two_kyons_am','two_kyons_am_total','two_kyons_new_kyon_am_total','two_kyons_new_amount_am_total','fake_number'));
+        return view('backend.two_overview.am_twokyon', compact( 'date','two_kyons_am','fake_number'));
     }
 
     public function twoKyonPM(Request $request)
     {
         PermissionChecker::CheckPermission('two_kyon');
-        
+
         $date = $request->date ?? now()->format('Y-m-d');
 
         $two_overviews_pm = TwoOverviewPM::whereDate('date', $date)->orderBy('two','asc')->get();
-        $two_brake = AllBrakeWithAmount::select('amount')->where('type', '2D')->first();
-        
-        //for Two kyon table pm
 
-        foreach($two_overviews_pm as $two_overview_pm){
-            $two_kyon_pm = ($two_overview_pm->amount - $two_overview_pm->new_amount) - $two_brake->amount;
-        
-            $exist = twoKyonPM::where('two',$two_overview_pm->two)->where('date',$date)->exists();
-            if($exist){
-                $two_kyons_pm = twoKyonPM::where('two',$two_overview_pm->two);
-                $two_kyons_pm = $two_kyons_pm->update([
-                    'amount' => $two_overview_pm->amount > $two_brake->amount ? ($two_overview_pm->amount - $two_brake->amount) : 0,
-                    'new_amount' => $two_overview_pm->new_amount
-                ]);
-            }else{
-            $two_kyons_pm = new twoKyonPM();
-            $two_kyons_pm->admin_user_id = Auth::guard('adminuser')->user()->id;
-            $two_kyons_pm->two =  $two_overview_pm->two;
-            $two_kyons_pm->new_amount =  $two_overview_pm->new_amount;
-            $two_kyons_pm->amount = $two_overview_pm->amount > $two_brake->amount ? ($two_overview_pm->amount - $two_brake->amount) : 0;
-            $two_kyons_pm->date = $date;
-            $two_kyons_pm->save();
-        
-        }
+        //To Store Two kyon table am
+        ForTwoKyon::Kyon($two_overviews_pm,$date,new twoKyonPM);
 
-    }
-        
-        $two_kyons_pm = twoKyonPM::where('date',$date)->get();
-        $two_kyons_pm_total = twoKyonPM::select('amount')->where('date',$date)->sum('amount');
-        $two_kyons_new_amount_pm_total = twoKyonPM::select('new_amount')->where('date',$date)->sum('new_amount');
-        $two_kyons_new_kyon_pm_total = twoKyonPM::select('new_kyon_amount')->where('date',$date)->sum('new_kyon_amount');
-        
+        $two_kyons_pm = twoKyonPM::where('date',$date)->orderBy('two','asc')->get();
+
 
         $fake_number = FakeNumber::first();
 
-        return view('backend.two_overview.pm_twokyon', compact('two_overviews_pm', 'date', 'two_brake','two_kyons_pm','two_kyons_pm_total','two_kyons_new_kyon_pm_total','two_kyons_new_amount_pm_total','fake_number'));
+        return view('backend.two_overview.pm_twokyon', compact('two_overviews_pm', 'date','two_kyons_pm','fake_number'));
     }
 }

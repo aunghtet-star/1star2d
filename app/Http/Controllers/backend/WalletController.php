@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\Helpers\ForWalletAndBetHistory;
 use App\User;
 use App\Wallet;
 use App\AdminUser;
@@ -49,8 +50,8 @@ class WalletController extends Controller
         if(Auth::guard('adminuser')->user()->hasRole('Agent')){
             $data = UserWallet::where('admin_user_id', Auth::guard('adminuser')->user()->id)->get();
         }
-        
-        
+
+
         return DataTables::of($data)
         ->editColumn('user_id', function ($each) {
             return $each->getNameAttribute();
@@ -58,7 +59,7 @@ class WalletController extends Controller
         ->editColumn('amount', function ($each) {
             return number_format($each->amount);
         })
-        
+
         ->editColumn('created_at', function ($each) {
             return Carbon::parse($each->created_at)->format('Y-m-d h:i:s A');
         })
@@ -72,27 +73,29 @@ class WalletController extends Controller
             $agents = AdminUser::role('Agent')->where('user_id',Auth::guard('adminuser')->user()->id)->get();
             $users = User::where('admin_user_id',Auth::guard('adminuser')->user()->id)->get();
             return view('backend.wallet.add', compact('masters','agents','users'));
-        
+
     }
 
     public function store(Request $request)
     {
         $user = Auth::guard('adminuser')->user();
-        $from_account = Wallet::where('user_id',Auth::guard('adminuser')->user()->id)->firstOrFail();
 
-        
+        if($user->hasRole('Master') || $user->hasRole('Agent')){
+            $from_account = Wallet::where('user_id',Auth::guard('adminuser')->user()->id)->firstOrFail();
+        }
+
         if($user->hasRole('Admin') || $user->hasRole('Master') ){
             $to_account = AdminUser::with('wallet')->where('id', $request->user_id)->firstOrFail();
         }
 
         if($user->hasRole('Agent')){
             $to_account = User::where('id',$request->user_id)->firstOrFail();
-            
+
         }
-        
-        
+
+
         DB::beginTransaction();
-        
+
         try {
 
             if($user->hasRole('Admin')){
@@ -101,11 +104,11 @@ class WalletController extends Controller
             }
 
             if($user->hasRole('Master') ){
-                
+
                 if($request->amount > $from_account->amount){
                     return back()->withErrors(['amount'=>'Your amount is not sufficient']);
                 }
-        
+
                 $from_account->decrement('amount',$request->amount);
                 $from_account->update();
 
@@ -126,52 +129,11 @@ class WalletController extends Controller
                 $to_account->user_wallet->update();
             }
 
-            
-
-            //$ref_no = UUIDGenerator::RefNumber();
 
             $trx_id = UUIDGenerator::TrxId();
 
-            $history = new WalletHistory();
-            $history->admin_user_id = $user->id;
-            $history->user_id = $request->user_id;
-            $history->trx_id = $trx_id;
-            $history->amount = $request->amount;
-            $history->is_deposit = 'deposit';
+            ForWalletAndBetHistory::Slip(new WalletHistory,$user->id,$request->user_id,$trx_id,$request->amount,'deposit','user');
 
-            if($user->hasRole('Admin')){
-                $history->status = 'master';
-            }
-
-            if($user->hasRole('Master')){
-                $history->status = 'agent';
-            }
-
-            if($user->hasRole('Agent')){
-                $history->status = 'user';
-            }
-
-            $history->date = now()->format('Y-m-d H:i:s');
-            $history->save();
-
-            // $transactions = new Transaction();
-            // $transactions->ref_no = $ref_no;
-            // $transactions->trx_id = UUIDGenerator::TrxId();
-            // $transactions->user_id = Auth::guard('adminuser')->user()->id;
-            // $transactions->source_id = $request->user_id;
-            // $transactions->type = 2;
-            // $transactions->amount = $request->amount;
-            // $transactions->save();
-            
-
-            // $transactions = new Transaction();
-            // $transactions->ref_no = $ref_no;
-            // $transactions->trx_id = UUIDGenerator::TrxId();
-            // $transactions->user_id = $request->user_id;
-            // $transactions->source_id = Auth::guard('adminuser')->user()->id;
-            // $transactions->type = 1;
-            // $transactions->amount = $request->amount;
-            // $transactions->save();
 
             $title = 'ငွေလက်ခံရရှိပါသည်';
             $message =  '+'. number_format($request->amount). 'Ks';
@@ -195,24 +157,22 @@ class WalletController extends Controller
         $agents = AdminUser::role('Agent')->where('user_id',Auth::guard('adminuser')->user()->id)->get();
         $users = User::where('admin_user_id',Auth::guard('adminuser')->user()->id)->get();
         return view('backend.wallet.substract', compact('masters','agents','users'));
-        
+
     }
 
     public function remove(Request $request)
     {
-        
+
         $user = Auth::guard('adminuser')->user();
 
         $from_account = Wallet::where('user_id',Auth::guard('adminuser')->user()->id)->firstOrFail();
-        
 
         if($user->hasRole('Admin') || $user->hasRole('Master') ){
             $to_account = AdminUser::with('wallet')->where('id', $request->user_id)->firstOrFail();
-        
-        
+
             if($request->amount > $to_account->wallet->amount){
                 return back()->withErrors(['amount'=>'This user amount is not sufficient']);
-            }  
+            }
 
         }
 
@@ -222,9 +182,9 @@ class WalletController extends Controller
 
             if($request->amount > $to_account->user_wallet->amount){
                 return back()->withErrors(['amount'=>'This user amount is not sufficient']);
-            }  
+            }
         }
-       
+
 
         DB::beginTransaction();
         try {
@@ -251,50 +211,9 @@ class WalletController extends Controller
                 $to_account->user_wallet->update();
             }
 
-            //$ref_no = UUIDGenerator::RefNumber();
             $trx_id = UUIDGenerator::TrxId();
 
-            $history = new WalletHistory();
-            $history->admin_user_id = $user->id;
-            $history->user_id = $request->user_id;
-            $history->trx_id = $trx_id;
-            $history->amount = $request->amount;
-            $history->is_deposit = 'withdraw';
-
-            if($user->hasRole('Admin')){
-                $history->status = 'master';
-            }
-
-            if($user->hasRole('Master')){
-                $history->status = 'agent';
-            }
-
-            if($user->hasRole('Agent')){
-                $history->status = 'user';
-            }
-
-            $history->date = now()->format('Y-m-d H:i:s');
-            $history->save();
-
-            // $transactions = new Transaction();
-            // $transactions->ref_no = $ref_no;
-            // $transactions->trx_id = UUIDGenerator::TrxId();
-            // $transactions->user_id = $request->user_id;
-            // $transactions->source_id = Auth::guard('adminuser')->user()->id;
-            // $transactions->type = 2;
-            // $transactions->amount = $request->amount;
-            // $transactions->save();
-            
-
-            // $transactions = new Transaction();
-            // $transactions->ref_no = $ref_no;
-            // $transactions->trx_id = UUIDGenerator::TrxId();
-            // $transactions->user_id = Auth::guard('adminuser')->user()->id;
-            // $transactions->source_id = $request->user_id;
-            // $transactions->type = 1;
-            // $transactions->amount = $request->amount;
-            // $transactions->save();
-
+            ForWalletAndBetHistory::Slip(new WalletHistory,$user->id,$request->user_id,$trx_id,$request->amount,'withdraw','user');
 
             $title = 'ငွေထုတ်ယူခြင်း';
             $message =  '-'. number_format($request->amount). 'Ks';
@@ -306,8 +225,9 @@ class WalletController extends Controller
             DB::commit();
             return redirect('admin/wallet')->with('create', 'Remove successfully');
         } catch (\Exception $e) {
+
             DB::rollBack();
-            return redirect('admin/wallet/remove')->withErrors(['fail' => 'Something wrong'])->withInput();
+            return redirect('admin/wallet/remove')->withErrors(['fail' => 'Something wrong'. $e->getMessage()])->withInput();
         }
     }
 }

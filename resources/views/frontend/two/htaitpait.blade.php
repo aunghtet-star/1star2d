@@ -1,13 +1,13 @@
 @extends('frontend.layouts.app')
 @section('htaitpait','active')
-    
+
 @section('extra_css')
    <style>
        .error{
            color: red;
            border-color: red;
        }
-    </style> 
+    </style>
 @endsection
 @section('content')
 <div class="container">
@@ -24,9 +24,9 @@
             @if($htaitpaitform->status == 'show')
             <div class="card">
                 <div class="col-12 mt-3">
-                    <h5 class="text-center">အမြန်ထိုးရန်</h5>
+                    <h5 class="text-center">Thai အမြန်ထိုးရန်</h5>
                 </div>
-                
+
                 <div class="card-body">
                     <form action="{{url('two/htaitpait/confirm')}}" method="POST" >
                         @csrf
@@ -51,7 +51,7 @@
                                             </label>
                                           </div>
                                     </div>
-                                    
+
                                     <div class="col-4">
                                         <div class="form-check">
                                             <label class="form-check-label" id="twohtait">
@@ -74,7 +74,7 @@
                                             </label>
                                           </div>
                                     </div>
-    
+
                                     <div class="col-4">
                                         <div class="form-check">
                                             <label class="form-check-label" id="fourhtait">
@@ -83,8 +83,8 @@
                                             </label>
                                           </div>
                                     </div>
-                                      
-    
+
+
                                     <div class="col-4">
                                         <div class="form-check">
                                             <label class="form-check-label" id="fivehtait">
@@ -95,7 +95,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
 
                             <div class="col-12 text-center">
                                 <div class="row">
@@ -107,7 +107,7 @@
                                             </label>
                                           </div>
                                     </div>
-                                    
+
                                     <div class="col-4">
                                         <div class="form-check">
                                             <label class="form-check-label" id="sevenhtait">
@@ -116,8 +116,8 @@
                                             </label>
                                           </div>
                                     </div>
-                                     
-    
+
+
                                     <div class="col-4">
                                         <div class="form-check">
                                             <label class="form-check-label" id="eighthtait">
@@ -127,7 +127,7 @@
                                           </div></div>
                                     </div>
                                 </div>
-                                  
+
                             <div class="col-12 text-center">
                                 <div class="row">
                                     <div class="col-4">
@@ -165,7 +165,7 @@
                                             </label>
                                           </div>
                                     </div>
-                                        
+
                                     <div class="col-4">
                                         <div class="form-check">
                                             <label class="form-check-label" id="twopait">
@@ -238,7 +238,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                </div>                              
+                                </div>
                             </div>
                         </div>
 
@@ -272,9 +272,9 @@
                                           </div>
                                     </div>
                                 </div>
-                                
-                                
-                                
+
+
+
                                 <div class="row">
                                     <div class="col-4">
                                         <div class="form-check">
@@ -374,7 +374,7 @@
                                           </div>
                                     </div>
                                 </div>
-                                
+
                             <div class="row">
                                 <div class="col-4">
                                     <div class="form-check">
@@ -401,7 +401,7 @@
                                       </div>
                                 </div>
                             </div>
-                                
+
                             <div class="row">
                                 <div class="col-4">
                                     <div class="form-check">
@@ -458,7 +458,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <h5 class="text-center text-success">ဆယ်ပြည့်</h5>
                         <div class="row mb-3">
                             <div class="col-12 text-center">
@@ -488,7 +488,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <h5 class="text-center text-success">နက္ခတ်</h5>
                         <div class="row mb-3">
                             <div class="col-12 text-center" style="padding-left: 12px">
@@ -521,7 +521,7 @@
                             </div>
                         </div>
 
-                        
+
 
                         <div class="col-12 p-0">
                             <div class="form-group">
@@ -533,7 +533,7 @@
                   </div>
                 </form>
             </div>
-            @else 
+            @else
             <div class="d-flex justify-content-center align-items-center" style="height:100vh">
               <h4 class="text-center text-danger" style="font-weight: 700;">ပိတ်ထားပါသည်</h4>
           </div>
@@ -550,7 +550,7 @@
 <script>
     $(document).ready(function(){
 
-      
+
 
         const Toast = Swal.mixin({
             toast: true,
@@ -568,7 +568,7 @@
               checked = $("input[type=checkbox]:checked").length;
 
               if(!checked) {
-                
+
                 Toast.fire({
                 icon: 'error',
                 title: 'အနည်းဆုံးတစ်ခုရွေးပေးပါ'
@@ -578,7 +578,7 @@
 
             });
 
-            
+
 
             @if(session('create'))
             Toast.fire({

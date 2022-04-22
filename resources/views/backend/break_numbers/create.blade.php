@@ -26,6 +26,7 @@
                         <select name="type" class="form-control">
                             <option value="">Select Number</option>
                             <option value="2D">2D</option>
+                            <option value="Dubai_2D">Dubai 2D</option>
                             <option value="3D">3D</option>
                         </select>
                     </div>
@@ -52,6 +53,6 @@
 <script>
     $(document).ready(function() {
     })
-    
+
 </script>
 @endsection

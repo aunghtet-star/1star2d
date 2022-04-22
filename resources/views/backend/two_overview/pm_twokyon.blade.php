@@ -47,22 +47,27 @@
         <div class="col">
             <div class="card">
                 <div class="card-body">
-                    @if($two_overviews_pm)
-                        
+
                             <div class="column" >
-                                @foreach($two_kyons_pm as $two_kyon_pm)
+                                @php
+                                    $total = 0;
+                                @endphp
+                                @foreach($two_kyons_pm as $two_kyon)
                                 <div class="d-flex" style="width:100px">
-                                    @if (($two_kyon_pm->amount - $two_kyon_pm->new_amount - $two_kyon_pm->new_kyon_amount) > 0)
-                                        <p class="mb-2 mr-3 ">{{$two_kyon_pm->two}} </p> => <span class="ml-2 ">
-                                        {{number_format( $two_kyon_pm->amount - $two_kyon_pm->new_amount - $two_kyon_pm->new_kyon_amount) }} 
+                                    @if (($two_kyon->amount - $two_kyon->new_amount - $two_kyon->kyon_amount) > 0)
+                                        <p class="mb-2 mr-3 ">{{$two_kyon->two}} </p> => <span class="ml-2 ">
+                                        {{number_format( $two_kyon->amount - $two_kyon->new_amount - $two_kyon->kyon_amount) }}
+                                            @php
+                                            $total +=  $two_kyon->amount - $two_kyon->new_amount - $two_kyon->kyon_amount;
+                                            @endphp
                                         </span>
-                                    @endif  
+                                    @endif
                                 </div>
                             @endforeach
                             </div>
-                        @endif
-                        
-                        <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($fake_number ? $fake_number->number : ($two_kyons_pm_total - $two_kyons_new_amount_pm_total - $two_kyons_new_kyon_pm_total))}}</h5>
+
+                        <h5 class="text-success" style="font-weight: 700">Total amount =>
+                            {{number_format($fake_number ? $fake_number->number : $total  )}}</h5>
                 </div>
             </div>
         </div>
@@ -74,7 +79,7 @@
 <script>
     $(document).ready(function() {
 
-                
+
                     $('.date').daterangepicker({
                         "singleDatePicker": true,
                         "autoApply": true,
@@ -90,9 +95,9 @@
                         history.pushState(null, '' , `?date=${date}`);
                         window.location.reload();
                     });
-                    
+
 
        });
-    
+
 </script>
 @endsection

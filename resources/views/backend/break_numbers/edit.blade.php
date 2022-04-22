@@ -28,6 +28,7 @@
                             <option value="">Select Number</option>
                             @foreach($numbers as $number)
                             <option value="2D" @if($number->type == '2D') selected @endif>2D</option>
+                            <option value="Dubai_2D" @if($number->type == 'Dubai_2D') selected @endif>Dubai 2D</option>
                             <option value="3D" @if($number->type == '3D') selected @endif>3D</option>
                             @endforeach
                         </select>
@@ -52,7 +53,7 @@
 
 <script>
     $(document).ready(function() {
-            
-    
+
+
 </script>
 @endsection

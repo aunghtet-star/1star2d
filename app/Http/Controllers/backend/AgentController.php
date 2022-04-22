@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreAdminUser;
 use App\Http\Requests\UpdateAdminUser;
 use Spatie\Permission\Models\Permission;
-use App\Http\Controllers\backend\AgentController;
 
 class AgentController extends Controller
 {
@@ -45,11 +44,11 @@ class AgentController extends Controller
         ->addColumn('action', function ($each) {
             $edit_icon = "";
             $delete_icon = "";
-            
+
             $edit_icon = '<a href="'.url('admin/agent/'.$each->id.'/edit').'" class="text-warning"><i class="fas fa-user-edit"></i></a>';
-            
+
             //$delete_icon = '<a href="'.url('admin/agent/'.$each->id).'" data-id="'.$each->id.'" class="text-danger" id="delete"><i class="fas fa-trash"></i></a>';
-            
+
             return '<div class="action-icon">'.$edit_icon .'</div>';
         })
 
@@ -82,7 +81,7 @@ class AgentController extends Controller
             'name' => $request->name,
             'phone' => $request->phone,
             'password' => Hash::make($request->password)
-        ])->assignRole('agent');   
+        ])->assignRole('agent');
 
         Wallet::firstOrCreate([
             'user_id' => $agent->id
@@ -117,7 +116,7 @@ class AgentController extends Controller
     {
         PermissionChecker::CheckPermission('agent');
         $agent = $this->model->find($id);
-       
+
         return view($this->rView.'edit',compact('agent'));
     }
 
@@ -132,7 +131,7 @@ class AgentController extends Controller
     {
 
         $admin_user_id = Auth::guard('adminuser')->user()->id;
-        
+
         $agent = $this->model->find($id);
         $agent->update([
             'user_id' => $admin_user_id,

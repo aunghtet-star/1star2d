@@ -7,7 +7,6 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
-use Database\Seeders\AdminRoleSeeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
 
@@ -40,6 +39,8 @@ class AdminRoleSeeder extends Seeder
          Permission::firstOrCreate(['name' => 'add_wallet', 'guard_name' => 'adminuser']);
          Permission::firstOrCreate(['name' => 'substract_wallet', 'guard_name' => 'adminuser']);
          Permission::firstOrCreate(['name' => 'two', 'guard_name' => 'adminuser']);
+         Permission::firstOrCreate(['name' => 'dubai_two', 'guard_name' => 'adminuser']);
+         Permission::firstOrCreate(['name' => 'dubai_two_overview', 'guard_name' => 'adminuser']);
          Permission::firstOrCreate(['name' => 'three', 'guard_name' => 'adminuser']);
          Permission::firstOrCreate(['name' => 'two_overview', 'guard_name' => 'adminuser']);
          Permission::firstOrCreate(['name' => 'three_overview', 'guard_name' => 'adminuser']);
@@ -50,19 +51,21 @@ class AdminRoleSeeder extends Seeder
          Permission::firstOrCreate(['name' => 'real_number', 'guard_name' => 'adminuser']);
          Permission::firstOrCreate(['name' => 'show_hide', 'guard_name' => 'adminuser']);
          Permission::firstOrCreate(['name' => 'pout', 'guard_name' => 'adminuser']);
-         Permission::firstOrCreate(['name' => 'pout', 'guard_name' => 'adminuser']);
          Permission::firstOrCreate(['name' => 'wallet_history', 'guard_name' => 'adminuser']);
          Permission::firstOrCreate(['name' => 'bet_history', 'guard_name' => 'adminuser']);
+         Permission::firstOrCreate(['name' => 'only_brake', 'guard_name' => 'adminuser']);
+         Permission::firstOrCreate(['name' => 'dubai_two_kyon', 'guard_name' => 'adminuser']);
+
          Permission::firstOrCreate(['name' => 'master', 'guard_name' => 'adminuser']);
          Permission::firstOrCreate(['name' => 'agent', 'guard_name' => 'adminuser']);
          Permission::firstOrCreate(['name' => 'user', 'guard_name' => 'adminuser']);
- 
+
          // firstOrCreate roles and assign existing permissions
          $admin_role = Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'adminuser']);
          $admin_role->givePermissionTo('view_admin');
-         $admin_role->givePermissionTo('create_admin');
+         //$admin_role->givePermissionTo('create_admin');
          $admin_role->givePermissionTo('edit_admin');
-         $admin_role->givePermissionTo('delete_admin');
+         //$admin_role->givePermissionTo('delete_admin');
          $admin_role->givePermissionTo('view_role');
          $admin_role->givePermissionTo('create_role');
          $admin_role->givePermissionTo('edit_role');
@@ -88,10 +91,12 @@ class AdminRoleSeeder extends Seeder
          $admin_role->givePermissionTo('wallet_history');
          $admin_role->givePermissionTo('bet_history');
          $admin_role->givePermissionTo('master');
-         $admin_role->givePermissionTo('agent');
-         $admin_role->givePermissionTo('user');
+         $admin_role->givePermissionTo('dubai_two');
+         $admin_role->givePermissionTo('dubai_two_overview');
+         $admin_role->givePermissionTo('only_brake');
+         $admin_role->givePermissionTo('dubai_two_kyon');
          // gets all permissions via Gate::before rule; see AuthServiceProvider
- 
+
          $master_role = Role::firstOrCreate(['name' => 'Master', 'guard_name' => 'adminuser']);
          $master_role->givePermissionTo('view_wallet');
          $master_role->givePermissionTo('add_wallet');
@@ -107,9 +112,10 @@ class AdminRoleSeeder extends Seeder
          $agent_role->givePermissionTo('wallet_history');
          $agent_role->givePermissionTo('two');
          $agent_role->givePermissionTo('three');
-         
+         $agent_role->givePermissionTo('dubai_two');
+
          // firstOrCreate demo users
-         
+
          $user = AdminUser::create([
              'name' => 'admin',
              'phone' => '09969861379',

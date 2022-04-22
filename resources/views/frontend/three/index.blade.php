@@ -7,7 +7,7 @@
            color: red;
            border-color: red;
        }
-    </style> 
+    </style>
 @endsection
 @section('content')
 <div class="container">
@@ -31,24 +31,26 @@
                     <form id="validate" action="{{url('three/confirm')}}" method="POST" id="">
                         @csrf
                         <div class="row" >
-                            <div class="col-3 col-md-3"> 
+                            <div class="col-4">
                                 <div class="form-group" id="inputs">
                                     <label for="">3D</label>
-                                    <input type="number" name="three[]" class="form-control" required>
+                                    <input type="number" name="three[]" class="form-control" id="three" required>
                                 </div>
                             </div>
-                            <div class="col-5 col-md-7">
+
+                            <div class="col-4 col-md-6">
                                 <div class="form-group" id="inputs">
                                     <label for="">Amount</label>
-                                    <input type="number" name="amount[]" class="form-control" required>
+                                    <input type="number" name="amount[]" class="form-control" id="amount"  required>
                                 </div>
                             </div>
                             <div class="col-3 col-md-1" style="margin-top:5px">
                                 <label for=""></label>
                                 <div class="" >
-                                    <a href="" class="btn btn-danger btn-sm remove-btn " style="font-weight:900;"><i class="fas fa-minus-circle"></i></a>     
+                                    <a href="" class="btn btn-danger btn-sm remove-btn " style="font-weight:900;"><i class="fas fa-minus-circle"></i></a>
                                 </div>
                             </div>
+
                         </div>
                         <div class="test"></div>
                         <button type="submit" id="submit" class="btn btn-primary m-0 btn-sm" style="font-weight:700">ထိုးမည်</button>
@@ -60,7 +62,7 @@
                     <h4 class="text-center text-danger" style="font-weight: 700;">ပိတ်ထားပါသည်</h4>
                 </div>
             @endif
-            
+
         </div>
     </div>
 </div>
@@ -93,34 +95,34 @@
         $('.add-btn').on('click',function(e){
             e.preventDefault();
              var form = `<div class="row" id="row">
-                            <div class="col-3" col-md-3>
+                            <div class="col-4" col-md-3>
                                 <div class="form-group">
                                     <label for="">3D</label>
                                     <input type="number" name="three[]" class="form-control " required>
                                 </div>
                             </div>
-                            <div class="col-5 col-md-7">
-                                <div class="form-group">
+                            <div class="col-4 col-md-6">
+                                <div class="form-group" id="inputs">
                                     <label for="">Amount</label>
-                                    <input type="number" name="amount[]" class="form-control " required>
+                                    <input type="number" name="amount[]" class="form-control" id="amount"  required>
                                 </div>
                             </div>
                             <div class="col-3 col-md-1" style="margin-top:5px">
                                 <label for=""></label>
                                 <div class="" >
-                                    <a href="" class="btn btn-danger btn-sm remove-btn " style="font-weight:900;"><i class="fas fa-minus-circle"></i></a>     
+                                    <a href="" class="btn btn-danger btn-sm remove-btn " style="font-weight:900;"><i class="fas fa-minus-circle"></i></a>
                                 </div>
                             </div>
                         </div>`
-            
+
             $('.test').append(form);
-            
+
             $(document).on('click','.remove-btn',function(e){
                 e.preventDefault();
                 $(this).parents('#row').remove();
             })
         })
-        
+
 
 
 

@@ -20,7 +20,7 @@ class CreateWalletHistoriesTable extends Migration
             $table->unsignedBigInteger('trx_id')->unique();
             $table->string('is_deposit')->comment('withdraw,deposit,bet,win');
             $table->string('amount');
-            $table->string('status');
+            $table->string('type');
             $table->date('date');
             $table->timestamps();
         });

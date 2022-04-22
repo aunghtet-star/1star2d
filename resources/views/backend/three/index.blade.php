@@ -16,8 +16,8 @@
             </div>
         </div>
     </div>
-    <a href="{{url('admin/three/create')}}" class="btn btn-success mb-3 ml-3"><i class="fas fa-circle-plus"></i>
-        Create</a>
+{{--    <a href="{{url('admin/three/create')}}" class="btn btn-success mb-3 ml-3"><i class="fas fa-circle-plus"></i>--}}
+{{--        Create</a>--}}
     <div class="container p-0">
         <div class="col">
             <div class="card">
@@ -28,7 +28,6 @@
                             <th>3D</th>
                             <th>Amount</th>
                             <th>Date</th>
-                            <th>Action</th>
                         </thead>
                         <tbody>
                         </tbody>
@@ -63,10 +62,6 @@
                             {
                                 data : "updated_at",
                                 name : "updated_at",
-                            },
-                            {
-                                data : "action",
-                                name : "action",
                             },
                         ],
                         order : [3 , "desc"]
@@ -110,8 +105,8 @@
                                     )
                                 }
                                 })
-                      });    
+                      });
        });
-    
+
 </script>
 @endsection

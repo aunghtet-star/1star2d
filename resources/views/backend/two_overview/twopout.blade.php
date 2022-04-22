@@ -6,18 +6,15 @@
         <div class="card-body">
             @foreach ($twopouts as $twopout)
                 <p>{{ $twopout->users ? $twopout->users->name : '_' }} => <span>{{ number_format($twopout->total) }}</span>
-                        <a href="#" id="bet" data-id="{{ $twopout->users->id }}" data-name="{{ $twopout->users->name }}" onclick="bet({{ $twopout->total }})"><i class="fa-solid fa-coins pl-3"></i></a></p>
+                        <a href="#" onclick="bet({{$twopout->users->id}},{{ $twopout->total }},'{{$twopout->users->name}}')"><i class="fa-solid fa-coins pl-3"></i></a></p>
             @endforeach
         </div>
     </div>
 @endsection
 @section('scripts')
     <script>
-        function bet(amount) {
-            const bet_name = document.getElementById('bet');
-            const toBet = document.getElementById('toBet');
-            let name = bet_name.dataset.name;
-            let user_id = bet_name.dataset.id;
+        function bet(user_id,amount,name) {
+
             let bet = prompt("Please enter Bet Amount to " + name, amount * 80);
 
 

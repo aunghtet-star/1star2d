@@ -42,37 +42,39 @@
                     <input type="text" class="form-control date" value="{{request()->date ?? now()->format('Y-m-d')}}" placeholder="All">
                 </div>
             </div>
-            
+
         </div>
         <div class="col">
             <div class="card overview">
                 <div class="card-body">
                     @if ($two_overviews_am)
                             <div class="column">
-                                @foreach ($two_overviews_am as $two_overview_am)
-
-                              
+                                @foreach ($two_overviews_am as $two_overview)
 
                                     <div class="d-flex" style="width:100px">
-                         
-                                        <p class="mb-2 mr-3 ">{{ $two_overview_am->two }} </p> => <span
-                                            class="ml-2 
-                                        @if (($two_brake->amount ?? 9999999999999999999999) < ($two_overview_am->amount - $two_overview_am->new_amount - $two_overview_am->kyon_amount)) text-danger @endif">
-                                            {{ number_format(($two_overview_am->amount - $two_overview_am->new_amount - $two_overview_am->kyon_amount)) }}</span>
 
-                                        <a href="#" id="data_id" data-id="{{ $two_overview_am->id }}" onclick="newAmount('{{ $two_overview_am->two }}')"><span><i
+                                        <p class="mb-2 mr-3 ">{{ $two_overview->two }} </p> => <span
+                                            class="ml-2
+                                        @if (($two_brake->amount ?? 9999999999999999999999) < ($two_overview->amount - $two_overview->new_amount - $two_overview->kyon_amount)) text-danger @endif">
+                                            {{ number_format(($two_overview->amount - $two_overview->new_amount - $two_overview->kyon_amount)) }}</span>
+
+                                        <a href="#" id="data_id" data-id="{{ $two_overview->id }}" onclick="newAmount('{{ $two_overview->two }}')"><span><i
                                                     class="fas fa-edit ml-3"></i></span></a>
 
-                                        <a href="{{ url('/admin/two-overview/twopout/' . $two_overview_am->two . '/date=' . $date) }}"><span><i
+                                        <a href="{{ url('/admin/two-overview/twopout/' . $two_overview->two . '/date=' . $date) }}"><span><i
                                                     class="fas fa-eye ml-3"></i></span></a>
 
-                                        
+
                                     </div>
                                 @endforeach
                             </div>
                         @endif
-                
-                <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($fake_number ? $fake_number->number : ($two_amount_total < ($two_brake ? $two_brake->amount : 99999999999999999999999999) ? $two_amount_total :    ( $two_amount_total - $new_amount_total - $kyon_amount_total)))}}</h5>
+
+                    <div class="d-flex justify-content-between">
+                        <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($fake_number ? $fake_number->number : ($amount_total < ($two_brake ? $two_brake->amount : 99999999999999999999999999) ? $amount_total :    ( $amount_total - $new_amount_total - $kyon_amount_total)))}}</h5>
+                        <a href="#" class="btn btn-dark" onclick="kyonAmountAm()">Clear</a>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -84,7 +86,7 @@
 <script>
     $(document).ready(function() {
 
-                
+
         $('.date').daterangepicker({
                         "singleDatePicker": true,
                         "autoApply": true,
@@ -99,7 +101,7 @@
                         var date = $('.date').val();
                         history.pushState(null, '' , `?date=${date}`);
                         window.location.reload();
-                    }); 
+                    });
 
        });
 
@@ -118,7 +120,7 @@
                             success : function(res){
                                 window.location.reload();
                             }
-                        
+
                     });
                     }
 
@@ -137,6 +139,6 @@
                         }
                     })
                     }
-    
+
 </script>
 @endsection

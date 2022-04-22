@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\DubaiTwo;
+use App\Helpers\ForUserDetail;
 use App\Two;
 use App\User;
 use App\Three;
@@ -28,7 +30,7 @@ class UserController extends Controller
     {
         PermissionChecker::CheckPermission('user');
         $users = User::where('admin_user_id', Auth()->user()->id)->get();
-        
+
         return view('backend.users.index', compact('users'));
     }
 
@@ -36,17 +38,17 @@ class UserController extends Controller
     {
         $users = User::where('admin_user_id', Auth()->user()->id)->get();
         return Datatables::of($users)
-        
+
         ->addColumn('action', function ($each) {
             $edit_icon = '<a href="'.url('/admin/users/'.$each->id.'/edit').'" class="text-warning"><i class="fas fa-user-edit"></i></a>';
             //$delete_icon = '<a href="'.url('/admin/users/'.$each->id).'" data-id="'.$each->id.'" class="text-danger" id="delete"><i class="fas fa-trash"></i></a>';
             $detail_icon = '<a href="'.url('/admin/users/'.$each->id).'"  data-id="'.$each->id.'" id="show" onclick="show()" ><i class="fas fa-eye"></i></a>';
-            
+
             return '<div class="action-icon">'.$edit_icon .$detail_icon.'</div>';
         })
         ->make(true);
     }
-    
+
     public function create()
     {
         PermissionChecker::CheckPermission('user');
@@ -64,7 +66,7 @@ class UserController extends Controller
             $users->phone = $request->phone;
             $users->password = Hash::make($request->password);
             $users->save();
-    
+
             UserWallet::firstorCreate(
                 [
                 'user_id' => $users->id
@@ -96,42 +98,54 @@ class UserController extends Controller
 
         //Wallet
         $user_wallet = UserWallet::where('user_id', $user->id)->first();
-        
+
         //Transaction History
-        $user_transactions = WalletHistory::where('user_id', $user->id)->where('status','user')->whereDate('created_at', $date. ' '.'00:00:00')->orderBy('created_at', 'DESC')->get();
-        
-        //Two Total AM And PM
-        $two_users_am = Two::where('user_id', $user->id)->where('admin_user_id', Auth()->user()->id)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:59')]);
-        $two_users_pm = Two::where('user_id', $user->id)->where('admin_user_id', Auth()->user()->id)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:59')]);
+        $user_transactions = WalletHistory::where('user_id', $user->id)->where('type','user')->whereDate('created_at', $date. ' '.'00:00:00')->orderBy('created_at', 'DESC')->get();
 
-        $two_users_am_sum = Two::where('user_id', $user->id)->where('admin_user_id', Auth()->user()->id)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:59')])->sum('amount');
-        $two_users_pm_sum = Two::where('user_id', $user->id)->where('admin_user_id', Auth()->user()->id)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:59')])->sum('amount');
-        
-        //Three Total AM And PM
-        $three_users_am = Three::where('user_id', $user->id)->where('admin_user_id', Auth()->user()->id)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:59')]);
-        $three_users_pm = Three::where('user_id', $user->id)->where('admin_user_id', Auth()->user()->id)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:59')]);
 
-        $three_users_am_sum = Three::where('user_id', $user->id)->where('admin_user_id', Auth()->user()->id)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:59')])->sum('amount');
-        $three_users_pm_sum = Three::where('user_id', $user->id)->where('admin_user_id', Auth()->user()->id)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:59')])->sum('amount');
+        //For Two
+        $two = ForUserDetail::Digit(new Two,$user,$date);
+        $two_users_am = $two['am'];
+        $two_users_pm = $two['pm'];
 
-        if ($date) {
-            $two_users_am = $two_users_am->whereDate('date', $date);
-            $two_users_pm = $two_users_pm->whereDate('date', $date);
+        //For Three
+        $three = ForUserDetail::Digit(new Three,$user,$date);
+        $three_users_am = $three['am'];
+        $three_users_pm = $three['pm'];
 
-            $three_users_am = $three_users_am->whereDate('date', $date);
-            $three_users_pm = $three_users_pm->whereDate('date', $date);
-        }
+        //For Dubai Two
+        $dubai_twos = ForUserDetail::DubaiDigit(new DubaiTwo,$user,$date);
+        $dubai_twos_11am = $dubai_twos['am_11'];
+        $dubai_twos_1pm = $dubai_twos['pm_1'];
+        $dubai_twos_3pm = $dubai_twos['pm_3'];
+        $dubai_twos_5pm = $dubai_twos['pm_5'];
+        $dubai_twos_7pm = $dubai_twos['pm_7'];
+        $dubai_twos_9pm = $dubai_twos['pm_9'];
 
-        $two_users_am = $two_users_am->get();
-        $two_users_pm = $two_users_pm->get();
-        
-        $three_users_am = $three_users_am->get();
-        $three_users_pm = $three_users_pm->get();
-        
-        return view('backend.users.detail', compact('user', 'two_users_am', 'two_users_pm', 'two_users_am_sum', 'two_users_pm_sum', 'three_users_am', 'three_users_pm', 'three_users_am_sum', 'three_users_pm_sum', 'user_wallet', 'user_transactions'));
+        // Two Total Sum
+        $two_am = ForUserDetail::Total(new Two,$user,$date);
+        $two_users_am_sum = $two_am['am_sum'];
+        $two_users_pm_sum = $two_am['pm_sum'];
+
+        // Three Total Sum
+        $three_am = ForUserDetail::Total(new Three,$user,$date);
+        $three_users_am_sum = $three_am['am_sum'];
+        $three_users_pm_sum = $three_am['pm_sum'];
+
+        // Dubai Two Total Sum
+
+        $dubai_twos_sum = ForUserDetail::Total(new DubaiTwo,$user,$date);
+        $dubai_twos_11am_sum = $dubai_twos_sum['am_11_sum'];
+        $dubai_twos_1pm_sum = $dubai_twos_sum['pm_1_sum'];
+        $dubai_twos_3pm_sum = $dubai_twos_sum['pm_3_sum'];
+        $dubai_twos_5pm_sum = $dubai_twos_sum['pm_5_sum'];
+        $dubai_twos_7pm_sum = $dubai_twos_sum['pm_7_sum'];
+        $dubai_twos_9pm_sum = $dubai_twos_sum['pm_9_sum'];
+
+        return view('backend.users.detail', compact('user', 'two_users_am', 'two_users_pm', 'two_users_am_sum', 'two_users_pm_sum', 'three_users_am', 'three_users_pm', 'three_users_am_sum', 'three_users_pm_sum','dubai_twos_11am_sum','dubai_twos_1pm_sum','dubai_twos_3pm_sum','dubai_twos_5pm_sum','dubai_twos_7pm_sum','dubai_twos_9pm_sum' ,'dubai_twos_11am','dubai_twos_1pm','dubai_twos_3pm','dubai_twos_5pm','dubai_twos_7pm','dubai_twos_9pm' ,'user_wallet', 'user_transactions'));
     }
-    
-    
+
+
     public function edit($id)
     {
         PermissionChecker::CheckPermission('user');
@@ -151,8 +165,8 @@ class UserController extends Controller
             $user->admin_user_id = Auth::guard('adminuser')->user()->id;
             $user->password = $request->password ? Hash::make($request->password) : $user->password ;
             $user->update();
-        
-        
+
+
             UserWallet::firstorCreate(
                 [
                 'user_id' => $user->id

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\backend;
 
 use App\Amountbreak;
+use App\Helpers\PermissionChecker;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Auth;
@@ -13,27 +15,31 @@ class BreakNumberController extends Controller
 {
     public function index()
     {
-        $amountbreaks = Amountbreak::where('admin_user_id', Auth()->user()->id)->get();
+        PermissionChecker::CheckPermission('only_brake');
+        $amountbreaks = Amountbreak::all();
         return view('backend.break_numbers.index', compact('amountbreaks'));
     }
 
     public function ssd()
     {
-        $amountbreaks = Amountbreak::where('admin_user_id', Auth()->user()->id)->limit(10);
+        $amountbreaks = Amountbreak::query();
 
         return Datatables::of($amountbreaks)
         ->addColumn('action', function ($each) {
+            PermissionChecker::CheckPermission('only_brake');
             $edit_icon = '<a href="'.url('admin/amountbreaks/'.$each->id.'/edit').'" class="text-warning"><i class="fas fa-user-edit"></i></a>';
+            PermissionChecker::CheckPermission('only_brake');
             $delete_icon = '<a href="'.url('admin/amountbreaks/'.$each->id).'" data-id="'.$each->id.'" class="text-danger" id="delete"><i class="fas fa-trash"></i></a>';
-            
-           
+
+
             return '<div class="action-icon">'.$edit_icon . $delete_icon.'</div>';
         })
         ->make(true);
     }
-    
+
     public function create()
     {
+        PermissionChecker::CheckPermission('only_brake');
         return view('backend.break_numbers.create');
     }
 
@@ -51,8 +57,9 @@ class BreakNumberController extends Controller
 
     public function edit($id)
     {
+        PermissionChecker::CheckPermission('only_brake');
         $amountbreak = Amountbreak::findOrFail($id);
-        $numbers = Amountbreak::where('admin_user_id', Auth::guard('adminuser')->user()->id)->get();
+        $numbers = Amountbreak::all();
 
         return view('backend.break_numbers.edit', compact('amountbreak', 'numbers'));
     }

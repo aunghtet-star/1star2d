@@ -20,17 +20,17 @@
     <div class="container">
         <div class="card">
             <div class="card-body">
-                <form action="{{url('admin/'.$adminuser->id.'/update')}}" method="POST" id="update">
+                <form action="{{url('admin/admin-user/'.$adminuser->id)}}" method="POST" id="update">
                     @csrf
                     @method('PATCH')
                     <div class="form-group">
                         <label for="">Name</label>
-                        <input type="text" name="name" value="{{old('name') ?? $adminuser->name }}"
+                        <input type="text" name="name" value="{{ $adminuser->name }}"
                             class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="">Phone</label>
-                        <input type="text" name="phone" value="{{old('phone') ?? $adminuser->phone }}"
+                        <input type="text" name="phone" value="{{ $adminuser->phone }}"
                             class="form-control">
                     </div>
 
@@ -40,7 +40,7 @@
                         <select name="roles[]" class="form-control select-role" multiple>
                             <option value="">Select Role</option>
                             @foreach ($roles as $role)
-                            <option value="{{$role->name}}" @if(in_array($role->name,$old_roles)) selected @endif>{{$role->name}} 
+                            <option value="{{$role->name}}" @if(in_array($role->name,$old_roles)) selected @endif>{{$role->name}}
                             </option>
                             @endforeach
                         </select>
@@ -61,8 +61,6 @@
 {!! JsValidator::formRequest('App\Http\Requests\UpdateAdminUser','#update') !!}
 
 <script>
-    $(document).ready(function() {
-            
-    
+
 </script>
 @endsection

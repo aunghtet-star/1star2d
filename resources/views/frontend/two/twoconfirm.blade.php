@@ -1,16 +1,16 @@
 @extends('frontend.layouts.app')
 @section('2d','active')
-    
+
 @section('extra_css')
    <style>
-      
+
        .error{
            color: red;
            border-color: red;
            font-size: 10px;
            font-weight: 600;
        }
-    </style> 
+    </style>
 @endsection
 @section('content')
 <div class="container">
@@ -30,15 +30,15 @@
                     <form action="{{url('two/create')}}" method="POST">
                         @csrf
                         <div>
-                            {{-- @php 
+                            {{-- @php
                             $total = 0;
                             @endphp --}}
                         @foreach($twos ?? [] as $key=>$two)
                             <input type="hidden" name="two[]" value="{{$two}}">
                             <input type="hidden" name="amount[]" value="{{$amount[$key]}}">
-                            
+
                             <p class="mb-1">{{$two}} => <span class="mb-1">{{$amount[$key]}}</span> </p>
-                           
+
                             {{-- @php
                                 $total += $amount;
                             @endphp --}}
@@ -46,14 +46,15 @@
                         @foreach ($r_keys ?? [] as $r_key)
                             <input type="hidden" name="r_key[]" value="{{$r_key}}" >
                         @endforeach
+
                         @foreach($reverse_two ?? [] as $key=>$r_two)
                         <input type="hidden" name="r_two[]" value="{{$r_two}}" >
                         <p class="mb-1">{{$r_two}} => <span class="mb-1">{{$amount[$key]}}</span> </p>
-                     
-                        @endforeach    
-              
+
+                        @endforeach
+
                         </div>
-                        <p class="text-success" style="font-size: 20px;font-weight:700">စုစုပေါင်း - 
+                        <p class="text-success" style="font-size: 20px;font-weight:700">စုစုပေါင်း -
                             @php
                                 echo number_format($total);
                             @endphp

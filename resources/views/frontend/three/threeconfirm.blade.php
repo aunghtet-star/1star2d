@@ -1,16 +1,16 @@
 @extends('frontend.layouts.app')
 @section('3d','active')
-    
+
 @section('extra_css')
    <style>
-      
+
        .error{
            color: red;
            border-color: red;
            font-size: 10px;
            font-weight: 600;
        }
-    </style> 
+    </style>
 @endsection
 @section('content')
 <div class="container">
@@ -30,23 +30,15 @@
                     <form action="{{url('three/create')}}" method="POST">
                         @csrf
                         <div>
-                            @php 
-                            $total = 0;
-                        @endphp
-                        @foreach($threes as $key=>$three)
+
+                        @foreach($threes ?? [] as $key=>$three)
                             <input type="hidden" name="three[]" value="{{$three}}">
                             <input type="hidden" name="amount[]" value="{{$amount[$key]}}">
                             <p class="mb-1">{{$three}} => <span class="mb-1">{{$amount[$key]}}</span> </p>
-                            @php
-                                $total += $amount[$key];
-                            @endphp
-                        @endforeach    
+                        @endforeach
 
                         </div>
-                        <p class="text-success" style="font-size: 20px;font-weight:700">စုစုပေါင်း - 
-                            @php
-                                echo number_format($total);
-                            @endphp
+                            <p class="text-success" style="font-size: 20px;font-weight:700">စုစုပေါင်း - {{$total}}
                         </p>
                         <div>
                             <button type="button" class="btn btn-sm btn-danger cancel-btn" style="font-weight:700">မလုပ်ပါ</button>
@@ -71,7 +63,7 @@
             return false;
         })
 
-        
+
     })
 </script>
 

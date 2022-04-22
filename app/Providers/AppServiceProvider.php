@@ -30,10 +30,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(100);
-        
+
         Paginator::useBootstrap();
 
-        
+
         View::composer('*', function ($view) {
             $unread_noti = 0;
             if (Auth::guard('web')->check()) {
@@ -47,7 +47,10 @@ class AppServiceProvider extends ServiceProvider
                 $twoform = ShowHide::where('name', 'twoform')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->first();
                 $htaitpaitform = ShowHide::where('name', 'htaitpaitform')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->first();
                 $threeform = ShowHide::where('name', 'threeform')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->first();
-                $view->with(['twoform'=> $twoform,'htaitpaitform'=>$htaitpaitform,'threeform'=>$threeform]);
+                $dubai_twoform = ShowHide::where('name', 'dubai_twoform')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->first();
+                $dubai_htaitpaitform = ShowHide::where('name', 'dubai_htaitpaitform')->where('admin_user_id', Auth::guard('adminuser')->user()->id)->first();
+
+                $view->with(['twoform'=> $twoform,'htaitpaitform'=>$htaitpaitform,'threeform'=>$threeform,'dubai_twoform'=>$dubai_twoform,'dubai_htaitpaitform'=>$dubai_htaitpaitform]);
             }
         });
     }

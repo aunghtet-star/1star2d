@@ -16,21 +16,21 @@
 
     {{-- Date ranger picker --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    
+
     {{-- custom css --}}
     <link rel="stylesheet" href="{{asset('frontend/style.css')}}">
 
     <style>
-        
+
         .fa-bell{
                 margin-left: 60px;
             }
-        
+
         @media only screen and (max-width: 600px) {
             .fa-bell{
             margin: 0;
             position: absolute;
-            
+
             top:19px;
             left: 75%;
             }
@@ -82,14 +82,14 @@
                                 {{ Auth::user()->name }}
                             </a>
 
-                           
+
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a href="{{route('user.two.history')}}">History</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
-                               
+
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
@@ -117,20 +117,32 @@
                 </li>
 
                 <li class="nav-item mr-3 @yield('2d')" >
-                  <a class="nav-link" href="{{url('two')}}">2D</a>
+                  <a class="nav-link" href="{{url('two')}}">Thai 2D</a>
                 </li>
 
-                <li class="nav-item mr-3 @yield('htaitpait')" >
-                    <a class="nav-link" href="{{url('two/htaitpait')}}">အမြန်ထိုးရန်</a>
+                  <li class="nav-item mr-3 @yield('htaitpait')" >
+                    <a class="nav-link" href="{{url('two/htaitpait')}}">Thai အမြန်ထိုးရန်</a>
                   </li>
-                
+
+                  <li class="nav-item mr-3 @yield('dubai-2d')" >
+                      <a class="nav-link" href="{{url('dubai-two')}}">Dubai 2D</a>
+                  </li>
+
+                  <li class="nav-item mr-3 @yield('dubai-htaitpait')" >
+                      <a class="nav-link" href="{{url('dubai-two/htaitpait')}}">Dubai အမြန်ထိုးရန်</a>
+                  </li>
+
                 <li class="nav-item mr-3 @yield('3d')">
-                  <a class="nav-link" href="{{url('three')}}">3D</a>
+                  <a class="nav-link" href="{{url('three')}}">Thai 3D</a>
                 </li>
 
                 <li class="nav-item mr-3 @yield('history')">
                     <a class="nav-link" href="{{url('user/history')}}">မှတ်တမ်း</a>
                 </li>
+
+                  <li class="nav-item mr-3 @yield('dubai-history')">
+                      <a class="nav-link" href="{{url('user/dubai-history')}}">Dubai မှတ်တမ်း</a>
+                  </li>
 
                 <li>
                     <a class="btn btn-sm btn-danger" href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -138,7 +150,7 @@
                       document.getElementById('logout-form').submit();">
                     <i class="fas fa-power-off mr-1"></i> ထွက်မည်
                     </a>
-                
+
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
                 </form>
@@ -152,13 +164,13 @@
         </main>
     </div>
 
-    
+
     <!-- JQuery -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Bootstrap tooltips -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js">
     </script>
-    
+
         <!-- Bootstrap core JavaScript -->
         <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
@@ -174,19 +186,19 @@
     {{-- js validation --}}
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    
+
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
-     
+
     {{-- InfiniteScroll --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.4.1/jquery.jscroll.min.js"></script>
 
     {{-- Date range picker --}}
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    
+
     <script src="{{asset('js/validate.js')}}"></script>
 
-    
+
     @yield('scripts')
 </body>
 
