@@ -18,7 +18,7 @@ class ForWalletAndBetHistory
         $history->amount = $amount;
         $history->is_deposit = $is_deposit;
 
-        if ($user){
+        if ($user && ($history->is_deposit == 'deposit' || $history->is_deposit == 'withdraw')){
             if($user->hasRole('Admin')){
                 $history->type = 'master';
             }

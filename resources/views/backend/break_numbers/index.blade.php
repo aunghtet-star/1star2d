@@ -27,6 +27,7 @@
                             <th>အမျိုးအမည်</th>
                             <th>အပိတ်နံပါတ်</th>
                             <th>Amount</th>
+                            <th class="hidden">Updated At</th>
                             <th>Action</th>
                         </thead>
                         <tbody>
@@ -60,11 +61,15 @@
                                 name : "amount",
                             },
                             {
+                                data : "updated_at",
+                                name : "updated_at",
+                            },
+                            {
                                 data : "action",
                                 name : "action",
                             },
                         ],
-                        order : [0 , "desc"]
+                        order : [3 , "desc"]
                     });
 
                     $(document).on('click','#delete',function(e){
@@ -105,8 +110,8 @@
                                     )
                                 }
                                 })
-                      });    
+                      });
        });
-    
+
 </script>
 @endsection

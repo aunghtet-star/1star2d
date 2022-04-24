@@ -34,6 +34,7 @@ class BreakNumberController extends Controller
 
             return '<div class="action-icon">'.$edit_icon . $delete_icon.'</div>';
         })
+
         ->make(true);
     }
 

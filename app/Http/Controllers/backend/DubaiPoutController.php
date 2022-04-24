@@ -24,13 +24,8 @@ class DubaiPoutController extends Controller
         PermissionChecker::CheckPermission('pout');
         $twopouts = DubaiTwo::select('user_id', DB::raw('SUM(amount) as total'))->groupBy('user_id')->where('two', $two)->whereDate('date', $request->date)->get();
 
-        if($twopouts){
-            foreach($twopouts as $twopout){
-                $bet_historys = BetHistory::where('user_id',$twopout->user_id)->get();
-            }
-        }
 
-        return view('backend.dubai_two_overview.dubai_twopout', compact('twopouts','bet_historys'));
+        return view('backend.dubai_two_overview.dubai_twopout', compact('twopouts'));
     }
 
     public function twoBet(Request $request){
@@ -64,6 +59,9 @@ class DubaiPoutController extends Controller
 
         Notification::send([$to_account], new AddAndWithdraw($title, $message, $transaction_id,$sourceable_id, $sourceable_type));
 
-        return 'success';
+        return response([
+            'status' => 'success',
+            'msg' => 'Done'
+        ]);
     }
 }

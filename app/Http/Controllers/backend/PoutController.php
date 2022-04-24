@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\Helpers\ForWalletAndBetHistory;
 use App\Two;
 use App\User;
 use App\Three;
@@ -23,20 +24,14 @@ class PoutController extends Controller
     {
         PermissionChecker::CheckPermission('pout');
         $twopouts = Two::select('user_id', DB::raw('SUM(amount) as total'))->groupBy('user_id')->where('two', $two)->whereDate('date', $request->date)->get();
-       
-        if($twopouts){
-            foreach($twopouts as $twopout){
-                $bet_historys = BetHistory::where('user_id',$twopout->user_id)->get();
-            }
-        }
-        
-        return view('backend.two_overview.twopout', compact('twopouts','bet_historys'));
+
+        return view('backend.two_overview.twopout', compact('twopouts',));
     }
 
     public function twoBet(Request $request){
         $user_id = $request->user_id;
         $amount = $request->amount;
-        
+
         $to_account = User::where('id',$user_id)->firstOrFail();
 
         $user_wallet = UserWallet::where('user_id',$user_id)->firstOrFail();
@@ -44,16 +39,8 @@ class PoutController extends Controller
         $user_wallet->update();
 
         $trx_id = UUIDGenerator::TrxId();
-        $bet_history = new BetHistory();
-        $bet_history->admin_user_id = Auth::guard('adminuser')->user()->id;
-        $bet_history->user_id = $user_id;
-        $bet_history->trx_id = $trx_id;
-        $bet_history->is_deposit = 'win';
-        $bet_history->type = '2D';
-        $bet_history->amount = $amount;
-        $bet_history->date =  now()->format('Y-m-d H:i:s');
-        $bet_history->save();
 
+        ForWalletAndBetHistory::Slip(new BetHistory,Auth::guard('adminuser')->user()->id,$user_id,$trx_id,$amount,'win','2D');
 
         $title = 'ငွေအလျော်လက်ခံရရှိပါသည်';
         $message =  '+'. number_format($amount). 'Ks';
@@ -63,7 +50,10 @@ class PoutController extends Controller
 
         Notification::send([$to_account], new AddAndWithdraw($title, $message, $transaction_id,$sourceable_id, $sourceable_type));
 
-        return 'success';
+        return response([
+            'status' => 'success',
+            'msg' => 'Done'
+        ]);
     }
 
 
@@ -78,7 +68,7 @@ class PoutController extends Controller
     public function threeBet(Request $request){
         $user_id = $request->user_id;
         $amount = $request->amount;
-        
+
         $to_account = User::where('id',$user_id)->firstOrFail();
 
         $user_wallet = UserWallet::where('user_id',$user_id)->firstOrFail();
@@ -86,16 +76,8 @@ class PoutController extends Controller
         $user_wallet->update();
 
         $trx_id = UUIDGenerator::TrxId();
-        $bet_history = new BetHistory();
-        $bet_history->admin_user_id = Auth::guard('adminuser')->user()->id;
-        $bet_history->user_id = $user_id;
-        $bet_history->trx_id = $trx_id;
-        $bet_history->is_deposit = 'win';
-        $bet_history->type = '3D';
-        $bet_history->amount = $amount;
-        $bet_history->date =  now()->format('Y-m-d H:i:s');
-        $bet_history->save();
 
+        ForWalletAndBetHistory::Slip(new BetHistory,Auth::guard('adminuser')->user()->id,$user_id,$trx_id,$amount,'win','3D');
 
         $title = 'ငွေအလျော်လက်ခံရရှိပါသည်';
         $message =  '+'. number_format($amount). 'Ks';
@@ -105,6 +87,9 @@ class PoutController extends Controller
 
         Notification::send([$to_account], new AddAndWithdraw($title, $message, $transaction_id,$sourceable_id, $sourceable_type));
 
-        return 'success';
+        return response([
+            'status' => 'success',
+            'msg' => 'Done'
+        ]);
     }
 }

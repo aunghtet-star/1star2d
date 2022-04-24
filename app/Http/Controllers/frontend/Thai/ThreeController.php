@@ -29,19 +29,37 @@ class ThreeController extends Controller
 
     public function threeconfirm(Request $request)
     {
-        $from_account_wallet = Auth()->user()->user_wallet;
-
         $total = 0;
+        $threeRs = null;
 
-        foreach ($request->amount as $amount){
+        if (!is_null($request->r)) {
+            $threeR = new Threed();
+            $threeR = $threeR->r_no_origin_array($request->three)->getData();
+            $threeRs = $threeR->data;
+
+
+            foreach ($threeRs as $key=>$three){
+                    foreach ($request->amount ?? []  as $amount){
+                        $total += $amount;
+                    }
+            }
+        }
+
+        foreach ($request->amount ?? []  as $amount){
             $total += $amount;
         }
+
+        $from_account_wallet = Auth()->user()->user_wallet;
+
 
         // insufficient balance condition
         if ($from_account_wallet->amount < $total) {
             return redirect('/three')->withErrors(['fail' => 'You have no sufficient balance']);
         }
 
+
+
+        // limit feature for 3D function
         $closed_three = Amountbreak::select('closed_number')->where('type', '3D')->get();
         $three_brakes =  Three::select('three', DB::raw('SUM(amount) as total'))->whereIn('three', $closed_three)->where('date',now()->format('Y-m-d'))->groupBy('three')->get();
 
@@ -65,16 +83,60 @@ class ThreeController extends Controller
         }
 
 
+        // limit feature for 3D R function
+        if (!is_null($request->r)){
+            $three_r = TheeThantBrake::DigitBrake($three_brakes,$threeRs,$request->amount);
+
+            if($three_r){
+                return back()->withErrors([
+                    $three_r['closed_number'].' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
+                             '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '.$three_r['need_amount'].' ကျပ်လိုပါသေးသည်'
+                ])->withInput();
+            }
+
+            $db_has_no_three_r_number = TheeThantBrake::NoExistDigitBrake($threeRs,$request->amount);
+
+            if ($db_has_no_three_r_number){
+
+                return back()->withErrors([
+                    $db_has_no_three_r_number['closed_number'].'သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
+                         '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '.$db_has_no_three_r_number['need_amount'].' ကျပ်လိုပါသေးသည်'
+                ])->withInput();
+            }
+        }
+
         $threes = $request->three;
         $amount = $request->amount;
+        $r_keys = $request->r;
 
-        return view('frontend.three.threeconfirm', compact('threes', 'amount','total'));
+        return view('frontend.three.threeconfirm', compact('threes','threeRs', 'amount','total','r_keys'));
     }
 
     public function three(Request $request)
     {
+
+        $from_account_wallet = Auth()->user()->user_wallet;
+        $total = 0;
+
+
+        foreach ($request->r_amount ?? []  as $amount){
+            $total += $amount;
+        }
+
+        foreach ($request->amount as $amount) {
+            $total += $amount;
+        }
+
+
+        if ($from_account_wallet->amount < $total) {
+            return redirect('/three')->withErrors(['fail' => 'You have no sufficient balance']);
+        }
+
+        // limit feature for 3D R function
+
         $closed_three = Amountbreak::select('closed_number')->where('type', '3D')->get();
         $three_brakes =  Three::select('three', DB::raw('SUM(amount) as total'))->whereIn('three', $closed_three)->where('date',now()->format('Y-m-d'))->groupBy('three')->get();
+
 
         $three_d = TheeThantBrake::DigitBrake($three_brakes,$request->three,$request->amount);
 
@@ -95,14 +157,24 @@ class ThreeController extends Controller
             ])->withInput();
         }
 
-        $from_account_wallet = Auth()->user()->user_wallet;
+        // limit feature for 3D R function
+        if (!is_null($request->r)){
+            $three_r = TheeThantBrake::DigitBrake($three_brakes,$request->three_r,$request->amount);
+            if($three_r){
+                return back()->withErrors([
+                    $three_r['closed_number'].' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
+                             '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '.$three_r['need_amount'].' ကျပ်လိုပါသေးသည်'
+                ])->withInput();
+            }
 
+            $db_has_no_three_r_number = TheeThantBrake::NoExistDigitBrake($request->three_r,$request->amount);
 
-        $total = 0;
-        foreach ($request->amount as $amount) {
-            $total += $amount;
-            if ($from_account_wallet->amount < $total) {
-                return redirect('/three')->withErrors(['fail' => 'You have no sufficient balance']);
+            if ($db_has_no_three_r_number){
+
+                return back()->withErrors([
+                    $db_has_no_three_r_number['closed_number'].'သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
+                         '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '.$db_has_no_three_r_number['need_amount'].' ကျပ်လိုပါသေးသည်'
+                ])->withInput();
             }
         }
 
@@ -110,11 +182,8 @@ class ThreeController extends Controller
         DB::beginTransaction();
 
         try {
-            foreach ($request->amount as $amount) {
-                $from_account_wallet->decrement('amount', $amount);
+                $from_account_wallet->decrement('amount', $total);
                 $from_account_wallet->update();
-            }
-
 
             foreach ($request->three as $key=>$threed) {
                 $three = new Three();
@@ -123,6 +192,16 @@ class ThreeController extends Controller
                 $three->date = now()->format('Y-m-d');
                 $three->three = $threed;
                 $three->amount = $request->amount[$key];
+                $three->save();
+            }
+
+            foreach ($request->three_r ?? [] as $key=>$threed) {
+                $three = new Three();
+                $three->user_id = Auth()->user()->id;
+                $three->admin_user_id = Auth()->user()->admin_user_id;
+                $three->date = now()->format('Y-m-d');
+                $three->three = $threed;
+                $three->amount = $request->r_amount[$key];
                 $three->save();
             }
 

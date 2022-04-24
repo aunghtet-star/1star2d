@@ -31,11 +31,20 @@
                         @csrf
                         <div>
 
+
                         @foreach($threes ?? [] as $key=>$three)
                             <input type="hidden" name="three[]" value="{{$three}}">
                             <input type="hidden" name="amount[]" value="{{$amount[$key]}}">
-                            <p class="mb-1">{{$three}} => <span class="mb-1">{{$amount[$key]}}</span> </p>
+                            <p class="mb-1">{{$three}} => <span class="mb-1"></span> {{$amount[$key]}} </p>
                         @endforeach
+
+                        @foreach($threeRs ?? [] as $key=>$three)
+                            <input type="hidden" name="three_r[]" value="{{$three}}">
+                            <input type="hidden" name="r_amount[]" value="{{$amount[0]}}">
+                            <p class="mb-1">{{$three}} => <span class="mb-1"></span> {{$amount[0]}} </p>
+                        @endforeach
+
+
 
                         </div>
                             <p class="text-success" style="font-size: 20px;font-weight:700">စုစုပေါင်း - {{$total}}

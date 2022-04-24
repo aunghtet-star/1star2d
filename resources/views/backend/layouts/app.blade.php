@@ -14,16 +14,16 @@
     <meta name="csrf-token" content="{{csrf_token()}}">
 
     <link href="{{asset('backend/css/main.css')}}" rel="stylesheet">
-    
+
     {{-- ================== Font awesome ================= --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
     integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
     {{-- ================== Datatable ================= --}}
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
-    
+
     {{-- Date ranger picker --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
@@ -58,11 +58,11 @@
 
 
     <script type="text/javascript" src="{{asset('backend/scripts/main.js')}}"></script>
-    
+
     <!-- Javascript Requirements Validation -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    
+
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
@@ -74,12 +74,12 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
-    
+
     {{-- select 2 --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     {{-- InfiniteScroll --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.4.1/jquery.jscroll.min.js"></script>
-    
+
     <!-- Laravel Javascript Validation -->
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 
@@ -87,16 +87,20 @@
     @yield('scripts')
     <script>
         $(document).ready(function(){
+            //Datatables
+
+
         let token = document.head.querySelector('meta[name="csrf-token"]');
 
         if(token){
             $.ajaxSetup({
             headers : {
-                'X-CSRF_TOKEN' : token.content  
+                'X-CSRF_TOKEN' : token.content
             }
         })
         }
-        
+
+
 
             const Toast = Swal.mixin({
             toast: true,
@@ -156,6 +160,34 @@
             // document.addEventListener('contextmenu',event=>
             // event.preventDefault());
     });
+
+        $.extend(true, $.fn.dataTable.defaults, {
+            processing: true,
+            serverSide: true,
+            responsive: true,
+            mark: true,
+            "columnDefs": [
+                {
+                    "targets": "hidden",
+                    "visible": false,
+                },
+                {
+                    "targets": 'no-sort',
+                    "orderable": false,
+                },
+                {
+                    "targets": 'no-search',
+                    "searchable": false,
+                }
+            ],
+            "language": {
+                "paginate" :{
+                    "next": "<i class='fas fa-arrow-alt-circle-right'></i>",
+                    "previous": "<i class='fas fa-arrow-alt-circle-left'></i>",
+                },
+                "processing":  "<img src='/image/giphy.gif' width='90px' /><p class='my-2'>Loading ...</p> "
+            }
+        });
     </script>
 </body>
 

@@ -13,6 +13,18 @@
 @endsection
 @section('scripts')
     <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
         function bet(user_id,amount,name) {
            // const bet_name = document.getElementById('bet');
 
@@ -27,7 +39,15 @@
                     user_id: user_id,
                 },
                 success: function(res) {
-                    window.location.reload();
+                    if(res.status == 'success') {
+                        Toast.fire({
+                            icon: 'success',
+                            title: res.msg
+                        });
+                    }
+                    setTimeout(() => {
+                        window.location.reload();
+                    },2000)
                 }
             })
         }

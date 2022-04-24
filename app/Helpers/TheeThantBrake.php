@@ -13,41 +13,61 @@ class TheeThantBrake
                 $break_amount = Amountbreak::select('amount')->where('closed_number', $data->two)->where('type','2D')->first();
                 $break_number = Amountbreak::select('closed_number')->where('closed_number', $data->two)->where('type','2D')->first();
 
+
+                for ($i=0;$i<count($digits);$i++) {
+
+                    if ($break_number->closed_number == $digits[$i]) {
+
+                        $breakTwo = $data->total + $amount[$i];
+                        $needAmount =$break_amount->amount - $data->total;
+                        if ($breakTwo > $break_amount->amount) {
+                            return ['closed_number' => $break_number->closed_number,'need_amount' => $needAmount];
+                        }
+                    }
+                }
             }
 
             if (strlen($data->three) == '3'){
                 $break_amount = Amountbreak::select('amount')->where('closed_number', $data->three)->where('type','3D')->first();
                 $break_number = Amountbreak::select('closed_number')->where('closed_number', $data->three)->where('type','3D')->first();
-            }
 
+                for ($i=0;$i<count($digits);$i++) {
 
-            for ($i=0;$i<count($digits);$i++) {
+                    if ($break_number->closed_number == $digits[$i]) {
 
-                if ($break_number->closed_number == $digits[$i]) {
-
-                    $breakTwo = $data->total + $amount[$i];
-                    $needAmount =$break_amount->amount - $data->total;
-                    if ($breakTwo > $break_amount->amount) {
-                        return ['closed_number' => $break_number->closed_number,'need_amount' => $needAmount];
+                        $breakTwo = $data->total + $amount[0];
+                        $needAmount =$break_amount->amount - $data->total;
+                        if ($breakTwo > $break_amount->amount) {
+                            return ['closed_number' => $break_number->closed_number,'need_amount' => $needAmount];
+                        }
                     }
                 }
+
             }
+
+
         }
     }
 
     public static function NoExistDigitBrake($digits,$amount){
+
 
         for ($i=0;$i<count($digits);$i++) {
 
             if (strlen($digits[$i]) == '2'){
                 $emptybreak = Amountbreak::where('closed_number', $digits[$i])->where('type', '2D')->first();
 
+                if ($emptybreak) {
+                    if ($amount[$i] > $emptybreak->amount) {
+                        return ['closed_number' => $emptybreak->closed_number , 'need_amount' => $emptybreak->amount];
+                    }
+                }
             }else{
                 $emptybreak = Amountbreak::where('closed_number', $digits[$i])->where('type', '3D')->first();
-            }
-            if ($emptybreak) {
-                if ($amount[$i] > $emptybreak->amount) {
-                    return ['closed_number' => $emptybreak->closed_number , 'need_amount' => $emptybreak->amount];
+                if ($emptybreak) {
+                    if ($amount[0] > $emptybreak->amount) {
+                        return ['closed_number' => $emptybreak->closed_number , 'need_amount' => $emptybreak->amount];
+                    }
                 }
             }
         }
