@@ -62,6 +62,7 @@ class UserController extends Controller
         try {
             $users = new User();
             $users->name = $request->name;
+            $users->master_id =  Auth::guard('adminuser')->user()->user_id;
             $users->admin_user_id = Auth::guard('adminuser')->user()->id;
             $users->phone = $request->phone;
             $users->password = Hash::make($request->password);
@@ -162,6 +163,7 @@ class UserController extends Controller
 
             $user->name = $request->name;
             $user->phone = $request->phone;
+            $user->master_id =  Auth::guard('adminuser')->user()->user_id;
             $user->admin_user_id = Auth::guard('adminuser')->user()->id;
             $user->password = $request->password ? Hash::make($request->password) : $user->password ;
             $user->update();

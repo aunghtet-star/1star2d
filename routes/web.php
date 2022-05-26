@@ -1,13 +1,12 @@
 <?php
 
 use App\Http\Controllers\Auth\AdminLoginController;
-use App\Http\Controllers\backend\
-{
-    AdminDashboardController,
+use App\Http\Controllers\backend\{AdminDashboardController,
     AgentController,
     AllBreakWithAmountController,
     BetHistoryController,
     BreakNumberController,
+    CommisionController,
     DashBoardController,
     DubaiPoutController,
     DubaiTwoController,
@@ -27,8 +26,7 @@ use App\Http\Controllers\backend\
     TwoKyonCleaner,
     UserController,
     WalletController,
-    WalletHistoryController
-};
+    WalletHistoryController};
 
 use App\Http\Controllers\frontend\
 {
@@ -207,6 +205,11 @@ Route::prefix('admin')->middleware(['auth:adminuser'])->group(function () {
     Route::post('dubai-two-overview-7pm/new_amount/{date}/{twoD}', [DubaiTwoKyonCleaner::class,'NewAmount_7pm']);
     Route::post('dubai-two-overview-9pm/new_amount/{date}/{twoD}', [DubaiTwoKyonCleaner::class,'NewAmount_9pm']);
 
+    //Commission Controller
+
+    Route::get('commission', [CommisionController::class,'index'])->name('commissions.index');
+
+    //Route::get('two-am/commission/{date}/{user-id}',  );
 
     //Bet History Controller
     Route::get('/two-pout/history', [BetHistoryController::class,'index'])->name('bet_history.index');

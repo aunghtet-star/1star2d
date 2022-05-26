@@ -1143,7 +1143,7 @@ class DubaiHtaitPaitController extends Controller
             return redirect('dubai-two/htaitpait')->with('create', 'Done');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect('/dubai-two/htaitpait')->withErrors(['fail' => 'Something wrong']);
+            return redirect('/dubai-two/htaitpait')->withErrors(['fail' => 'Something wrong'.$e->getMessage()]);
         }
     }
 }

@@ -26,7 +26,7 @@
                 <div class="card-body ">
                     <p class="text-danger text-center" style="font-size: 20px ; font-weight:700">သင်ထိုးထားတာတွေဟုတ်ပါသလား ?</p>
                     <div class="row text-center css-column">
-                        <form action="{{url('two/htaitpait/store')}}" method="POST">
+                        <form action="{{url('dubai-two/htaitpait/store')}}" method="POST">
                             @csrf
                             @php
                                 $total = 0;

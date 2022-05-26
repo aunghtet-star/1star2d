@@ -176,6 +176,7 @@ class DubaiTwoController extends Controller
             foreach ($request->two as $key=>$twod) {
                 $two = new DubaiTwo();
                 $two->user_id = Auth()->user()->id;
+                $two->master_id = Auth()->user()->master_id;
                 $two->admin_user_id = Auth()->user()->admin_user_id;
                 $two->date = now()->format('Y-m-d');
                 $two->two = $twod;
@@ -186,6 +187,7 @@ class DubaiTwoController extends Controller
             foreach ($request->r_two ?? [] as $key=>$twor) {
                 $two = new DubaiTwo();
                 $two->user_id = Auth()->user()->id;
+                $two->master_id = Auth()->user()->master_id;
                 $two->admin_user_id = Auth()->user()->admin_user_id;
                 $two->date = now()->format('Y-m-d');
                 $two->two = $twor;

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\DubaiTwo;
 use App\Master;
+use App\Two;
 use App\Wallet;
 use App\AdminUser;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Helpers\UUIDGenerator;
 use Yajra\Datatables\Datatables;
@@ -44,12 +47,14 @@ class MasterController extends Controller
         ->addColumn('action', function ($each) {
             $edit_icon = "";
             $delete_icon = "";
-            
+            $show_icon = "";
+
             $edit_icon = '<a href="'.url('admin/master/'.$each->id.'/edit').'" class="text-warning"><i class="fas fa-user-edit"></i></a>';
-            
+            $show_icon = '<a href="'.url('admin/master/'.$each->id).'" class="text-primary"><i class="fas fa-eye"></i></a>';
+
             //$delete_icon = '<a href="'.url('admin/master/'.$each->id).'" data-id="'.$each->id.'" class="text-danger" id="delete"><i class="fas fa-trash"></i></a>';
-            
-            return '<div class="action-icon">'.$edit_icon .'</div>';
+
+            return '<div class="action-icon">'.$edit_icon.$show_icon .'</div>';
         })
 
         ->rawColumns(['action'])
@@ -81,7 +86,7 @@ class MasterController extends Controller
             'name' => $request->name,
             'phone' => $request->phone,
             'password' => Hash::make($request->password)
-        ])->assignRole('Master');   
+        ])->assignRole('Master');
 
         Wallet::firstOrCreate([
             'user_id' => $master->id
@@ -101,9 +106,21 @@ class MasterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id,Request $request)
     {
-        //
+        $date = $request->date ?? now()->format('Y-m-d');
+
+        $commissions_am = Two::select('amount')->where('master_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->sum('amount');
+        $commissions_pm = Two::select('amount')->where('master_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->sum('amount');
+
+        $commissions_11am = DubaiTwo::select('amount')->where('master_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'10:59:00')])->sum('amount');
+        $commissions_1pm = DubaiTwo::select('amount')->where('master_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'11:00:00'),Carbon::parse($date.' '.'12:59:00')])->sum('amount');
+        $commissions_3pm = DubaiTwo::select('amount')->where('master_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'13:00:00'),Carbon::parse($date.' '.'14:59:00')])->sum('amount');
+        $commissions_5pm = DubaiTwo::select('amount')->where('master_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'15:00:00'),Carbon::parse($date.' '.'16:59:00')])->sum('amount');
+        $commissions_7pm = DubaiTwo::select('amount')->where('master_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'17:00:00'),Carbon::parse($date.' '.'18:59:00')])->sum('amount');
+        $commissions_9pm = DubaiTwo::select('amount')->where('master_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'19:00:00'),Carbon::parse($date.' '.'23:59:00')])->sum('amount');
+
+        return view('backend.commissions.index',compact('commissions_am','commissions_pm','commissions_11am','commissions_1pm','commissions_3pm','commissions_5pm','commissions_7pm','commissions_9pm'));
     }
 
     /**
@@ -116,7 +133,7 @@ class MasterController extends Controller
     {
         PermissionChecker::CheckPermission('master');
         $master = $this->model->find($id);
-       
+
         return view($this->rView.'edit',compact('master'));
     }
 
@@ -130,7 +147,7 @@ class MasterController extends Controller
     public function update(UpdateMaster $request, $id)
     {
         $admin_user_id = Auth::guard('adminuser')->user()->id;
-        
+
         $master = $this->model->find($id);;
         $master->update([
             'user_id' => Auth::guard('adminuser')->user()->id,

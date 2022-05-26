@@ -185,6 +185,8 @@ class HomeController extends Controller
     public function two(Request $request)
     {
 
+        //dd($request->all());
+
         $from_account_wallet = Auth()->user()->user_wallet;
 
         $total = 0;
@@ -208,6 +210,7 @@ class HomeController extends Controller
             foreach ($request->two as $key=>$twod) {
                 $two = new Two();
                 $two->user_id = Auth()->user()->id;
+                $two->master_id = Auth()->user()->master_id;
                 $two->admin_user_id = Auth()->user()->admin_user_id;
                 $two->date = now()->format('Y-m-d');
                 $two->two = $twod;
@@ -218,6 +221,7 @@ class HomeController extends Controller
             foreach ($request->r_two ?? [] as $key=>$twor) {
                 $two = new Two();
                 $two->user_id = Auth()->user()->id;
+                $two->master_id = Auth()->user()->master_id;
                 $two->admin_user_id = Auth()->user()->admin_user_id;
                 $two->date = now()->format('Y-m-d');
                 $two->two = $twor;

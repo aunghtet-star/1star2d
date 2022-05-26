@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\backend;
 
 use App\agent;
+use App\DubaiTwo;
+use App\Two;
 use App\Wallet;
 use App\AdminUser;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Helpers\UUIDGenerator;
 use Yajra\Datatables\Datatables;
@@ -47,9 +50,11 @@ class AgentController extends Controller
 
             $edit_icon = '<a href="'.url('admin/agent/'.$each->id.'/edit').'" class="text-warning"><i class="fas fa-user-edit"></i></a>';
 
+            $show_icon = '<a href="'.url('admin/agent/'.$each->id).'" class="text-primary"><i class="fas fa-eye"></i></a>';
+
             //$delete_icon = '<a href="'.url('admin/agent/'.$each->id).'" data-id="'.$each->id.'" class="text-danger" id="delete"><i class="fas fa-trash"></i></a>';
 
-            return '<div class="action-icon">'.$edit_icon .'</div>';
+            return '<div class="action-icon">'.$edit_icon.$show_icon .'</div>';
         })
 
         ->rawColumns(['action'])
@@ -101,9 +106,21 @@ class AgentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id,Request $request)
     {
-        //
+        $date = $request->date ?? now()->format('Y-m-d');
+
+        $commissions_am = Two::select('amount')->where('admin_user_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->sum('amount');
+        $commissions_pm = Two::select('amount')->where('admin_user_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->sum('amount');
+
+        $commissions_11am = DubaiTwo::select('amount')->where('admin_user_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'10:59:00')])->sum('amount');
+        $commissions_1pm = DubaiTwo::select('amount')->where('admin_user_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'11:00:00'),Carbon::parse($date.' '.'12:59:00')])->sum('amount');
+        $commissions_3pm = DubaiTwo::select('amount')->where('admin_user_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'13:00:00'),Carbon::parse($date.' '.'14:59:00')])->sum('amount');
+        $commissions_5pm = DubaiTwo::select('amount')->where('admin_user_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'15:00:00'),Carbon::parse($date.' '.'16:59:00')])->sum('amount');
+        $commissions_7pm = DubaiTwo::select('amount')->where('admin_user_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'17:00:00'),Carbon::parse($date.' '.'18:59:00')])->sum('amount');
+        $commissions_9pm = DubaiTwo::select('amount')->where('admin_user_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'19:00:00'),Carbon::parse($date.' '.'23:59:00')])->sum('amount');
+
+        return view('backend.commissions.index',compact('commissions_am','commissions_pm','commissions_11am','commissions_1pm','commissions_3pm','commissions_5pm','commissions_7pm','commissions_9pm'));
     }
 
     /**

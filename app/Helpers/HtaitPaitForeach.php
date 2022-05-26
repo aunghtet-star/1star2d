@@ -3,6 +3,7 @@ namespace App\Helpers;
 
 use App\DubaiTwo;
 use App\Two;
+use Illuminate\Support\Facades\Auth;
 
 class HtaitPaitForeach
 {
@@ -11,6 +12,7 @@ class HtaitPaitForeach
         foreach ($datas as $key=>$data) {
             $htaitpait = new Two();
             $htaitpait->user_id = Auth()->user()->id;
+            $htaitpait->master_id = Auth()->user()->master_id;
             $htaitpait->admin_user_id = Auth()->user()->admin_user_id;
             $htaitpait->date = now()->format('Y-m-d');
             $htaitpait->two = $data;
@@ -25,6 +27,7 @@ class HtaitPaitForeach
         foreach ($datas as $key=>$data) {
             $htaitpait = new DubaiTwo();
             $htaitpait->user_id = Auth()->user()->id;
+            $htaitpait->master_id = Auth()->user()->master_id;
             $htaitpait->admin_user_id = Auth()->user()->admin_user_id;
             $htaitpait->date = now()->format('Y-m-d');
             $htaitpait->two = $data;
