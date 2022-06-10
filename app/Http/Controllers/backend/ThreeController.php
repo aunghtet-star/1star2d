@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\Helpers\ForThreeOverview;
+use App\Helpers\ForTwoOverview;
+use App\ThreeOverview;
+use App\TwoOverview;
 use App\User;
 use App\Three;
 use Carbon\Carbon;
@@ -42,13 +46,13 @@ class ThreeController extends Controller
         ->addColumn('action', function ($each) {
             $edit_icon = '<a href="'.url('admin/three/'.$each->id.'/edit').'" class="text-warning"><i class="fas fa-user-edit"></i></a>';
             $delete_icon = '<a href="'.url('admin/three/'.$each->id).'" data-id="'.$each->id.'"  data-three="'.$each->three.'" data-amount="'.$each->amount.'"  class="text-danger" id="delete"><i class="fas fa-trash"></i></a>';
-            
-           
+
+
             return '<div class="action-icon">'.$edit_icon . $delete_icon.'</div>';
         })
         ->make(true);
     }
-    
+
     public function create()
     {
         PermissionChecker::CheckPermission('three');
@@ -103,17 +107,42 @@ class ThreeController extends Controller
     public function threeHistory(Request $request)
     {
         PermissionChecker::CheckPermission('three_overview');
-        $from = $request->startdate ?? now()->format('Y-m-d');
-        $to = $request->enddate ?? date('Y-m-d', strtotime(now(). '+10 days'));
-        
+
+        if (now()->format('Y-m-d') < Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d')){
+            $from = $request->startdate ?? Carbon::now()->startOfMonth();
+            $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(15);
+        }else{
+            //dd(Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d'));
+            $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(15);
+            $to = $request->enddate ?? Carbon::now()->endOfMonth()->addDays(1);
+        }
+
+        $from = $from->format('Y-m-d');
+        $to = $to->format('Y-m-d');
+
+
         $three_brake = AllBrakeWithAmount::select('amount')->where('type', '3D')->first();
 
-        $three_transactions = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to])->paginate(144);
-        $three_transactions->withPath('/admin/three-overview/history?startdate='.$from.'&enddate='.$to);
-        
-        $three_transactions_total = Three::select('amount')->whereBetween('date', [$from,$to])->sum('amount');
+        $threes = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to])->paginate(144);
 
-        return view('backend.three_overview.history', compact('three_transactions', 'three_transactions_total', 'three_brake', 'from', 'to'));
+        ForThreeOverview::Overview($threes,$from,new ThreeOverview);
+
+        //to store three overview table if exist to update
+        $two_overviews_am = ThreeOverview::whereDate('date', $from)->orderBy('three','asc')->get();
+
+        //ThreeOverview Total Amount for am
+        $overview_total = ForThreeOverview::OverviewTotal(new ThreeOverview,$from);
+
+        $amount_total = $overview_total['amount'];
+        $new_amount_total = $overview_total['new_amount'];
+        $kyon_amount_total = $overview_total['kyon_amount'];
+
+        $threes->withPath('/admin/three-overview/history?startdate='.$from.'&enddate='.$to);
+
+
+        $threes_total = Three::select('amount')->whereBetween('date', [$from,$to])->sum('amount');
+
+        return view('backend.three_overview.history', compact('threes', 'threes_total', 'three_brake', 'from', 'to'));
     }
 
     public function threeKyon(Request $request)
@@ -121,12 +150,12 @@ class ThreeController extends Controller
         PermissionChecker::CheckPermission('three_kyon');
         $from = $request->startdate ?? now()->format('Y-m-d');
         $to = $request->enddate ?? date('Y-m-d', strtotime(now(). '+10 days'));
-        
+
         $three_brake = AllBrakeWithAmount::select('amount')->where('type', '3D')->first();
-        
+
         $three_transactions = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to])->get();
         //$three_transactions->withPath('/admin/three-overview/history?startdate='.$from.'&enddate='.$to);
-        
+
         $three_transactions_total = Three::select('amount')->whereBetween('date', [$from,$to])->sum('amount');
 
         return view('backend.three_overview.threekyon', compact('three_transactions', 'three_transactions_total', 'three_brake', 'from', 'to'));

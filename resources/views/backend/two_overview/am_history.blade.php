@@ -61,7 +61,7 @@
                                         <a href="#" id="data_id" data-id="{{ $two_overview->id }}" onclick="newAmount('{{ $two_overview->two }}')"><span><i
                                                     class="fas fa-edit ml-3"></i></span></a>
 
-                                        <a href="{{ url('/admin/two-overview/twopout/' . $two_overview->two . '/date=' . $date) }}"><span><i
+                                        <a href="{{ url('/admin/two-overview/two-pout-am/' . $two_overview->two . '/'. $date) }}"><span><i
                                                     class="fas fa-eye ml-3"></i></span></a>
 
 

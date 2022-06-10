@@ -23,8 +23,10 @@ class ForTwoKyonCleaner
 
         foreach($two_kyons as $two_kyon){
             $two_overview = $overviewModel::where('two',$two_kyon->two)->where('date',$date)->first();
+
             $two_kyon_each_value = $kyonModel::where('two',$two_kyon->two)->where('date',$date)->first();
             $if_two_kyon_exist_in_overview = $overviewModel::where('two',$two_kyon->two)->where('date',$date)->exists();
+
             if($if_two_kyon_exist_in_overview){
 
                 if (($two_overview->amount- $two_overview->new_amount - $two_overview->kyon_amount)> ($two_brake ? $two_brake->amount : 99999999999999999999)) {

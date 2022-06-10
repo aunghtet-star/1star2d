@@ -34,11 +34,11 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text type-padding">Date</label>
                     </div>
-                    @if(request()->startdate && request()->enddate)
-                    <input type="text" class="form-control date" value="{{  request()->startdate  . ' - ' . request()->enddate  }}   " placeholder="All">
-                    @else
-                    <input type="text" class="form-control date" value="{{  now()->format('Y-m-d')  . ' - ' . date('Y-m-d',strtotime(now().'+ 10 days'))  }}   " placeholder="All">
-                    @endif
+{{--                    @if(request()->startdate && request()->enddate)--}}
+{{--                    <input type="text" class="form-control date" value="{{  request()->startdate  . ' - ' . request()->enddate  }}   " placeholder="All">--}}
+{{--                    @else--}}
+                    <input type="text" class="form-control date" disabled value="{{  $from  . ' - ' . $to  }}   " placeholder="All">
+{{--                    @endif--}}
                 </div>
             </div>
         </div>
@@ -46,19 +46,19 @@
             <div class="card">
                 <div class="card-body refresh" >
                     <div class="column">
-                        @if($three_transactions)                            
-                        @foreach($three_transactions as $three_transaction)
+                        @if($threes)
+                        @foreach($threes as $three)
                                 <div class="d-flex " style="width:100px; margin-right : 70px">
-                                    <p class="mb-2 mr-3">{{$three_transaction->three}} </p> => <span class="ml-2 @if( ($three_brake ? $three_brake->amount : 99999999999999999999) < $three_transaction->total)  text-danger @endif">{{number_format($three_transaction->total)}}</span>
-                                    <a href="{{url('/admin/three-overview/threepout/'.$three_transaction->three.'/from='.$from.'/to='.$to)}}"><span class="ml-3"><i class="fas fa-eye"></i></span></a>
+                                    <p class="mb-2 mr-3">{{$three->three}} </p> => <span class="ml-2 @if( ($three_brake ? $three_brake->amount : 99999999999999999999) < $three->total)  text-danger @endif">{{number_format($three->total)}}</span>
+                                    <a href="{{url('/admin/three-overview/threepout/'.$three->three.'/'.$from.'/'.$to)}}"><span class="ml-3"><i class="fas fa-eye"></i></span></a>
                                 </div>
                             @endforeach
                         @endif
                     </div>
-                   
-                <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($three_transactions_total)}}</h5>
 
-                {{$three_transactions->links()}}
+                <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($threes_total)}}</h5>
+
+                {{$threes->links()}}
                 </div>
             </div>
         </div>
@@ -83,19 +83,19 @@
                     var enddate = picker.endDate.format('YYYY-MM-DD');
 
                     history.pushState(null,'',`?startdate=${startdate}&enddate=${enddate}`);
-                    
+
                     window.location.reload();
-                    
-                    
+
+
                 });
-                    
-                    
+
+
                 // window.setInterval(() => {
                 //         $('.refresh').load(`/admin/three-overview/history`);
                 //     }, 2000);
-    
-                    
+
+
        });
-    
+
 </script>
 @endsection

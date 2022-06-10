@@ -22,6 +22,7 @@ use App\Http\Controllers\backend\{AdminDashboardController,
     RoleController,
     ShowHideController,
     ThreeController,
+    ThreePoutController,
     TwoController,
     TwoKyonCleaner,
     UserController,
@@ -143,12 +144,17 @@ Route::prefix('admin')->middleware(['auth:adminuser'])->group(function () {
     Route::get('two-overview/pm-two-kyon', [TwoController::class,'twoKyonPM'])->name('two-overview.kyon-pm');
 
     //Two Pout Controller
-    Route::get('/two-overview/twopout/{two}/date={date}', [PoutController::class,'twoPout']);
-    Route::get('/three-overview/threepout/{three}/from={from}/to={to}', [PoutController::class,'threePout']);
+    Route::get('/two-overview/two-pout-am/{two}/{date}', [PoutController::class,'twoPoutAm']);
+    Route::get('/two-overview/two-pout-pm/{two}/{date}', [PoutController::class,'twoPoutPm']);
+
 
     //Two Bet Controller
-    Route::post('/two-pout/{user_id}', [PoutController::class,'twoBet']);
-    Route::post('/three-pout/{user_id}', [PoutController::class,'threeBet']);
+    Route::post('/two-pout-am/{user_id}', [PoutController::class,'twoBetAm']);
+    Route::post('/two-pout-pm/{user_id}', [PoutController::class,'twoBetPm']);
+
+
+    Route::get('/three-overview/threepout/{three}/{from}/{to}', [ThreePoutController::class,'threePout']);
+    Route::post('/three-pout/{user_id}', [ThreePoutController::class,'threeBet']);
 
 
     //Two Kyon Cleaner
@@ -182,20 +188,30 @@ Route::prefix('admin')->middleware(['auth:adminuser'])->group(function () {
     Route::get('dubai-two-kyon/9pm-two-kyon', [DubaiTwoKyonController::class,'twoKyon_9pm'])->name('dubai-two-kyon.9pm');
 
     //Dubai Pout Controller
-    Route::get('/dubai-two-overview/twopout/{two}/date={date}', [DubaiPoutController::class,'twoPout']);
+    Route::get('dubai-twopout-11am/{two}/{date}', [DubaiPoutController::class,'DubaiTwoPout11Am']);
+    Route::get('dubai-twopout-1pm/{two}/{date}', [DubaiPoutController::class,'DubaiTwoPout1Pm']);
+    Route::get('dubai-twopout-3pm/{two}/{date}', [DubaiPoutController::class,'DubaiTwoPout3Pm']);
+    Route::get('dubai-twopout-5pm/{two}/{date}', [DubaiPoutController::class,'DubaiTwoPout5Pm']);
+    Route::get('dubai-twopout-7pm/{two}/{date}', [DubaiPoutController::class,'DubaiTwoPout7Pm']);
+    Route::get('dubai-twopout-9pm/{two}/{date}', [DubaiPoutController::class,'DubaiTwoPout9Pm']);
 
     //Dubai Two Bet Controller
-    Route::post('/dubai-two-pout/{user_id}', [DubaiPoutController::class,'twoBet']);
+    Route::post('/dubai-twopout-11am/{user_id}', [DubaiPoutController::class,'DubaiTwoBet11Am']);
+    Route::post('/dubai-twopout-1pm/{user_id}', [DubaiPoutController::class,'DubaiTwoBet1Pm']);
+    Route::post('/dubai-twopout-3pm/{user_id}', [DubaiPoutController::class,'DubaiTwoBet3Pm']);
+    Route::post('/dubai-twopout-5pm/{user_id}', [DubaiPoutController::class,'DubaiTwoBet5Pm']);
+    Route::post('/dubai-twopout-7pm/{user_id}', [DubaiPoutController::class,'DubaiTwoBet7Pm']);
+    Route::post('/dubai-twopout-9pm/{user_id}', [DubaiPoutController::class,'DubaiTwoBet9Pm']);
 
     //Dubai Two Kyon Cleaner
     Route::get('dubai-twooverview', [DubaiTwoKyonCleaner::class,'index']);
 
-    Route::post('dubai-two-overview/kyon_amount_11am', [DubaiTwoKyonCleaner::class,'kyonAmount_11am']);
-    Route::post('dubai-two-overview/kyon_amount_1pm', [DubaiTwoKyonCleaner::class,'kyonAmount_1pm']);
-    Route::post('dubai-two-overview/kyon_amount_3pm', [DubaiTwoKyonCleaner::class,'kyonAmount_3pm']);
-    Route::post('dubai-two-overview/kyon_amount_5pm', [DubaiTwoKyonCleaner::class,'kyonAmount_5pm']);
-    Route::post('dubai-two-overview/kyon_amount_7pm', [DubaiTwoKyonCleaner::class,'kyonAmount_7pm']);
-    Route::post('dubai-two-overview/kyon_amount_9pm', [DubaiTwoKyonCleaner::class,'kyonAmount_9pm']);
+    Route::post('kyon_amount_11am', [DubaiTwoKyonCleaner::class,'kyonAmount_11am']);
+    Route::post('kyon_amount_1pm', [DubaiTwoKyonCleaner::class,'kyonAmount_1pm']);
+    Route::post('kyon_amount_3pm', [DubaiTwoKyonCleaner::class,'kyonAmount_3pm']);
+    Route::post('kyon_amount_5pm', [DubaiTwoKyonCleaner::class,'kyonAmount_5pm']);
+    Route::post('kyon_amount_7pm', [DubaiTwoKyonCleaner::class,'kyonAmount_7pm']);
+    Route::post('kyon_amount_9pm', [DubaiTwoKyonCleaner::class,'kyonAmount_9pm']);
 
     //Dubai new amount
     Route::post('dubai-two-overview-11am/new_amount/{date}/{twoD}', [DubaiTwoKyonCleaner::class,'NewAmount_11am']);

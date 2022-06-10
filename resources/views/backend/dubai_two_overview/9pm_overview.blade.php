@@ -60,7 +60,7 @@
                                         <a href="#" id="data_id" data-id="{{ $two_overview->id }}" onclick="newAmount('{{ $two_overview->two }}')"><span><i
                                                     class="fas fa-edit ml-3"></i></span></a>
 
-                                        <a href="{{ url('/admin/dubai-two-overview/twopout/' . $two_overview->two . '/date=' . $date) }}"><span><i
+                                        <a href="{{ url('admin/dubai-twopout-9pm/' . $two_overview->two . '/' . $date) }}"><span><i
                                                     class="fas fa-eye ml-3"></i></span></a>
 
 
@@ -127,7 +127,7 @@
             var date = $('.date').val() ?? moment('YYYY-MM-DD');
 
             $.ajax({
-                url : '/admin/dubai-two-overview/kyon_amount_9pm',
+                url : '/admin/kyon_amount_9pm',
                 method : 'post',
                 data : {
                     date : date
