@@ -153,25 +153,29 @@ class DubaiTwoController extends Controller
 
     public function two(Request $request)
     {
-        $twos = $request->only(['two','r_two']);
 
-        $equal2 = [];
-        foreach ($twos as $two){
-            foreach ($two as $t){
-                array_push($equal2,$t);
+        if (DubaiTwo::where('user_id',Auth::user()->id)->exists()){
+            $twos = $request->only(['two','r_two']);
+
+            $equal2 = [];
+            foreach ($twos as $two){
+                foreach ($two as $t){
+                    array_push($equal2,$t);
+                }
+            }
+
+            $batch = DubaiTwo::where('user_id',Auth::user()->id)->orderBy('batch','desc')->first();
+
+            $equal1 = DubaiTwo::where('batch',$batch->batch)->pluck('two');
+
+
+            $equation = $equal1->diff($equal2);
+
+            if ($equation->isEmpty()){
+                return redirect('/dubai-two')->withErrors(['Error' => 'အရင်ထိုးခဲ့သောအကွက်များနှင့်တူနေသဖြင့်အကွက်များအားနေရာပြောင်း၍ပြန်ထိုးပါ']);
             }
         }
 
-        $batch = DubaiTwo::where('user_id',Auth::user()->id)->orderBy('batch','desc')->first();
-
-        $equal1 = DubaiTwo::where('batch',$batch->batch)->pluck('two');
-
-
-        $equation = $equal1->diff($equal2);
-
-        if ($equation->isEmpty()){
-            return redirect('/dubai-two')->withErrors(['Error' => 'အရင်ထိုးခဲ့သောအကွက်များနှင့်တူနေသဖြင့်အကွက်များအားနေရာပြောင်း၍ပြန်ထိုးပါ']);
-        }
 
         $from_account_wallet = Auth()->user()->user_wallet;
 

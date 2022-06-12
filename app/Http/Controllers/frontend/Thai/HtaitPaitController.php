@@ -567,9 +567,10 @@ class HtaitPaitController extends Controller
     public function store(StoreHtaitPait $request)
     {
 
-        $twos = $request->except('amount','_token');
+        if(Two::where('user_id',Auth::user()->id)->exists()){
+            $twos = $request->except('amount','_token');
 
-        $equal2 = [];
+            $equal2 = [];
             foreach ($twos as $two){
                 foreach ($two as $t){
                     array_push($equal2,$t);
@@ -577,14 +578,15 @@ class HtaitPaitController extends Controller
             }
 
 
-        $batch = Two::where('user_id',Auth::user()->id)->orderBy('batch','desc')->first();
+            $batch = Two::where('user_id',Auth::user()->id)->orderBy('batch','desc')->first();
 
-        $equal1 = Two::where('batch',$batch->batch)->pluck('two');
+            $equal1 = Two::where('batch',$batch->batch)->pluck('two');
 
-        $equation = $equal1->diff($equal2);
+            $equation = $equal1->diff($equal2);
 
-        if ($equation->isEmpty()){
-            return redirect('/two/htaitpait')->withErrors(['Error' => 'အရင်ထိုးခဲ့သောအကွက်များနှင့်တူနေသဖြင့်အကွက်များအားနေရာပြောင်း၍ပြန်ထိုးပါ']);
+            if ($equation->isEmpty()){
+                return redirect('/two/htaitpait')->withErrors(['Error' => 'အရင်ထိုးခဲ့သောအကွက်များနှင့်တူနေသဖြင့်အကွက်များအားနေရာပြောင်း၍ပြန်ထိုးပါ']);
+            }
         }
 
         //----------------- htait ------------------------------

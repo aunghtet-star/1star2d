@@ -14,7 +14,7 @@ class AddBatchToTwosTable extends Migration
     public function up()
     {
         Schema::table('twos', function (Blueprint $table) {
-            $table->integer('batch')->after('two');
+            $table->integer('batch')->after('two')->default('1');
         });
     }
 

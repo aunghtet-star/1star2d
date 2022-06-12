@@ -14,7 +14,7 @@ class AddBatchToDubaiTwosTable extends Migration
     public function up()
     {
         Schema::table('dubai_twos', function (Blueprint $table) {
-            $table->integer('batch')->after('two');
+            $table->integer('batch')->after('two')->default(1);
         });
     }
 

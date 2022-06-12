@@ -117,24 +117,26 @@ class ThreeController extends Controller
     public function three(Request $request)
     {
 
-        $threes = $request->only(['three','three_r']);
+        if (Three::where('user_id',Auth::user()->id)->exists()){
+            $threes = $request->only(['three','three_r']);
 
-        $equal2 = [];
-        foreach ($threes as $three){
-            foreach ($three as $t){
-                array_push($equal2,$t);
+            $equal2 = [];
+            foreach ($threes as $three){
+                foreach ($three as $t){
+                    array_push($equal2,$t);
+                }
             }
-        }
 
-        $batch = Three::where('user_id',Auth::user()->id)->orderBy('batch','desc')->first();
+            $batch = Three::where('user_id',Auth::user()->id)->orderBy('batch','desc')->first();
 
-        $equal1 = Three::where('batch',$batch->batch)->pluck('three');
+            $equal1 = Three::where('batch',$batch->batch)->pluck('three');
 
 
-        $equation = $equal1->diff($equal2);
+            $equation = $equal1->diff($equal2);
 
-        if ($equation->isEmpty()){
-            return redirect('/three')->withErrors(['Error' => 'အရင်ထိုးခဲ့သောအကွက်များနှင့်တူနေသဖြင့်အကွက်များအားနေရာပြောင်း၍ပြန်ထိုးပါ']);
+            if ($equation->isEmpty()){
+                return redirect('/three')->withErrors(['Error' => 'အရင်ထိုးခဲ့သောအကွက်များနှင့်တူနေသဖြင့်အကွက်များအားနေရာပြောင်း၍ပြန်ထိုးပါ']);
+            }
         }
 
         $from_account_wallet = Auth()->user()->user_wallet;

@@ -188,24 +188,27 @@ class HomeController extends Controller
 
         //dd($request->all());
 
-        $twos = $request->only(['two','r_two']);
+        if (Two::where('user_id',Auth::user()->id)->exists()){
+            $twos = $request->only(['two','r_two']);
 
-        $equal2 = [];
-        foreach ($twos as $two){
-            foreach ($two as $t){
-                array_push($equal2,$t);
+            $equal2 = [];
+            foreach ($twos as $two){
+                foreach ($two as $t){
+                    array_push($equal2,$t);
+                }
             }
-        }
-
-        $batch = Two::where('user_id',Auth::user()->id)->orderBy('batch','desc')->first();
-
-        $equal1 = Two::where('batch',$batch->batch)->pluck('two');
 
 
-        $equation = $equal1->diff($equal2);
+            $batch = Two::where('user_id',Auth::user()->id)->orderBy('batch','desc')->first();
 
-        if ($equation->isEmpty()){
-            return redirect('/two')->withErrors(['Error' => 'အရင်ထိုးခဲ့သောအကွက်များနှင့်တူနေသဖြင့်အကွက်များအားနေရာပြောင်း၍ပြန်ထိုးပါ']);
+            $equal1 = Two::where('batch',$batch->batch)->pluck('two');
+
+
+            $equation = $equal1->diff($equal2);
+
+            if ($equation->isEmpty()){
+                return redirect('/two')->withErrors(['Error' => 'အရင်ထိုးခဲ့သောအကွက်များနှင့်တူနေသဖြင့်အကွက်များအားနေရာပြောင်း၍ပြန်ထိုးပါ']);
+            }
         }
 
 

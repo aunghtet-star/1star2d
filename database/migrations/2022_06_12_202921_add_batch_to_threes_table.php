@@ -14,7 +14,7 @@ class AddBatchToThreesTable extends Migration
     public function up()
     {
         Schema::table('threes', function (Blueprint $table) {
-            $table->integer('batch')->after('three');
+            $table->integer('batch')->after('three')->default(1);
         });
     }
 
