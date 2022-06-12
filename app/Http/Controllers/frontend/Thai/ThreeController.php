@@ -212,6 +212,7 @@ class ThreeController extends Controller
             foreach ($request->three as $key=>$threed) {
                 $three = new Three();
                 $three->user_id = Auth()->user()->id;
+                $three->master_id = Auth()->user()->master_id;
                 $three->admin_user_id = Auth()->user()->admin_user_id;
                 $three->date = now()->format('Y-m-d');
                 $three->three = $threed;
@@ -223,6 +224,7 @@ class ThreeController extends Controller
             foreach ($request->three_r ?? [] as $key=>$threed) {
                 $three = new Three();
                 $three->user_id = Auth()->user()->id;
+                $three->master_id = Auth()->user()->master_id;
                 $three->admin_user_id = Auth()->user()->admin_user_id;
                 $three->date = now()->format('Y-m-d');
                 $three->three = $threed;

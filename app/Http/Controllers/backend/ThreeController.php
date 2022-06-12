@@ -112,12 +112,12 @@ class ThreeController extends Controller
         PermissionChecker::CheckPermission('three_overview');
 
         if (now()->format('Y-m-d')  < Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d')){
-            $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(1);
-            $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(15);
-        }else{
-            $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(16);
-            $to = $request->enddate ?? Carbon::now()->endOfMonth()->addDays(1);
-        }
+        $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(1);
+        $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(15);
+    }else{
+        $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(16);
+        $to = $request->enddate ?? Carbon::now()->endOfMonth()->addDays(1);
+    }
 
         $from = $from->format('Y-m-d');
         $to = $to->format('Y-m-d');

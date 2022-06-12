@@ -43,6 +43,8 @@
                         <h5 class="text-success mb-4" style="font-weight: 700">Total amount 5PM => {{number_format($commissions_5pm)}}</h5>
                         <h5 class="text-success mb-4" style="font-weight: 700">Total amount 7PM => {{number_format($commissions_7pm)}}</h5>
                         <h5 class="text-success mb-4" style="font-weight: 700">Total amount 9PM => {{number_format($commissions_9pm)}}</h5>
+                        <h4 class="mbg-3">3D</h4>
+                        <h5 class="text-success mb-4" style="font-weight: 700">Total amount 3D => {{number_format($commissions_three)}}</h5>
                     </div>
                 </div>
             </div>
