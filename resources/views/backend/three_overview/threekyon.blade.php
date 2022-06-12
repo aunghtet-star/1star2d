@@ -34,11 +34,11 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text type-padding">Date</label>
                     </div>
-                    @if(request()->startdate && request()->enddate)
-                    <input type="text" class="form-control date" value="{{  request()->startdate  . ' - ' . request()->enddate  }}   " placeholder="All">
-                    @else
-                    <input type="text" class="form-control date" value="{{  now()->format('Y-m-d')  . ' - ' . date('Y-m-d',strtotime(now().'+ 10 days'))  }}   " placeholder="All">
-                    @endif
+{{--                    @if(request()->startdate && request()->enddate)--}}
+{{--                    <input type="text" class="form-control date" value="{{  request()->startdate  . ' - ' . request()->enddate  }}   " placeholder="All">--}}
+{{--                    @else--}}
+                    <input type="text" class="form-control date" disabled value="{{  $from  . ' - ' . $to  }}   " placeholder="All">
+{{--                    @endif--}}
                 </div>
             </div>
         </div>
@@ -46,26 +46,39 @@
             <div class="card">
                 <div class="card-body refresh" >
                     <div class="column">
-                        @if($three_transactions)
-                        @php                            
+                        @if($three_kyons)
+                        @php
                         $total = 0;
                         @endphp
-                        @foreach($three_transactions as $three_transaction)
-                                <div class="d-flex " style="width:100px; margin-right : 70px">
-                                    @if(($three_brake ? $three_brake->amount : 99999999999999999999) < $three_transaction->total)
-                                    <p class="mb-2 mr-3">{{$three_transaction->three}} </p> => <span class="ml-2">
-                                         @php
-                                             $total += $three_transaction->total - $three_brake->amount
-                                         @endphp
-                                         {{number_format($three_transaction->total - $three_brake->amount) }} 
-                                         
-                                         </span>
+{{--                        @foreach($three_kyons as $three_kyon)--}}
+{{--                                <div class="d-flex " style="width:100px; margin-right : 70px">--}}
+{{--                                    @if(($three_brake ? $three_brake->amount : 99999999999999999999) < $three_kyon->total)--}}
+{{--                                    <p class="mb-2 mr-3">{{$three_kyon->three}} </p> => <span class="ml-2">--}}
+{{--                                         @php--}}
+{{--                                             $total += $three_kyon->total - $three_brake->amount--}}
+{{--                                         @endphp--}}
+{{--                                         {{number_format($three_kyon->total - $three_brake->amount) }}--}}
+
+{{--                                         </span>--}}
+{{--                                    @endif--}}
+{{--                                </div>--}}
+{{--                            @endforeach--}}
+
+                            @foreach($three_kyons as $three_kyon)
+                                <div class="d-flex" style="width:100px">
+                                    @if (($three_kyon->amount - $three_kyon->new_amount - $three_kyon->kyon_amount) > 0)
+                                        <p class="mb-2 mr-3 ">{{$three_kyon->three}} </p> => <span class="ml-2 ">
+                                    {{number_format( $three_kyon->amount - $three_kyon->new_amount - $three_kyon->kyon_amount) }}
+                                    </span>
+                                        @php
+                                            $total += $three_kyon->amount - $three_kyon->new_amount - $three_kyon->kyon_amount;
+                                        @endphp
                                     @endif
                                 </div>
                             @endforeach
                         @endif
                     </div>
-                   
+
                 <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($total)}}</h5>
 
                 </div>
@@ -92,19 +105,19 @@
                     var enddate = picker.endDate.format('YYYY-MM-DD');
 
                     history.pushState(null,'',`?startdate=${startdate}&enddate=${enddate}`);
-                    
+
                     window.location.reload();
-                    
-                    
+
+
                 });
-                    
-                    
+
+
                 // window.setInterval(() => {
                 //         $('.refresh').load(`/admin/three-overview/history`);
                 //     }, 2000);
-    
-                    
+
+
        });
-    
+
 </script>
 @endsection

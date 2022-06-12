@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DubaiTwo;
 use App\Helpers\ForUserHistory;
 use App\Helpers\ForWalletAndBetHistory;
 use App\Helpers\TheeThantBrake;
@@ -187,6 +188,27 @@ class HomeController extends Controller
 
         //dd($request->all());
 
+        $twos = $request->only(['two','r_two']);
+
+        $equal2 = [];
+        foreach ($twos as $two){
+            foreach ($two as $t){
+                array_push($equal2,$t);
+            }
+        }
+
+        $batch = Two::where('user_id',Auth::user()->id)->orderBy('batch','desc')->first();
+
+        $equal1 = Two::where('batch',$batch->batch)->pluck('two');
+
+
+        $equation = $equal1->diff($equal2);
+
+        if ($equation->isEmpty()){
+            return redirect('/two')->withErrors(['Error' => 'အရင်ထိုးခဲ့သောအကွက်များနှင့်တူနေသဖြင့်အကွက်များအားနေရာပြောင်း၍ပြန်ထိုးပါ']);
+        }
+
+
         $from_account_wallet = Auth()->user()->user_wallet;
 
         $total = 0;
@@ -206,6 +228,8 @@ class HomeController extends Controller
 
         DB::beginTransaction();
 
+        $batch_id = UUIDGenerator::batch();
+
         try {
             foreach ($request->two as $key=>$twod) {
                 $two = new Two();
@@ -214,6 +238,7 @@ class HomeController extends Controller
                 $two->admin_user_id = Auth()->user()->admin_user_id;
                 $two->date = now()->format('Y-m-d');
                 $two->two = $twod;
+                $two->batch = $batch_id;
                 $two->amount = $request->amount[$key];
                 $two->save();
             }
@@ -225,9 +250,12 @@ class HomeController extends Controller
                 $two->admin_user_id = Auth()->user()->admin_user_id;
                 $two->date = now()->format('Y-m-d');
                 $two->two = $twor;
+                $two->batch = $batch_id;
                 $two->amount = $request->r_amount[$key];
                 $two->save();
             }
+
+
 
             $from_account_wallet->decrement('amount', $total);
             $from_account_wallet->update();

@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Auth;
 
 class HtaitPaitForeach
 {
-    public static function htaitpait($datas, $amount)
+    public static function htaitpait($datas, $amount,$batch_id)
     {
+
         foreach ($datas as $key=>$data) {
             $htaitpait = new Two();
             $htaitpait->user_id = Auth()->user()->id;
@@ -17,13 +18,15 @@ class HtaitPaitForeach
             $htaitpait->date = now()->format('Y-m-d');
             $htaitpait->two = $data;
             $htaitpait->amount = $amount;
+            $htaitpait->batch = $batch_id;
             $htaitpait->save();
         }
+
 
         return $datas;
     }
 
-    public static function DubaiHtaitPait($datas, $amount){
+    public static function DubaiHtaitPait($datas, $amount,$batch_id){
         foreach ($datas as $key=>$data) {
             $htaitpait = new DubaiTwo();
             $htaitpait->user_id = Auth()->user()->id;
@@ -31,6 +34,7 @@ class HtaitPaitForeach
             $htaitpait->admin_user_id = Auth()->user()->admin_user_id;
             $htaitpait->date = now()->format('Y-m-d');
             $htaitpait->two = $data;
+            $htaitpait->batch = $batch_id;
             $htaitpait->amount = $amount;
             $htaitpait->save();
         }

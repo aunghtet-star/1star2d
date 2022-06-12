@@ -12,9 +12,11 @@ use App\Helpers\UUIDGenerator;
 use App\Http\Controllers\Controller;
 use App\ShowHide;
 use App\Three;
+use App\Two;
 use App\Wallet;
 use App\WalletHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use MyanLottery\Lottery\Threed;
 
@@ -115,6 +117,26 @@ class ThreeController extends Controller
     public function three(Request $request)
     {
 
+        $threes = $request->only(['three','three_r']);
+
+        $equal2 = [];
+        foreach ($threes as $three){
+            foreach ($three as $t){
+                array_push($equal2,$t);
+            }
+        }
+
+        $batch = Three::where('user_id',Auth::user()->id)->orderBy('batch','desc')->first();
+
+        $equal1 = Three::where('batch',$batch->batch)->pluck('three');
+
+
+        $equation = $equal1->diff($equal2);
+
+        if ($equation->isEmpty()){
+            return redirect('/three')->withErrors(['Error' => 'အရင်ထိုးခဲ့သောအကွက်များနှင့်တူနေသဖြင့်အကွက်များအားနေရာပြောင်း၍ပြန်ထိုးပါ']);
+        }
+
         $from_account_wallet = Auth()->user()->user_wallet;
         $total = 0;
 
@@ -181,6 +203,8 @@ class ThreeController extends Controller
 
         DB::beginTransaction();
 
+        $batch_id = UUIDGenerator::ThreeBatch();
+
         try {
                 $from_account_wallet->decrement('amount', $total);
                 $from_account_wallet->update();
@@ -191,6 +215,7 @@ class ThreeController extends Controller
                 $three->admin_user_id = Auth()->user()->admin_user_id;
                 $three->date = now()->format('Y-m-d');
                 $three->three = $threed;
+                $three->batch = $batch_id;
                 $three->amount = $request->amount[$key];
                 $three->save();
             }
@@ -201,6 +226,7 @@ class ThreeController extends Controller
                 $three->admin_user_id = Auth()->user()->admin_user_id;
                 $three->date = now()->format('Y-m-d');
                 $three->three = $threed;
+                $three->batch = $batch_id;
                 $three->amount = $request->r_amount[$key];
                 $three->save();
             }

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\FakeNumber;
+use App\Helpers\ForThreeKyon;
 use App\Helpers\ForThreeOverview;
 use App\Helpers\ForTwoOverview;
+use App\ThreeKyon;
 use App\ThreeOverview;
 use App\TwoOverview;
 use App\User;
@@ -108,12 +111,11 @@ class ThreeController extends Controller
     {
         PermissionChecker::CheckPermission('three_overview');
 
-        if (now()->format('Y-m-d') < Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d')){
-            $from = $request->startdate ?? Carbon::now()->startOfMonth();
+        if (now()->format('Y-m-d')  < Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d')){
+            $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(1);
             $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(15);
         }else{
-            //dd(Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d'));
-            $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(15);
+            $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(16);
             $to = $request->enddate ?? Carbon::now()->endOfMonth()->addDays(1);
         }
 
@@ -128,9 +130,9 @@ class ThreeController extends Controller
         ForThreeOverview::Overview($threes,$from,new ThreeOverview);
 
         //to store three overview table if exist to update
-        $two_overviews_am = ThreeOverview::whereDate('date', $from)->orderBy('three','asc')->get();
+        $three_overviews = ThreeOverview::whereDate('date', $from)->orderBy('three','asc')->get();
 
-        //ThreeOverview Total Amount for am
+        //ThreeOverview Total Amount
         $overview_total = ForThreeOverview::OverviewTotal(new ThreeOverview,$from);
 
         $amount_total = $overview_total['amount'];
@@ -140,24 +142,37 @@ class ThreeController extends Controller
         $threes->withPath('/admin/three-overview/history?startdate='.$from.'&enddate='.$to);
 
 
-        $threes_total = Three::select('amount')->whereBetween('date', [$from,$to])->sum('amount');
+       // $threes_total = Three::select('amount')->whereBetween('date', [$from,$to])->sum('amount');
 
-        return view('backend.three_overview.history', compact('threes', 'threes_total', 'three_brake', 'from', 'to'));
+        $fake_number = FakeNumber::first();
+
+        return view('backend.three_overview.history', compact('threes','three_overviews', 'three_brake', 'from', 'to','fake_number','amount_total','new_amount_total','kyon_amount_total'));
     }
 
     public function threeKyon(Request $request)
     {
         PermissionChecker::CheckPermission('three_kyon');
-        $from = $request->startdate ?? now()->format('Y-m-d');
-        $to = $request->enddate ?? date('Y-m-d', strtotime(now(). '+10 days'));
+        if (now()->format('Y-m-d') < Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d')){
+            $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(1);
+            $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(15);
+        }else{
+            //dd(Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d'));
+            $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(15);
+            $to = $request->enddate ?? Carbon::now()->endOfMonth()->addDays(1);
+        }
+
+        $from = $from->format('Y-m-d');
+        $to = $to->format('Y-m-d');
 
         $three_brake = AllBrakeWithAmount::select('amount')->where('type', '3D')->first();
 
-        $three_transactions = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to])->get();
-        //$three_transactions->withPath('/admin/three-overview/history?startdate='.$from.'&enddate='.$to);
+        $three_overviews = ThreeOverview::whereDate('date', $from)->orderBy('three','asc')->get();
 
-        $three_transactions_total = Three::select('amount')->whereBetween('date', [$from,$to])->sum('amount');
+        //To Store Three kyon table
+        ForThreeKyon::Kyon($three_overviews,$from,new ThreeKyon);
 
-        return view('backend.three_overview.threekyon', compact('three_transactions', 'three_transactions_total', 'three_brake', 'from', 'to'));
+        $three_kyons = ThreeKyon::where('date',$from)->get();
+
+        return view('backend.three_overview.threekyon', compact('three_kyons', 'three_brake', 'from', 'to'));
     }
 }

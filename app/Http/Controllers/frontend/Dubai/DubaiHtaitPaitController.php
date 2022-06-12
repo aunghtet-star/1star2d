@@ -4,15 +4,18 @@ namespace App\Http\Controllers\frontend\Dubai;
 
 use App\AdminUser;
 use App\BetHistory;
+use App\DubaiTwo;
 use App\Helpers\ForWalletAndBetHistory;
 use App\Helpers\HtaitPaitForeach;
 use App\Helpers\UUIDGenerator;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreHtaitPait;
 use App\ShowHide;
+use App\Two;
 use App\Wallet;
 use App\WalletHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DubaiHtaitPaitController extends Controller
@@ -568,6 +571,8 @@ class DubaiHtaitPaitController extends Controller
     public function store(StoreHtaitPait $request)
     {
 
+
+
         //----------------- htait ------------------------------
         $zerohtaits = $request->zerohtaits;
         $onehtaits = $request->onehtaits;
@@ -629,7 +634,29 @@ class DubaiHtaitPaitController extends Controller
 
         $from_account_wallet = Auth()->user()->user_wallet;
 
+        $twos = $request->except('amount','_token');
+
+        $equal2 = [];
+        foreach ($twos as $two){
+            foreach ($two as $t){
+                array_push($equal2,$t);
+            }
+        }
+
+
+        $batch = DubaiTwo::where('user_id',Auth::user()->id)->orderBy('batch','desc')->first();
+
+        $equal1 = DubaiTwo::where('batch',$batch->batch)->pluck('two');
+
+        $equation = $equal1->diff($equal2);
+
+        if ($equation->isEmpty()){
+            return redirect('/dubai-two/htaitpait')->withErrors(['Error' => 'အရင်ထိုးခဲ့သောအကွက်များနှင့်တူနေသဖြင့်အကွက်များအားနေရာပြောင်း၍ပြန်ထိုးပါ']);
+        }
+
         $totals = 0;
+
+
 
         //-------------- insufficient condition for  htait---------------
 
@@ -921,6 +948,8 @@ class DubaiHtaitPaitController extends Controller
 
         DB::beginTransaction();
 
+        $batch_id = UUIDGenerator::DubaiBatch();
+
         try {
 
             // -------------------- detucted money From User -------------------
@@ -930,135 +959,135 @@ class DubaiHtaitPaitController extends Controller
 
             // -------------------- Store Htait -------------------
             if ($zerohtaits) {
-                HtaitPaitForeach::DubaiHtaitPait($zerohtaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($zerohtaits, $amount ,$batch_id);
             }
 
             if ($onehtaits) {
-                HtaitPaitForeach::DubaiHtaitPait($onehtaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($onehtaits, $amount ,$batch_id);
             }
 
             if ($twohtaits) {
-                HtaitPaitForeach::DubaiHtaitPait($twohtaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($twohtaits, $amount ,$batch_id);
             }
 
             if ($threehtaits) {
-                HtaitPaitForeach::DubaiHtaitPait($threehtaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($threehtaits, $amount ,$batch_id);
             }
 
 
             if ($fourhtaits) {
-                HtaitPaitForeach::DubaiHtaitPait($fourhtaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($fourhtaits, $amount ,$batch_id);
             }
 
             if ($fivehtaits) {
-                HtaitPaitForeach::DubaiHtaitPait($fivehtaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($fivehtaits, $amount ,$batch_id);
             }
 
 
             if ($sixhtaits) {
-                HtaitPaitForeach::DubaiHtaitPait($sixhtaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($sixhtaits, $amount ,$batch_id);
             }
 
             if ($sevenhtaits) {
-                HtaitPaitForeach::DubaiHtaitPait($sevenhtaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($sevenhtaits, $amount ,$batch_id);
             }
 
             if ($eighthtaits) {
-                HtaitPaitForeach::DubaiHtaitPait($eighthtaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($eighthtaits, $amount ,$batch_id);
             }
 
             if ($ninehtaits) {
-                HtaitPaitForeach::DubaiHtaitPait($ninehtaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($ninehtaits, $amount ,$batch_id);
             }
 
 
             //    -----------------------Store Pait -----------------------------
 
             if ($zeropaits) {
-                $zeropaits = HtaitPaitForeach::DubaiHtaitPait($zeropaits, $amount);
+                $zeropaits = HtaitPaitForeach::DubaiHtaitPait($zeropaits, $amount ,$batch_id);
             }
 
             if ($onepaits) {
-                HtaitPaitForeach::DubaiHtaitPait($onepaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($onepaits, $amount ,$batch_id);
             }
 
             if ($twopaits) {
-                HtaitPaitForeach::DubaiHtaitPait($twopaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($twopaits, $amount ,$batch_id);
             }
 
             if ($threepaits) {
-                HtaitPaitForeach::DubaiHtaitPait($threepaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($threepaits, $amount ,$batch_id);
             }
 
 
             if ($fourpaits) {
-                HtaitPaitForeach::DubaiHtaitPait($fourpaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($fourpaits, $amount ,$batch_id);
             }
 
             if ($fivepaits) {
-                HtaitPaitForeach::DubaiHtaitPait($fivepaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($fivepaits, $amount ,$batch_id);
             }
 
 
             if ($sixpaits) {
-                HtaitPaitForeach::DubaiHtaitPait($sixpaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($sixpaits, $amount ,$batch_id);
             }
 
             if ($sevenpaits) {
-                HtaitPaitForeach::DubaiHtaitPait($sevenpaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($sevenpaits, $amount ,$batch_id);
             }
 
             if ($eightpaits) {
-                HtaitPaitForeach::DubaiHtaitPait($eightpaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($eightpaits, $amount ,$batch_id);
             }
 
             if ($ninepaits) {
-                HtaitPaitForeach::DubaiHtaitPait($ninepaits, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($ninepaits, $amount ,$batch_id);
             }
 
 
             //----------------- Store Brake ------------------------------
 
             if ($zerobrakes) {
-                $zerobrakes = HtaitPaitForeach::DubaiHtaitPait($zerobrakes, $amount);
+                $zerobrakes = HtaitPaitForeach::DubaiHtaitPait($zerobrakes, $amount ,$batch_id);
             }
 
             if ($onebrakes) {
-                HtaitPaitForeach::DubaiHtaitPait($onebrakes, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($onebrakes, $amount ,$batch_id);
             }
 
             if ($twobrakes) {
-                HtaitPaitForeach::DubaiHtaitPait($twobrakes, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($twobrakes, $amount ,$batch_id);
             }
 
             if ($threebrakes) {
-                HtaitPaitForeach::DubaiHtaitPait($threebrakes, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($threebrakes, $amount ,$batch_id);
             }
 
 
             if ($fourbrakes) {
-                HtaitPaitForeach::DubaiHtaitPait($fourbrakes, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($fourbrakes, $amount ,$batch_id);
             }
 
             if ($fivebrakes) {
-                HtaitPaitForeach::DubaiHtaitPait($fivebrakes, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($fivebrakes, $amount ,$batch_id);
             }
 
 
             if ($sixbrakes) {
-                HtaitPaitForeach::DubaiHtaitPait($sixbrakes, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($sixbrakes, $amount ,$batch_id);
             }
 
             if ($sevenbrakes) {
-                HtaitPaitForeach::DubaiHtaitPait($sevenbrakes, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($sevenbrakes, $amount ,$batch_id);
             }
 
             if ($eightbrakes) {
-                HtaitPaitForeach::DubaiHtaitPait($eightbrakes, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($eightbrakes, $amount ,$batch_id);
             }
 
             if ($ninebrakes) {
-                HtaitPaitForeach::DubaiHtaitPait($ninebrakes, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($ninebrakes, $amount ,$batch_id);
             }
 
 
@@ -1066,71 +1095,71 @@ class DubaiHtaitPaitController extends Controller
 
 
             if ($zeropars) {
-                $zeropars = HtaitPaitForeach::DubaiHtaitPait($zeropars, $amount);
+                $zeropars = HtaitPaitForeach::DubaiHtaitPait($zeropars, $amount ,$batch_id);
             }
 
             if ($onepars) {
-                HtaitPaitForeach::DubaiHtaitPait($onepars, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($onepars, $amount ,$batch_id);
             }
 
             if ($twopars) {
-                HtaitPaitForeach::DubaiHtaitPait($twopars, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($twopars, $amount ,$batch_id);
             }
 
             if ($threepars) {
-                HtaitPaitForeach::DubaiHtaitPait($threepars, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($threepars, $amount ,$batch_id);
             }
 
 
             if ($fourpars) {
-                HtaitPaitForeach::DubaiHtaitPait($fourpars, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($fourpars, $amount ,$batch_id);
             }
 
             if ($fivepars) {
-                HtaitPaitForeach::DubaiHtaitPait($fivepars, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($fivepars, $amount ,$batch_id);
             }
 
 
             if ($sixpars) {
-                HtaitPaitForeach::DubaiHtaitPait($sixpars, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($sixpars, $amount ,$batch_id);
             }
 
             if ($sevenpars) {
-                HtaitPaitForeach::DubaiHtaitPait($sevenpars, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($sevenpars, $amount ,$batch_id);
             }
 
             if ($eightpars) {
-                HtaitPaitForeach::DubaiHtaitPait($eightpars, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($eightpars, $amount ,$batch_id);
             }
 
             if ($ninepars) {
-                HtaitPaitForeach::DubaiHtaitPait($ninepars, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($ninepars, $amount ,$batch_id);
             }
 
             //  -------------------- Apuus -----------------------------
             if ($apuus) {
-                HtaitPaitForeach::DubaiHtaitPait($apuus, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($apuus, $amount ,$batch_id);
             }
 
             //  -------------------- Ten -----------------------------
 
             if ($tens) {
-                HtaitPaitForeach::DubaiHtaitPait($tens, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($tens, $amount ,$batch_id);
             }
 
             //  -------------------- Power -----------------------------
             if ($powers) {
-                HtaitPaitForeach::DubaiHtaitPait($powers, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($powers, $amount ,$batch_id);
             }
 
             //  -------------------- Natkhats -----------------------------
             if ($natkhats) {
-                HtaitPaitForeach::DubaiHtaitPait($natkhats, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($natkhats, $amount ,$batch_id);
             }
 
             //  -------------------- Brothers -----------------------------
             if ($brothers) {
-                HtaitPaitForeach::DubaiHtaitPait($brothers, $amount);
+                HtaitPaitForeach::DubaiHtaitPait($brothers, $amount ,$batch_id);
             }
 
             $trx_id = UUIDGenerator::TrxId();

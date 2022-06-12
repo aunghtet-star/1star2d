@@ -11,8 +11,10 @@ use App\Helpers\TheeThantBrake;
 use App\Helpers\UUIDGenerator;
 use App\Http\Controllers\Controller;
 use App\ShowHide;
+use App\Two;
 use App\WalletHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DubaiTwoController extends Controller
@@ -151,6 +153,26 @@ class DubaiTwoController extends Controller
 
     public function two(Request $request)
     {
+        $twos = $request->only(['two','r_two']);
+
+        $equal2 = [];
+        foreach ($twos as $two){
+            foreach ($two as $t){
+                array_push($equal2,$t);
+            }
+        }
+
+        $batch = DubaiTwo::where('user_id',Auth::user()->id)->orderBy('batch','desc')->first();
+
+        $equal1 = DubaiTwo::where('batch',$batch->batch)->pluck('two');
+
+
+        $equation = $equal1->diff($equal2);
+
+        if ($equation->isEmpty()){
+            return redirect('/dubai-two')->withErrors(['Error' => 'အရင်ထိုးခဲ့သောအကွက်များနှင့်တူနေသဖြင့်အကွက်များအားနေရာပြောင်း၍ပြန်ထိုးပါ']);
+        }
+
         $from_account_wallet = Auth()->user()->user_wallet;
 
         $total = 0;
@@ -172,6 +194,8 @@ class DubaiTwoController extends Controller
 
         DB::beginTransaction();
 
+        $batch_id = UUIDGenerator::DubaiBatch();
+
         try {
             foreach ($request->two as $key=>$twod) {
                 $two = new DubaiTwo();
@@ -180,6 +204,7 @@ class DubaiTwoController extends Controller
                 $two->admin_user_id = Auth()->user()->admin_user_id;
                 $two->date = now()->format('Y-m-d');
                 $two->two = $twod;
+                $two->batch = $batch_id;
                 $two->amount = $request->amount[$key];
                 $two->save();
             }
@@ -191,6 +216,7 @@ class DubaiTwoController extends Controller
                 $two->admin_user_id = Auth()->user()->admin_user_id;
                 $two->date = now()->format('Y-m-d');
                 $two->two = $twor;
+                $two->batch = $batch_id;
                 $two->amount = $request->r_amount[$key];
                 $two->save();
             }

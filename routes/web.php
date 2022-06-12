@@ -22,6 +22,7 @@ use App\Http\Controllers\backend\{AdminDashboardController,
     RoleController,
     ShowHideController,
     ThreeController,
+    ThreeKyonCleanerController,
     ThreePoutController,
     TwoController,
     TwoKyonCleaner,
@@ -237,6 +238,9 @@ Route::prefix('admin')->middleware(['auth:adminuser'])->group(function () {
     Route::get('three-overview/history', [ThreeController::class,'threeHistory'])->name('three-overview.history');
     Route::get('three-overview/kyon', [ThreeController::class,'threeKyon'])->name('three-overview.kyon');
 
+    //Three New Amount
+    Route::post('three-overview/new_amount/{date}/{threeD}', [ThreeKyonCleanerController::class,'NewAmount']);
+    Route::post('three/kyon_amount', [ThreeKyonCleanerController::class,'KyonAmount']);
 
     //Only Amount Brake
 
