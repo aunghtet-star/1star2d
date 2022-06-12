@@ -80,23 +80,23 @@
                 </li>
                 @endcan
 
-                @can('view_role')
-                <li>
-                    <a href="{{route('roles.index')}}" class="@yield('roles')">
-                        <i class="metismenu-icon fas fa-user-tag text-dark"></i>
-                        <span class="text-danger font-weight-bold">ရာထူး</span>
-                    </a>
-                </li>
-                 @endcan
+{{--                @can('view_role')--}}
+{{--                <li>--}}
+{{--                    <a href="{{route('roles.index')}}" class="@yield('roles')">--}}
+{{--                        <i class="metismenu-icon fas fa-user-tag text-dark"></i>--}}
+{{--                        <span class="text-danger font-weight-bold">ရာထူး</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                 @endcan--}}
 
-                @can('view_permission')
-                <li>
-                    <a href="{{route('permissions.index')}}" class="@yield('permissions')">
-                        <i class="metismenu-icon fas fa-user-lock text-dark"></i>
-                        <span class="text-danger font-weight-bold">Permission</span>
-                    </a>
-                </li>
-                @endcan
+{{--                @can('view_permission')--}}
+{{--                <li>--}}
+{{--                    <a href="{{route('permissions.index')}}" class="@yield('permissions')">--}}
+{{--                        <i class="metismenu-icon fas fa-user-lock text-dark"></i>--}}
+{{--                        <span class="text-danger font-weight-bold">Permission</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                @endcan--}}
 
                 @can('dubai_two')
                     <li>
