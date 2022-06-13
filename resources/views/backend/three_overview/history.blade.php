@@ -75,7 +75,7 @@
 {{--                <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($threes_total)}}</h5>--}}
 
                     <div class="d-flex justify-content-between">
-                        <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($fake_number ? $fake_number->number : ($amount_total < ($three_brake ? $three_brake->amount : 99999999999999999999999999) ? $amount_total :    ( $amount_total - $new_amount_total - $kyon_amount_total)))}}</h5>
+                        <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($fake_number ? $fake_number->number : ( $amount_total - $new_amount_total - $kyon_amount_total))}}</h5>
                         <a href="#" class="btn btn-dark" onclick="kyonAmount()">Clear</a>
                     </div>
 
