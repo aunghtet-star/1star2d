@@ -30,12 +30,10 @@ use App\Http\Controllers\backend\{AdminDashboardController,
     WalletController,
     WalletHistoryController};
 
-use App\Http\Controllers\frontend\
-{
-    Dubai\DubaiHtaitPaitController,
+use App\Http\Controllers\frontend\{Dubai\DubaiHtaitPaitController,
+    PasswordChangeController,
     Thai\HtaitPaitController,
-    UserHistoryController
-};
+    UserHistoryController};
 
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
@@ -98,6 +96,8 @@ Route::middleware('auth:web')->group(function () {
     Route::get('user/history-two',  [UserHistoryController::class,'historyTwo'])->name('user.history-two');
     Route::get('user/dubai-history-two',  [UserHistoryController::class,'historyOfDubaiTwo'])->name('user.history-dubai-two');
 
+    Route::get('user/password-change',[PasswordChangeController::class,'index'])->name('password');
+    Route::post('user/password-change-post',[PasswordChangeController::class,'changePassword'])->name('change-password');
     //Notification
     Route::get('/notification', [NotificationController::class,'index']);
 });

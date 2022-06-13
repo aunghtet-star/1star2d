@@ -101,7 +101,7 @@
             </div>
         </nav> --}}
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container">
                 <a class="navbar-brand" href="{{url('/')}}">1Star2DMM</a>
 
@@ -142,6 +142,10 @@
 
                   <li class="nav-item mr-3 @yield('dubai-history')">
                       <a class="nav-link" href="{{url('user/dubai-history')}}">Dubai မှတ်တမ်း</a>
+                  </li>
+
+                  <li class="nav-item mr-3 @yield('password-change')">
+                      <a class="nav-link" href="{{url('user/password-change')}}">Password ပြောင်းရန်</a>
                   </li>
 
                 <li>
@@ -200,6 +204,10 @@
 
 
     @yield('scripts')
+
+   <script>
+
+   </script>
 </body>
 
 </html>

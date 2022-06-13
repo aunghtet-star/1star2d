@@ -4,3 +4,12 @@
     width: 100%;
     z-index: 9;
 }
+
+body{
+    background: #f2e99d;
+}
+
+.navbar{
+    background: #EA951199 !important;
+}
+
