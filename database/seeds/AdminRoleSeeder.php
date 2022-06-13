@@ -117,6 +117,7 @@ class AdminRoleSeeder extends Seeder
          // firstOrCreate demo users
 
          $user = AdminUser::create([
+             'user_id' => 1,
              'name' => 'admin',
              'phone' => '09969861379',
              'password' => Hash::make('password')
