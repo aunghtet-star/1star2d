@@ -65,7 +65,7 @@
 {{--                            @endforeach--}}
 
                             @foreach($three_kyons as $three_kyon)
-                                <div class="d-flex" style="width:100px">
+                                <div class="d-flex" style="width:180px;margin-right: 20px">
                                     @if (($three_kyon->amount - $three_kyon->new_amount - $three_kyon->kyon_amount) > 0)
                                         <p class="mb-2 mr-3 ">{{$three_kyon->three}} </p> => <span class="ml-2 ">
                                     {{number_format( $three_kyon->amount - $three_kyon->new_amount - $three_kyon->kyon_amount) }}

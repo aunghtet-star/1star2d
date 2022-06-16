@@ -27,7 +27,8 @@
 }
 .column p {
     display: flex;
-    width: 400px;
+    /*width: 200px;*/
+    margin-right: 10px;
 }
 .app-sidebar {
     overflow: scroll;

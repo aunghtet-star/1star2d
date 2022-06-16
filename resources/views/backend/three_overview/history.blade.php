@@ -6,7 +6,7 @@
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
-        margin-right: 150px;
+        margin-right: 100px;
         height: 80vh;
 }
     </style>
@@ -53,9 +53,9 @@
 {{--                                    <a href="{{url('/admin/three-overview/threepout/'.$three->three.'/'.$from.'/'.$to)}}"><span class="ml-3"><i class="fas fa-eye"></i></span></a>--}}
 {{--                                </div>--}}
 
-                                <div class="d-flex" style="width:100px">
+                                <div class="d-flex" style="width:180px;margin-right: 20px">
 
-                                    <p class="mb-2 mr-3 ">{{ $three->three }} </p> => <span
+                                    <p class="mb-2">{{ $three->three }} </p> => <span
                                         class="ml-2
                                         @if (($three_brake ? $three_brake->amount : 9999999999999999999999) < ($three->amount - $three->new_amount - $three->kyon_amount)) text-danger @endif">
                                             {{ number_format(($three->amount - $three->new_amount - $three->kyon_amount)) }}</span>
