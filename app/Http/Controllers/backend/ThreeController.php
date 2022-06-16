@@ -152,7 +152,7 @@ class ThreeController extends Controller
     public function threeKyon(Request $request)
     {
         PermissionChecker::CheckPermission('three_kyon');
-        if (now()->format('Y-m-d') < Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d')){
+        if (now()->format('Y-m-d') < Carbon::now()->startOfMonth()->addDays(16)->format('Y-m-d')){
             $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(1);
             $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(15);
         }else{
