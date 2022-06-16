@@ -132,7 +132,7 @@ class ThreeController extends Controller
         ForThreeOverview::Overview($threes,$from,new ThreeOverview);
 
         //to store three overview table if exist to update
-        $three_overviews = ThreeOverview::whereDate('date', $from)->orderBy('three','asc')->paginate(100);
+        $three_overviews = ThreeOverview::whereDate('date', $from)->orderBy('three','asc')->paginate(120);
 
         //ThreeOverview Total Amount
         $overview_total = ForThreeOverview::OverviewTotal(new ThreeOverview,$from);
