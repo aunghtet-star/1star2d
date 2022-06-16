@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card">
+            <div class="card pl-3">
                 <div class="card-body refresh" >
                     <div class="column">
                         @if($three_overviews)
