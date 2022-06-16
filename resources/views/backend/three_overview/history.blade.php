@@ -79,7 +79,7 @@
                         <a href="#" class="btn btn-dark" onclick="kyonAmount()">Clear</a>
                     </div>
 
-                {{$threes->links()}}
+                {{$three_overviews->links()}}
                 </div>
             </div>
         </div>

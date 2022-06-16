@@ -109,6 +109,7 @@ class ThreeController extends Controller
 
     public function threeHistory(Request $request)
     {
+//        dd($request->all());
         PermissionChecker::CheckPermission('three_overview');
 
         if (now()->format('Y-m-d')  < Carbon::now()->startOfMonth()->addDays(16)->format('Y-m-d')){
@@ -119,18 +120,19 @@ class ThreeController extends Controller
         $to = $request->enddate ?? Carbon::now()->endOfMonth()->addDays(1);
     }
 
-        $from = $from->format('Y-m-d');
-        $to = $to->format('Y-m-d');
+
+        //$from = $from->format('Y-m-d');
+        //$to = $to->format('Y-m-d');
 
 
         $three_brake = AllBrakeWithAmount::select('amount')->where('type', '3D')->first();
 
-        $threes = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to])->paginate(144);
+        $threes = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to])->get();
 
         ForThreeOverview::Overview($threes,$from,new ThreeOverview);
 
         //to store three overview table if exist to update
-        $three_overviews = ThreeOverview::whereDate('date', $from)->orderBy('three','asc')->get();
+        $three_overviews = ThreeOverview::whereDate('date', $from)->orderBy('three','asc')->paginate(144);
 
         //ThreeOverview Total Amount
         $overview_total = ForThreeOverview::OverviewTotal(new ThreeOverview,$from);
@@ -139,8 +141,9 @@ class ThreeController extends Controller
         $new_amount_total = $overview_total['new_amount'];
         $kyon_amount_total = $overview_total['kyon_amount'];
 
-        $threes->withPath('/admin/three-overview/history?startdate='.$from.'&enddate='.$to);
-
+        //dd($overview_total);
+        $three_overviews->withPath('/admin/three-overview/history?startdate='.$from.'&enddate='.$to);
+        //dd($from);
 
        // $threes_total = Three::select('amount')->whereBetween('date', [$from,$to])->sum('amount');
 
