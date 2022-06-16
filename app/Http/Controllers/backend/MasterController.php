@@ -109,6 +109,7 @@ class MasterController extends Controller
      */
     public function show($id,Request $request)
     {
+        //dd($id);
         $date = $request->date ?? now()->format('Y-m-d');
 
         $commissions_am = Two::select('amount')->where('master_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->sum('amount');
@@ -121,7 +122,7 @@ class MasterController extends Controller
         $commissions_7pm = DubaiTwo::select('amount')->where('master_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'17:00:00'),Carbon::parse($date.' '.'18:59:00')])->sum('amount');
         $commissions_9pm = DubaiTwo::select('amount')->where('master_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'19:00:00'),Carbon::parse($date.' '.'23:59:00')])->sum('amount');
 
-        if (now()->format('Y-m-d')  < Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d')){
+        if (now()->format('Y-m-d')  < Carbon::now()->startOfMonth()->addDays(16)->format('Y-m-d')){
             $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(1);
             $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(15);
         }else{
@@ -134,6 +135,7 @@ class MasterController extends Controller
 
         $commissions_three = Three::select('amount')->where('master_id',$id)->whereBetween('date',[$from,$to])->sum('amount');
 
+        //dd($commissions_three);
         return view('backend.commissions.index',compact('commissions_am','commissions_pm','commissions_11am','commissions_1pm','commissions_3pm','commissions_5pm','commissions_7pm','commissions_9pm','commissions_three'));
     }
 

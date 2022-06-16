@@ -117,6 +117,8 @@ class ThreeController extends Controller
     public function three(Request $request)
     {
 
+
+
         if (Three::where('user_id',Auth::user()->id)->exists()){
             $threes = $request->only(['three','three_r']);
 

@@ -121,7 +121,7 @@ class AgentController extends Controller
         $commissions_7pm = DubaiTwo::select('amount')->where('admin_user_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'17:00:00'),Carbon::parse($date.' '.'18:59:00')])->sum('amount');
         $commissions_9pm = DubaiTwo::select('amount')->where('admin_user_id',$id)->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'19:00:00'),Carbon::parse($date.' '.'23:59:00')])->sum('amount');
 
-        if (now()->format('Y-m-d')  < Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d')){
+        if (now()->format('Y-m-d')  < Carbon::now()->startOfMonth()->addDays(16)->format('Y-m-d')){
             $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(1);
             $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(15);
         }else{
