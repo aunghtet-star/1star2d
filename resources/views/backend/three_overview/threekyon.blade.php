@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card">
+            <div class="card pl-3">
                 <div class="card-body refresh" >
                     <div class="column">
                         @if($three_kyons)
@@ -82,6 +82,8 @@
                 <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($total)}}</h5>
 
                 </div>
+                {{$three_kyons->links()}}
+
             </div>
         </div>
 

@@ -164,8 +164,8 @@ class ThreeController extends Controller
             $to = $request->enddate ?? Carbon::now()->endOfMonth()->addDays(1);
         }
 
-        $from = $from->format('Y-m-d');
-        $to = $to->format('Y-m-d');
+        //$from = $from->format('Y-m-d');
+        //$to = $to->format('Y-m-d');
 
         $three_brake = AllBrakeWithAmount::select('amount')->where('type', '3D')->first();
 
@@ -174,7 +174,9 @@ class ThreeController extends Controller
         //To Store Three kyon table
         ForThreeKyon::Kyon($three_overviews,$from,new ThreeKyon);
 
-        $three_kyons = ThreeKyon::where('date',$from)->get();
+        $three_kyons = ThreeKyon::where('date',$from)->paginate(120);
+
+        $three_kyons->withPath('/admin/three-overview/kyon?startdate='.$from.'&enddate='.$to);
 
         return view('backend.three_overview.threekyon', compact('three_kyons', 'three_brake', 'from', 'to'));
     }
