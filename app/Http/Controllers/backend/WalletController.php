@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Helpers\ForWalletAndBetHistory;
+use App\Http\Requests\WalletRequest;
 use App\User;
 use App\Wallet;
 use App\AdminUser;
@@ -160,13 +161,26 @@ class WalletController extends Controller
 
     }
 
-    public function remove(Request $request)
+    public function remove(WalletRequest $request)
     {
 
+
+        //dd($request->all());
         $user = Auth::guard('adminuser')->user();
 
-        $from_account = Wallet::where('user_id',Auth::guard('adminuser')->user()->id)->firstOrFail();
+        if($user->hasRole('Master') || $user->hasRole('Agent')){
+            $from_account = Wallet::where('user_id',Auth::guard('adminuser')->user()->id)->firstOrFail();
+        }
 
+        if($user->hasRole('Admin') || $user->hasRole('Master') ){
+            $to_account = AdminUser::with('wallet')->where('id', $request->user_id)->firstOrFail();
+        }
+
+        if($user->hasRole('Agent')){
+            $to_account = User::where('id',$request->user_id)->firstOrFail();
+        }
+
+        //dd('hi');
         if($user->hasRole('Admin') || $user->hasRole('Master') ){
             $to_account = AdminUser::with('wallet')->where('id', $request->user_id)->firstOrFail();
 
@@ -184,6 +198,7 @@ class WalletController extends Controller
                 return back()->withErrors(['amount'=>'This user amount is not sufficient']);
             }
         }
+
 
 
         DB::beginTransaction();
@@ -223,11 +238,14 @@ class WalletController extends Controller
 
             Notification::send([$to_account], new AddAndWithdraw($title, $message, $transaction_id,$sourceable_id, $sourceable_type));
             DB::commit();
+
+
             return redirect('admin/wallet')->with('create', 'Remove successfully');
         } catch (\Exception $e) {
 
             DB::rollBack();
-            return redirect('admin/wallet/remove')->withErrors(['fail' => 'Something wrong'. $e->getMessage()])->withInput();
+
+            return redirect('admin/wallet/substract')->withErrors(['fail' => 'Something wrong'. $e->getMessage()])->withInput();
         }
     }
 }

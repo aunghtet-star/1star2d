@@ -175,6 +175,7 @@ class ThreeController extends Controller
         ForThreeKyon::Kyon($three_overviews,$from,new ThreeKyon);
 
         $three_kyons = ThreeKyon::where('date',$from)->paginate(120);
+//        dd($three_kyons);
 
         $three_kyons->withPath('/admin/three-overview/kyon?startdate='.$from.'&enddate='.$to);
 

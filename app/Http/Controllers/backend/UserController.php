@@ -97,7 +97,7 @@ class UserController extends Controller
         $date = $request->date ?? now()->format('Y-m-d');
         $user = User::findOrFail($id);
 
-        //Wallet
+        //WalletRequest
         $user_wallet = UserWallet::where('user_id', $user->id)->first();
 
         //Transaction History

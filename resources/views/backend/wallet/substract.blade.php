@@ -20,7 +20,7 @@
         @include('frontend.flash')
         <div class="card">
             <div class="card-body">
-                <form action="{{url('admin/wallet/remove')}}" method="POST" id="create">
+                <form action="{{url('/admin/wallet/removed')}}" method="POST" id="create">
                     @csrf
                     <div class="form-group">
                         <label for="">Name</label>
@@ -64,6 +64,6 @@
 <script>
     $(document).ready(function() {
     })
-    
+
 </script>
 @endsection

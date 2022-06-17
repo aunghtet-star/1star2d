@@ -251,7 +251,7 @@ Route::prefix('admin')->middleware(['auth:adminuser'])->group(function () {
     Route::resource('allbreakwithamount', AllBreakWithAmountController::class);
     Route::get('allbreakwithamount/datatables/ssd', [AllBreakWithAmountController::class,'ssd']);
 
-    // Wallet Controller
+    // WalletRequest Controller
     Route::get('/wallet',[WalletController::class,'index'])->name('wallet.index');
     Route::get('/wallet/datatables/ssd', [WalletController::class,'ssd']);
 
@@ -259,9 +259,9 @@ Route::prefix('admin')->middleware(['auth:adminuser'])->group(function () {
     Route::post('/wallet/store', [WalletController::class,'store']);
 
     Route::get('/wallet/substract', [WalletController::class,'substract']);
-    Route::post('/wallet/remove', [WalletController::class,'remove']);
+    Route::post('/wallet/removed', [WalletController::class,'remove']);
 
-    //Wallet History
+    //WalletRequest History
     Route::get('/wallets/history', [WalletHistoryController::class , 'index'])->name('history.index');
     Route::get('/wallets/history/datatables/ssd', [WalletHistoryController::class , 'ssd']);
 
