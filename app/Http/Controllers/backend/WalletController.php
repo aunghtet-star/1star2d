@@ -77,7 +77,7 @@ class WalletController extends Controller
 
     }
 
-    public function store(Request $request)
+    public function store(WalletRequest $request)
     {
         $user = Auth::guard('adminuser')->user();
 
