@@ -69,6 +69,7 @@ class WalletController extends Controller
 
     public function add()
     {
+
             PermissionChecker::CheckPermission('add_wallet');
             $masters = AdminUser::role('Master')->where('user_id',Auth::guard('adminuser')->user()->id)->get();
             $agents = AdminUser::role('Agent')->where('user_id',Auth::guard('adminuser')->user()->id)->get();
