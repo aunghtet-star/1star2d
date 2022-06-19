@@ -112,8 +112,9 @@
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav ml-auto">
 
-                <li class="nav-item mr-3">
+                <li class="nav-item mr-3 ">
                     <a class="nav-link" href=""><i class="fas fa-user-circle"></i> @if(Auth::check()) {{ Auth::user()->name }} @endif</a>
+                    <a class="nav-link" href="#"><i class="fas fa-coins"></i> @if(Auth::check()) {{ Auth::user()->user_wallet ? number_format(Auth::user()->user_wallet->amount) : '-' }} @endif kyat</a>
                 </li>
 
                 <li class="nav-item mr-3 @yield('2d')" >
@@ -132,9 +133,13 @@
                       <a class="nav-link" href="{{url('dubai-two/htaitpait')}}">Dubai အမြန်ထိုးရန်</a>
                   </li>
 
-                <li class="nav-item mr-3 @yield('3d')">
-                  <a class="nav-link" href="{{url('three')}}">Thai 3D</a>
+                <li class="nav-item mr-3 @yield('normal-3d')">
+                  <a class="nav-link" href="{{url('normal-three')}}">Thai 3D</a>
                 </li>
+
+                  <li class="nav-item mr-3 @yield('3d')">
+                      <a class="nav-link" href="{{url('three')}}">Thai 3D-R</a>
+                  </li>
 
                 <li class="nav-item mr-3 @yield('history')">
                     <a class="nav-link" href="{{url('user/history')}}">မှတ်တမ်း</a>

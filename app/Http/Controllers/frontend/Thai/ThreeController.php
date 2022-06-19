@@ -158,7 +158,7 @@ class ThreeController extends Controller
             return redirect('/three')->withErrors(['fail' => 'You have no sufficient balance']);
         }
 
-        // limit feature for 3D R function
+        // limit feature for 3D function
 
         $closed_three = Amountbreak::select('closed_number')->where('type', '3D')->get();
         $three_brakes =  Three::select('three', DB::raw('SUM(amount) as total'))->whereIn('three', $closed_three)->where('date',now()->format('Y-m-d'))->groupBy('three')->get();

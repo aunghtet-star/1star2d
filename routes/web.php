@@ -90,6 +90,10 @@ Route::middleware('auth:web')->group(function () {
     Route::post('/three/confirm', [\App\Http\Controllers\frontend\Thai\ThreeController::class,'threeconfirm']);
     Route::post('three/create', [\App\Http\Controllers\frontend\Thai\ThreeController::class,'three']);
 
+    Route::get('/normal-three', [\App\Http\Controllers\frontend\Thai\NormalThreeController::class,'index']);
+    Route::post('/normal-three/confirm', [\App\Http\Controllers\frontend\Thai\NormalThreeController::class,'threeconfirm']);
+    Route::post('normal-three/create', [\App\Http\Controllers\frontend\Thai\NormalThreeController::class,'three']);
+
     // User History
     Route::get('user/history', [UserHistoryController::class,'history'])->name('user.history');
     Route::get('user/dubai-history', [UserHistoryController::class,'DubaiHistory'])->name('user.dubai-history');
