@@ -298,11 +298,20 @@
 
                 @can('brake')
                 <li>
-                    <a href="{{route('allbreakwithamount.index')}}" class="@yield('allbreakwithamount')">
+                    <a href="{{route('user_brake_amount_all.index')}}" class="@yield('user_brake_amount_all')">
                         <i class="metismenu-icon fas fa-hand-paper text-dark"></i>
-                        <span class="text-danger font-weight-bold">ဘရိတ်ပမာဏ</span>
+                        <span class="text-danger font-weight-bold">All Limit ကန့်သတ်ရန်</span>
                     </a>
                 </li>
+                @endcan
+
+                @can('brake')
+                    <li>
+                        <a href="{{route('allbreakwithamount.index')}}" class="@yield('allbreakwithamount')">
+                            <i class="metismenu-icon fas fa-hand-paper text-dark"></i>
+                            <span class="text-danger font-weight-bold">ဘရိတ်ပမာဏ</span>
+                        </a>
+                    </li>
                 @endcan
 
 

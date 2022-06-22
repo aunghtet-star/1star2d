@@ -4,13 +4,16 @@ namespace App\Http\Controllers\frontend\Thai;
 
 use App\Amountbreak;
 use App\BetHistory;
+use App\Helpers\ForUserBrakeAmountAll;
 use App\Helpers\ForWalletAndBetHistory;
 use App\Helpers\TheeThantBrake;
 use App\Helpers\UUIDGenerator;
 use App\Http\Controllers\Controller;
 use App\ShowHide;
 use App\Three;
+use App\UserBrakeAmountAll;
 use App\WalletHistory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +34,6 @@ class NormalThreeController extends Controller
 
         $total = 0;
 
-
         foreach ($request->amount as $amount) {
             $total += $amount;
         }
@@ -50,13 +52,41 @@ class NormalThreeController extends Controller
         $total;
 
 
+        if (now()->format('Y-m-d') < Carbon::now()->startOfMonth()->addDays(16)->format('Y-m-d')){
+            $from = Carbon::now()->startOfMonth()->addDays(1);
+            $to = Carbon::now()->startOfMonth()->addDays(15);
+        }else{
+            //dd(Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d'));
+            $from = Carbon::now()->startOfMonth()->addDays(16);
+            $to =Carbon::now()->endOfMonth()->addDays(1);
+        }
+
+        $from = $from->format('Y-m-d');
+        $to = $to->format('Y-m-d');
 
         //brake number condition
 
+
         $closed_three = Amountbreak::select('closed_number')->where('type', '3D')->get();
-        $three_brakes =  Three::select('three', DB::raw('SUM(amount) as total'))->whereIn('three', $closed_three)->where('date',now()->format('Y-m-d'))->groupBy('three')->get();
+        $three_brakes =  Three::select('three', DB::raw('SUM(amount) as total'))->whereIn('three', $closed_three)->where('date',[$from,$to])->groupBy('three')->get();
+
+        $three_brakes_all =  Three::select('three', DB::raw('SUM(amount) as total'))->whereBetween('date',[$from,$to])->groupBy('three')->get();
 
 
+        //All brake Number Condition
+        $threeBrake = ForUserBrakeAmountAll::AllBrakeThree($threes,$amount,$three_brakes_all,new UserBrakeAmountAll);
+
+
+
+        if ($threeBrake){
+            return back()->withErrors([
+                $threeBrake['three'].' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
+                             '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '.$threeBrake['need_amount'].' ကျပ်လိုပါသေးသည်'
+            ])->withInput();
+        }
+
+
+        //thee thant brake number condition
         $three_d = TheeThantBrake::DigitBrake($three_brakes,$request->three,$request->amount);
 
         if($three_d){

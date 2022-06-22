@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class AllBrakeWithAmount extends Model
 {
-    //
+    protected $guarded = [];
 }

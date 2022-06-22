@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DubaiTwo;
+use App\Helpers\ForUserBrakeAmountAll;
 use App\Helpers\ForUserHistory;
 use App\Helpers\ForWalletAndBetHistory;
 use App\Helpers\TheeThantBrake;
@@ -10,6 +11,7 @@ use App\Two;
 use App\TwoOverviewPM;
 use App\User;
 use App\Three;
+use App\UserBrakeAmountAll;
 use Exception;
 use App\Wallet;
 use App\ShowHide;
@@ -105,13 +107,27 @@ class HomeController extends Controller
        }
 
 
+
         //brake number condition
 
         $breakNumbers = Amountbreak::select('closed_number')->where('type', '2D')->get();
         $break_twos_am = Two::select('two', DB::raw('SUM(amount) as total'))->whereIn('two', $breakNumbers)->whereBetween('created_at', [now()->format('Y-m-d'). ' 00:00:00',now()->format('Y-m-d'). ' 12:00:00'])->groupBy('two')->get();
         $break_twos_pm = Two::select('two', DB::raw('SUM(amount) as total'))->whereIn('two', $breakNumbers)->whereBetween('created_at', [now()->format('Y-m-d'). ' 12:00:00',now()->format('Y-m-d'). ' 23:59:00'])->groupBy('two')->get();
 
+        $user_brake_amount_all_am = Two::select('two', DB::raw('SUM(amount) as total'))->whereBetween('created_at', [now()->format('Y-m-d'). ' 00:00:00',now()->format('Y-m-d'). ' 12:00:00'])->groupBy('two')->get();
+        $user_brake_amount_all_pm = Two::select('two', DB::raw('SUM(amount) as total'))->whereBetween('created_at', [now()->format('Y-m-d'). ' 12:00:00',now()->format('Y-m-d'). ' 23:59:00'])->groupBy('two')->get();
+
         if(now()->format('Y-m-d H:i:s') < now()->format('Y-m-d') .' 12:00:00'){
+
+            //For User Amount Brake All
+            $user_brake_amount_all = ForUserBrakeAmountAll::AllBrake($twos,$amount,$user_brake_amount_all_am,new UserBrakeAmountAll);
+
+            if ($user_brake_amount_all){
+                return redirect(url('two'))->withErrors([
+                    $user_brake_amount_all['two'].' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
+            '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '. $user_brake_amount_all['need_amount'] .'ကျပ်လိုပါသေးသည်'
+                ]);
+            }
 
             //Thee thant brake number AM
             $am = TheeThantBrake::DigitBrake($break_twos_am,$twos,$amount);
@@ -123,6 +139,17 @@ class HomeController extends Controller
             }
 
         }else{
+
+            //For User Amount Brake All
+
+            $user_brake_amount_all = ForUserBrakeAmountAll::AllBrake($twos,$amount,$user_brake_amount_all_pm,new UserBrakeAmountAll);
+
+            if ($user_brake_amount_all){
+                return redirect(url('two'))->withErrors([
+                    $user_brake_amount_all['two'].' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
+            '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '. $user_brake_amount_all['need_amount'] .'ကျပ်လိုပါသေးသည်'
+                ]);
+            }
 
         // Thee thant brake number PM
             $pm = TheeThantBrake::DigitBrake($break_twos_pm,$twos,$amount);

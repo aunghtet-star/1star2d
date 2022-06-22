@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers\backend;
 
-use App\AllBrakeWithAmount;use Illuminate\Http\Request;
-use App\all_break_with_amount;
-use Yajra\Datatables\Datatables;
+use App\AllBrakeWithAmount;
 use App\Helpers\PermissionChecker;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\StoreBreakNumber;
-use App\Http\Requests\UpdateBreakNumber;
 use App\Http\Requests\StoreAllBreakWithAmount;
 use App\Http\Requests\UpdateAllBreakWithAmount;
+use App\UserBrakeAmountAll;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\DataTables;
 
-class AllBreakWithAmountController extends Controller
+class UserBrakeAmountAllController extends Controller
 {
     protected $model;
 
-    protected $rView = 'backend.all_break_with_amount.';
+    protected $rView = 'backend.user_brake_amount_all.';
 
-    public function __construct(AllBrakeWithAmount $model){
+    public function __construct(UserBrakeAmountAll $model){
         return $this->model = $model;
     }
 
@@ -32,17 +31,17 @@ class AllBreakWithAmountController extends Controller
 
     public function ssd()
     {
-        $all_break_with_amounts = $this->model::query();
+        $user_brake_amount_all = $this->model::query();
 
-        return Datatables::of($all_break_with_amounts)
-        ->addColumn('action', function ($each) {
-            $edit_icon = '<a href="'.url('admin/allbreakwithamount/'.$each->id.'/edit').'" class="text-warning"><i class="fas fa-user-edit"></i></a>';
-            $delete_icon = '<a href="'.url('admin/allbreakwithamount/'.$each->id).'" data-id="'.$each->id.'" class="text-danger" id="delete"><i class="fas fa-trash"></i></a>';
+        return Datatables::of($user_brake_amount_all)
+            ->addColumn('action', function ($each) {
+                $edit_icon = '<a href="'.url('admin/user_brake_amount_all/'.$each->id.'/edit').'" class="text-warning"><i class="fas fa-user-edit"></i></a>';
+                $delete_icon = '<a href="'.url('admin/user_brake_amount_all/'.$each->id).'" data-id="'.$each->id.'" class="text-danger" id="delete"><i class="fas fa-trash"></i></a>';
 
 
-            return '<div class="action-icon">'.$edit_icon . $delete_icon.'</div>';
-        })
-        ->make(true);
+                return '<div class="action-icon">'.$edit_icon . $delete_icon.'</div>';
+            })
+            ->make(true);
     }
 
     public function create()
@@ -57,17 +56,17 @@ class AllBreakWithAmountController extends Controller
         $data['admin_user_id'] = Auth::guard('adminuser')->user()->id;
         $this->model->create($data);
 
-        return redirect('admin/allbreakwithamount')->with('create', 'Created Successfully');
+        return redirect('admin/user_brake_amount_all')->with('create', 'Created Successfully');
     }
 
     public function edit($id)
     {
         PermissionChecker::CheckPermission('brake');
-        $all_break_with_amount = $this->model::findOrFail($id);
+        $user_brake_amount_all = $this->model::findOrFail($id);
         $numbers = $this->model::where('admin_user_id', Auth::guard('adminuser')->user()->id)->get();
 
 
-        return view($this->rView.'edit', compact('all_break_with_amount', 'numbers'));
+        return view($this->rView.'edit', compact('user_brake_amount_all', 'numbers'));
     }
 
     public function update(UpdateAllBreakWithAmount $request, $id)
@@ -76,7 +75,7 @@ class AllBreakWithAmountController extends Controller
         $data['admin_user_id'] = Auth::guard('adminuser')->user()->id;
         $this->model::findOrFail($id)->update($data);
 
-        return redirect('admin/allbreakwithamount')->with('update', 'Updated Successfully');
+        return redirect('admin/user_brake_amount_all')->with('update', 'Updated Successfully');
     }
 
     public function destroy($id)

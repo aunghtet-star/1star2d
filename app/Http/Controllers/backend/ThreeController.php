@@ -160,7 +160,7 @@ class ThreeController extends Controller
             $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(15);
         }else{
             //dd(Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d'));
-            $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(15);
+            $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(16);
             $to = $request->enddate ?? Carbon::now()->endOfMonth()->addDays(1);
         }
 

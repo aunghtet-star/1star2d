@@ -26,10 +26,12 @@ use App\Http\Controllers\backend\{AdminDashboardController,
     ThreePoutController,
     TwoController,
     TwoKyonCleaner,
+    UserBrakeAmountAllController,
     UserController,
     WalletController,
     WalletHistoryController};
 
+use App\UserBrakeAmountAll;
 use App\Http\Controllers\frontend\{Dubai\DubaiHtaitPaitController,
     PasswordChangeController,
     Thai\HtaitPaitController,
@@ -250,6 +252,11 @@ Route::prefix('admin')->middleware(['auth:adminuser'])->group(function () {
 
      Route::resource('amountbreaks', BreakNumberController::class);
      Route::get('amountbreaks/datatables/ssd', [BreakNumberController::class,'ssd']);
+
+    //User Brake Amount All
+    Route::resource('user_brake_amount_all', UserBrakeAmountAllController::class);
+    Route::get('user_brake_amount_all/datatables/ssd', [UserBrakeAmountAllController::class,'ssd']);
+
 
      //All Amount Brake
     Route::resource('allbreakwithamount', AllBreakWithAmountController::class);

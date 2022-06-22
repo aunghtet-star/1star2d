@@ -31,6 +31,7 @@ class HtaitPaitController extends Controller
         $zerohtaits = $onehtaits = $twohtaits = $threehtaits = $fourhtaits = $fivehtaits = $sixhtaits = $sevenhtaits = $eighthtaits = $ninehtaits = '';
         $amount = $request->amount ;
 
+
         if (!is_null($request->zerohtait)) {
             $zerohtaits =  explode('-', $request->zerohtait);
             $zerohtaits = HtaitPaitForeach::Brake($zerohtaits,$amount);
@@ -557,16 +558,21 @@ class HtaitPaitController extends Controller
             }
         }
 
+        //dd($totals);
+        if (0 == $totals) {
+            return redirect('/two/htaitpait')->withErrors(['fail' => 'Limit ပြည့်နေသောဂဏန်းများဖြစ်ပါသည် Amount လျှော့ထိုးကြည့်ပါ']);
+        }
+
         if ($from_account_wallet->amount < $totals) {
             return redirect('/two/htaitpait')->withErrors(['fail' => 'You have no sufficient balance']);
         }
+
 
         return view('frontend.two.htaitpaitconfirm', compact('amount', 'zerohtaits', 'onehtaits', 'twohtaits', 'threehtaits', 'fourhtaits', 'fivehtaits', 'sixhtaits', 'sevenhtaits', 'eighthtaits', 'ninehtaits', 'zeropaits', 'onepaits', 'twopaits', 'threepaits', 'fourpaits', 'fivepaits', 'sixpaits', 'sevenpaits', 'eightpaits', 'ninepaits', 'zerobrakes', 'onebrakes', 'twobrakes', 'threebrakes', 'fourbrakes', 'fivebrakes', 'sixbrakes', 'sevenbrakes', 'eightbrakes', 'ninebrakes', 'zeropars', 'onepars', 'twopars', 'threepars', 'fourpars', 'fivepars', 'sixpars', 'sevenpars', 'eightpars', 'ninepars', 'apuus', 'tens', 'powers', 'natkhats', 'brothers'));
     }
 
     public function store(StoreHtaitPait $request)
     {
-
         if(Two::where('user_id',Auth::user()->id)->exists()){
             $twos = $request->except('amount','_token');
 
@@ -935,6 +941,7 @@ class HtaitPaitController extends Controller
                 $totals += $request->amount;
             }
         }
+
 
         if ($from_account_wallet->amount < $totals) {
             return redirect('/')->withErrors(['fail' => 'You have no sufficient balance']);

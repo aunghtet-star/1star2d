@@ -25,7 +25,7 @@ class StoreHtaitPait extends FormRequest
     {
         return [
             // 'zerohtait' => 'required_without_all',
-            'amount'=>'required'
+            'amount'=>'required|gt:0|numeric'
         ];
     }
 

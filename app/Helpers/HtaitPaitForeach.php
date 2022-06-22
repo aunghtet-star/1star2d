@@ -44,15 +44,15 @@ class HtaitPaitForeach
 
     public static function Brake($datas, $amount)
     {
-//        $datas = collect($datas);
-//        $allbreak = BrakeHtaitPait::AllBrake($datas, $amount);
+        $datas = collect($datas);
+        $allbreak = BrakeHtaitPait::AllBrake($datas, $amount);
         $onlybreak = BrakeHtaitPait::OnlyBrake($datas, $amount);
 
 
-//        if ($allbreak) {
-//            $disallowedall = $allbreak['breaks'];
-//            $datas = array_diff($datas->toArray(), $disallowedall);
-//        }
+        if ($allbreak) {
+            $disallowedall = $allbreak['breaks'];
+            $datas = array_diff($datas->toArray(), $disallowedall);
+        }
 
         if ($onlybreak) {
             $disallowedonly = $onlybreak['breaks'];
