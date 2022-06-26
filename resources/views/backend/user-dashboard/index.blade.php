@@ -25,6 +25,7 @@
                         <thead>
                             <th>Name</th>
                             <th>Phone</th>
+                            <th>Amount</th>
                             <th>Action</th>
                         </thead>
                         <tbody>
@@ -53,6 +54,10 @@
                             {
                                 data : "phone",
                                 name : "phone",
+                            },
+                            {
+                                data : "amount",
+                                name : "amount",
                             },
                             {
                                 data : "action",

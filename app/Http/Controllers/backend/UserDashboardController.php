@@ -42,7 +42,9 @@ class UserDashboardController extends Controller
     {
         $users = User::query();
         return Datatables::of($users)
-
+            ->addColumn('amount',function ($each){
+                return number_format($each->user_wallet ? $each->user_wallet->amount : '-');
+            })
             ->addColumn('action', function ($each) {
                 $edit_icon = '<a href="'.url('/admin/user-dashboard/'.$each->id.'/edit').'" class="text-warning"><i class="fas fa-user-edit"></i></a>';
                 //$delete_icon = '<a href="'.url('/admin/user-dashboard/'.$each->id).'" data-id="'.$each->id.'" class="text-danger" id="delete"><i class="fas fa-trash"></i></a>';
