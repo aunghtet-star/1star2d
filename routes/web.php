@@ -28,6 +28,7 @@ use App\Http\Controllers\backend\{AdminDashboardController,
     TwoKyonCleaner,
     UserBrakeAmountAllController,
     UserController,
+    UserDashboardController,
     WalletController,
     WalletHistoryController};
 
@@ -120,13 +121,6 @@ Route::prefix('admin')->middleware(['auth:adminuser'])->group(function () {
     Route::resource('/admin-user',AdminDashboardController::class);
     Route::get('/admin-user/datatables/ssd', [AdminDashboardController::class,'ssd']);
 
-//    Route::get('/', [AdminDashboardController::class,'index']);
-//    Route::get('/create', [AdminDashboardController::class,'create']);
-//    Route::post('/store', [AdminDashboardController::class,'store']);
-//    Route::get('{id}/edit/', [AdminDashboardController::class,'edit']);
-//    Route::patch('{id}/update', [AdminDashboardController::class,'update']);
-//    Route::delete('/delete/{id}', [AdminDashboardController::class,'destroy']);
-
     Route::resource('master',MasterController::class);
     Route::get('master/datatables/ssd', [MasterController::class,'ssd']);
 
@@ -135,7 +129,13 @@ Route::prefix('admin')->middleware(['auth:adminuser'])->group(function () {
 
     Route::resource('users', UserController::class);
     Route::get('users/datatables/ssd', [UserController::class,'ssd']);
-    Route::get('users/detail/{date}', [UserController::class,'userDetail'])->name('users.detail');
+
+    Route::resource('user-dashboard', UserDashboardController::class);
+    Route::get('user-dashboard/datatables/ssd', [UserDashboardController::class,'ssd']);
+    Route::get('user-dashboard/{id}/add', [UserDashboardController::class,'add']);
+    Route::get('user-dashboard/{id}/subtract', [UserDashboardController::class,'subtract']);
+    Route::post('user-dashboard/store', [UserDashboardController::class,'store']);
+    Route::post('user-dashboard/remove', [UserDashboardController::class,'remove']);
 
 
     // Two Controller

@@ -22,6 +22,8 @@
         "sass-loader": "^8.0.0"
     },
     "dependencies": {
-        "mdbootstrap": "^4.20.0"
+        "@sweetalert2/theme-dark": "^5.0.11",
+        "mdbootstrap": "^4.20.0",
+        "sweetalert2": "^11.4.18"
     }
 }

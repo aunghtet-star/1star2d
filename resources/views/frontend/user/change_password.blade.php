@@ -21,7 +21,7 @@
                                 <input type="text" class="form-control" name="new_password">
                             </div>
 
-                            <button type="submit" class="btn btn-dark btn-sm mt-3">Confirm</button>
+                            <button type="submit" class="btn btn-primary btn-sm mt-3">Confirm</button>
                         </form>
                     </div>
                 </div>

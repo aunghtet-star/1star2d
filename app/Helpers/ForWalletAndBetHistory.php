@@ -37,4 +37,19 @@ class ForWalletAndBetHistory
         $history->date = now()->format('Y-m-d H:i:s');
         $history->save();
     }
+
+    public static function AdminSlip($model,$admin_user_id,$user_id,$trx_id,$amount,$is_deposit,$type){
+
+        $user = Auth::guard('adminuser')->user();
+
+        $history = new $model();
+        $history->admin_user_id = $admin_user_id;
+        $history->user_id = $user_id;
+        $history->trx_id = $trx_id;
+        $history->amount = $amount;
+        $history->is_deposit = $is_deposit;
+        $history->type = $type;
+        $history->date = now()->format('Y-m-d H:i:s');
+        $history->save();
+    }
 }

@@ -14,14 +14,14 @@ class BetHistoryController extends Controller
     public function index()
     {
         PermissionChecker::CheckPermission('bet_history');
-        
+
         return view('backend.bet_history.index');
     }
 
     public function ssd()
     {
         $user = Auth::guard('adminuser')->user();
-        
+
         $bet_hisotry = BetHistory::query();
 
         $data = Datatables::of($bet_hisotry)
@@ -30,10 +30,12 @@ class BetHistoryController extends Controller
                 $q1->where('name', 'like', '%'.$keyword.'%');
             });
         });
-        
+
         return $data->editColumn('is_deposit', function ($each) {
             if ($each->is_deposit == 'deposit' || $each->is_deposit == 'bet') {
                 return '<span class="badge badge-success p-2"> '.$each->is_deposit.'</span>';
+            }elseif ($each->is_deposit == 'fix'){
+                return '<span class="badge badge-warning p-2"> '.$each->is_deposit.'</span>';
             } else {
                 return '<span class="badge badge-danger p-2"> '.$each->is_deposit.'</span>';
             }
@@ -44,6 +46,10 @@ class BetHistoryController extends Controller
         ->editColumn('amount', function ($each) {
             if ($each->is_deposit == 'deposit' || $each->is_deposit == 'bet') {
                 return '<p class="text-success"> + '.number_format($each->amount).'</p>';
+            }elseif ($each->type == 'from admin'){
+                return '<p class="text-success"> + '.number_format($each->amount).'</p>';
+            }elseif ($each->type == 'to admin'){
+                return '<p class="text-danger"> - '.number_format($each->amount).'</p>';
             } else {
                 return '<p class="text-danger"> - '.number_format($each->amount).'</p>';
             }

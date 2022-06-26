@@ -6,10 +6,18 @@
 }
 
 body{
-    background: #f2e99d;
+    background: #343a40;
+    color: white !important;
 }
 
 .navbar{
-    background: #EA951199 !important;
+    background: #252a2e !important;
 }
 
+.card{
+    background: #252a2e !important;
+}
+
+input[type='checkbox'] {
+    accent-color: #0e7e36;
+}

@@ -17,6 +17,10 @@
     {{-- Date ranger picker --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
+    {{--    Sweet alert 2--}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css" />
+
+
     {{-- custom css --}}
     <link rel="stylesheet" href="{{asset('frontend/style.css')}}">
 
@@ -101,9 +105,9 @@
             </div>
         </nav> --}}
 
-        <nav class="navbar navbar-expand-lg navbar-light">
+        <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container">
-                <a class="navbar-brand" href="{{url('/')}}">1Star2DMM</a>
+                <a class="navbar-brand text-success font-weight-bold" href="{{url('/')}}">1Star2DMM</a>
 
                 <a class="navbar-brand @if($unread_noti != 0) text-danger @endif"   href="{{url('/notification')}}" ><i class="fas fa-bell "></i></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -189,8 +193,7 @@
     <script src="{{asset('frontend/app.js')}}"></script>
 
     {{-- sweet alert --}}
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
     {{-- js validation --}}
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

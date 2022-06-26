@@ -61,6 +61,15 @@
                 </li>
                 @endcan
 
+                @can('view_admin')
+                <li>
+                    <a href="{{route('user-dashboard.index')}}" class="@yield('user-dashboard')">
+                        <i class="metismenu-icon pe-7s-users text-warning"></i>
+                        <span class="text-warning font-weight-bold">User Dashboard</span>
+                    </a>
+                </li>
+                @endcan
+
                 @can('agent')
                 <li>
                     <a href="{{route('agent.index')}}" class="@yield('agent')">
@@ -313,8 +322,6 @@
                         </a>
                     </li>
                 @endcan
-
-
 
                 @can('view_wallet')
                 <li>

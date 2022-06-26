@@ -26,10 +26,8 @@
 
 <h5 class="text-success" style="font-weight: 700">Total amount => {{number_format($two_transactions_total)}}</h5>
 <script>
-    
+
     $(document).ready(function() {
-        
+
     })
 </script>
-
-

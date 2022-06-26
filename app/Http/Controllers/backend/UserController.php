@@ -29,14 +29,15 @@ class UserController extends Controller
     public function index()
     {
         PermissionChecker::CheckPermission('user');
-        $users = User::where('admin_user_id', Auth()->user()->id)->get();
+        $users = User::where('admin_user_id', Auth::guard('adminuser')->user()->id)->get();
 
         return view('backend.users.index', compact('users'));
     }
 
     public function ssd()
     {
-        $users = User::where('admin_user_id', Auth()->user()->id)->get();
+        $users = User::where('admin_user_id', Auth::guard('adminuser')->user()->id)->get();
+
         return Datatables::of($users)
 
         ->addColumn('action', function ($each) {
