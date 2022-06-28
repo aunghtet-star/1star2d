@@ -62,6 +62,24 @@
                 @endcan
 
                 @can('view_admin')
+                    <li>
+                        <a href="{{route('master-dashboard.index')}}" class="@yield('master-dashboard')">
+                            <i class="metismenu-icon pe-7s-users text-warning"></i>
+                            <span class="text-warning font-weight-bold">Master Dashboard</span>
+                        </a>
+                    </li>
+                @endcan
+
+                @can('view_admin')
+                    <li>
+                        <a href="{{route('agent-dashboard.index')}}" class="@yield('agent-dashboard')">
+                            <i class="metismenu-icon pe-7s-users text-warning"></i>
+                            <span class="text-warning font-weight-bold">Agent Dashboard</span>
+                        </a>
+                    </li>
+                @endcan
+
+                @can('view_admin')
                 <li>
                     <a href="{{route('user-dashboard.index')}}" class="@yield('user-dashboard')">
                         <i class="metismenu-icon pe-7s-users text-warning"></i>
@@ -349,6 +367,15 @@
                 </a>
                 </li>
                @endcan
+
+                @can('view_admin')
+                    <li>
+                        <a href="{{route('fix-money-from-admin.index')}}" class="@yield('fix-money-from-admin')">
+                            <i class="metismenu-icon fas fa-solid fa-clock-rotate-left text-dark"></i>
+                            <span class="text-danger font-weight-bold">ငွေကြေးပြင်ဆင်ဇယား</span>
+                        </a>
+                    </li>
+                @endcan
 
 
                 @can('fake_number')

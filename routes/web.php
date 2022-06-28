@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\backend\{AdminDashboardController,
     AgentController,
+    AgentDashboardController,
     AllBreakWithAmountController,
     BetHistoryController,
     BreakNumberController,
@@ -14,7 +15,9 @@ use App\Http\Controllers\backend\{AdminDashboardController,
     DubaiTwoKyonController,
     DubaiTwoOverviewController,
     FakeNumberController,
+    FixMoneyFromAdminController,
     MasterController,
+    MasterDashboardController,
     NotificationController,
     PermissionController,
     PoutController,
@@ -130,12 +133,29 @@ Route::prefix('admin')->middleware(['auth:adminuser'])->group(function () {
     Route::resource('users', UserController::class);
     Route::get('users/datatables/ssd', [UserController::class,'ssd']);
 
+    //User Dashboard
     Route::resource('user-dashboard', UserDashboardController::class);
     Route::get('user-dashboard/datatables/ssd', [UserDashboardController::class,'ssd']);
     Route::get('user-dashboard/{id}/add', [UserDashboardController::class,'add']);
     Route::get('user-dashboard/{id}/subtract', [UserDashboardController::class,'subtract']);
     Route::post('user-dashboard/store', [UserDashboardController::class,'store']);
     Route::post('user-dashboard/remove', [UserDashboardController::class,'remove']);
+
+    //Master Dashboard
+    Route::resource('master-dashboard', MasterDashboardController::class);
+    Route::get('master-dashboard/datatables/ssd', [MasterDashboardController::class,'ssd']);
+    Route::get('master-dashboard/{id}/add', [MasterDashboardController::class,'add']);
+    Route::get('master-dashboard/{id}/subtract', [MasterDashboardController::class,'subtract']);
+    Route::post('master-dashboard/store', [MasterDashboardController::class,'store']);
+    Route::post('master-dashboard/remove', [MasterDashboardController::class,'remove']);
+
+    //Agent Dashboard
+    Route::resource('agent-dashboard', AgentDashboardController::class);
+    Route::get('agent-dashboard/datatables/ssd', [AgentDashboardController::class,'ssd']);
+    Route::get('agent-dashboard/{id}/add', [AgentDashboardController::class,'add']);
+    Route::get('agent-dashboard/{id}/subtract', [AgentDashboardController::class,'subtract']);
+    Route::post('agent-dashboard/store', [AgentDashboardController::class,'store']);
+    Route::post('agent-dashboard/remove', [AgentDashboardController::class,'remove']);
 
 
     // Two Controller
@@ -237,6 +257,10 @@ Route::prefix('admin')->middleware(['auth:adminuser'])->group(function () {
     //Bet History Controller
     Route::get('/two-pout/history', [BetHistoryController::class,'index'])->name('bet_history.index');
     Route::get('/two-pout/history-datatables-ssd', [BetHistoryController::class,'ssd']);
+
+    //Fix money from admin History Controller
+    Route::get('/fix-money-from-admin', [FixMoneyFromAdminController::class,'index'])->name('fix-money-from-admin.index');
+    Route::get('/fix-money-from-admin/datatables-ssd', [FixMoneyFromAdminController::class,'ssd']);
 
     //Three Controller
     Route::resource('three', ThreeController::class)->only('index');

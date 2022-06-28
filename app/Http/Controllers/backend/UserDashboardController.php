@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use App\AdminUser;
 use App\BetHistory;
 use App\DubaiTwo;
+use App\FixMoneyFromAdmin;
 use App\Helpers\ForUserDetail;
 use App\Helpers\ForWalletAndBetHistory;
 use App\Helpers\PermissionChecker;
@@ -91,6 +92,8 @@ class UserDashboardController extends Controller
         //Transaction History
         $user_transactions = WalletHistory::where('user_id', $user->id)->where('type','user')->whereDate('created_at', $date. ' '.'00:00:00')->orderBy('created_at', 'DESC')->get();
 
+        $fix_money_from_admins = BetHistory::where('user_id',$id)->where('is_deposit','fix')->whereDate('created_at', $date. ' '.'00:00:00')->orderBy('created_at', 'DESC')->get();
+
         //For Two
         $two = ForUserDetail::Digit(new Two,$user,$date);
         $two_users_am = $two['am'];
@@ -130,7 +133,7 @@ class UserDashboardController extends Controller
         $dubai_twos_7pm_sum = $dubai_twos_sum['pm_7_sum'];
         $dubai_twos_9pm_sum = $dubai_twos_sum['pm_9_sum'];
 
-        return view('backend.user-dashboard.detail', compact('user', 'two_users_am', 'two_users_pm', 'two_users_am_sum', 'two_users_pm_sum', 'three_users_am', 'three_users_pm', 'three_users_am_sum', 'three_users_pm_sum','dubai_twos_11am_sum','dubai_twos_1pm_sum','dubai_twos_3pm_sum','dubai_twos_5pm_sum','dubai_twos_7pm_sum','dubai_twos_9pm_sum' ,'dubai_twos_11am','dubai_twos_1pm','dubai_twos_3pm','dubai_twos_5pm','dubai_twos_7pm','dubai_twos_9pm' ,'user_wallet', 'user_transactions'));
+        return view('backend.user-dashboard.detail', compact('user', 'two_users_am', 'two_users_pm', 'two_users_am_sum', 'two_users_pm_sum', 'three_users_am', 'three_users_pm', 'three_users_am_sum', 'three_users_pm_sum','dubai_twos_11am_sum','dubai_twos_1pm_sum','dubai_twos_3pm_sum','dubai_twos_5pm_sum','dubai_twos_7pm_sum','dubai_twos_9pm_sum' ,'dubai_twos_11am','dubai_twos_1pm','dubai_twos_3pm','dubai_twos_5pm','dubai_twos_7pm','dubai_twos_9pm' ,'user_wallet', 'user_transactions','fix_money_from_admins'));
     }
 
     public function add($id)

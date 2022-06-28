@@ -316,8 +316,15 @@
                                         <td class="@if($user_transaction->is_deposit == 'bet' || $user_transaction->is_deposit == 'withdraw' ) text-danger @else text-success  @endif"> @if($user_transaction->is_deposit == 'bet' || $user_transaction->is_deposit == 'withdraw') - @else + @endif {{number_format($user_transaction->amount)}}</td>
                                         <td>{{$user_transaction->created_at->format('h:i:s A')}}</td>
                                     </tr>
-                                </tbody>
                                 @endforeach
+                                @foreach($fix_money_from_admins as $fix_money_from_admin)
+                                    <tr>
+                                        <td>{{$fix_money_from_admin->trx_id}}</td>
+                                        <td class="@if($fix_money_from_admin->is_deposit == 'bet' || $fix_money_from_admin->is_deposit == 'withdraw' ) text-danger @else text-success  @endif"> @if($fix_money_from_admin->is_deposit == 'bet' || $fix_money_from_admin->is_deposit == 'withdraw') - @else + @endif {{number_format($fix_money_from_admin->amount)}}</td>
+                                        <td>{{$fix_money_from_admin->created_at->format('h:i:s A')}}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
                             </table>
 
                             <hr>
