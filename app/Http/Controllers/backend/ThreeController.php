@@ -190,7 +190,7 @@ class ThreeController extends Controller
         $three_kyons = ThreeKyon::where('date',$from)->paginate(110);
 //        dd($three_kyons);
 
-        $three_kyons->withPath('/admin/three-overview/kyon?startdate='.$from.'&enddate='.$to);
+        //$three_kyons->withPath('/admin/three-overview/kyon?startdate='.$from.'&enddate='.$to);
 
         return view('backend.three_overview.threekyon', compact('three_kyons', 'three_brake', 'from', 'to'));
     }
