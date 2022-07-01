@@ -95,12 +95,12 @@ class UserDashboardController extends Controller
         $fix_money_from_admins = BetHistory::where('user_id',$id)->where('is_deposit','fix')->whereDate('created_at', $date. ' '.'00:00:00')->orderBy('created_at', 'DESC')->get();
 
         //For Two
-        $two = ForUserDetail::Digit(new Two,$user,$date);
+        $two = ForUserDetail::DigitFromUserDashboard(new Two,$user,$date);
         $two_users_am = $two['am'];
         $two_users_pm = $two['pm'];
 
         //For Three
-        $three = ForUserDetail::Digit(new Three,$user,$date);
+        $three = ForUserDetail::DigitFromUserDashboard(new Three,$user,$date);
         $three_users_am = $three['am'];
         $three_users_pm = $three['pm'];
 
@@ -114,12 +114,12 @@ class UserDashboardController extends Controller
         $dubai_twos_9pm = $dubai_twos['pm_9'];
 
         // Two Total Sum
-        $two_am = ForUserDetail::Total(new Two,$user,$date);
+        $two_am = ForUserDetail::TotalFromUserDashboard(new Two,$user,$date);
         $two_users_am_sum = $two_am['am_sum'];
         $two_users_pm_sum = $two_am['pm_sum'];
 
         // Three Total Sum
-        $three_am = ForUserDetail::Total(new Three,$user,$date);
+        $three_am = ForUserDetail::TotalFromUserDashboard(new Three,$user,$date);
         $three_users_am_sum = $three_am['am_sum'];
         $three_users_pm_sum = $three_am['pm_sum'];
 

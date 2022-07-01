@@ -26,9 +26,33 @@ class ForUserDetail
         return ['am_sum' => $am_sum , 'pm_sum' => $pm_sum , 'am_11_sum' => $am_11_sum , 'pm_1_sum' => $pm_1_sum , 'pm_3_sum' => $pm_3_sum ,'pm_5_sum' => $pm_5_sum, 'pm_7_sum' => $pm_7_sum, 'pm_9_sum' => $pm_9_sum];
     }
 
+    public static function TotalFromUserDashboard($model,$user,$date){
+
+        //For Thai
+        $am_sum = $model::where('user_id', $user->id)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:59')])->sum('amount');
+        $pm_sum = $model::where('user_id', $user->id)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:59')])->sum('amount');
+
+        return ['am_sum' => $am_sum , 'pm_sum' => $pm_sum ];
+    }
+
     public static function Digit($model,$user,$date){
         $am = $model::where('user_id', $user->id)->where('admin_user_id', Auth()->user()->id)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:59')]);
         $pm = $model::where('user_id', $user->id)->where('admin_user_id', Auth()->user()->id)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:59')]);
+
+        if ($date) {
+            $am = $am->whereDate('date', $date);
+            $pm = $pm->whereDate('date', $date);
+        }
+
+        $am = $am->get();
+        $pm = $pm->get();
+
+        return ['am' => $am ,'pm' => $pm];
+    }
+
+    public static function DigitFromUserDashboard($model,$user,$date){
+        $am = $model::where('user_id', $user->id)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:59')]);
+        $pm = $model::where('user_id', $user->id)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:59')]);
 
         if ($date) {
             $am = $am->whereDate('date', $date);
