@@ -52,13 +52,27 @@ class NormalThreeController extends Controller
         $total;
 
 
+//        if (now()->format('Y-m-d') < Carbon::now()->startOfMonth()->addDays(16)->format('Y-m-d')){
+//            $from = Carbon::now()->startOfMonth()->addDays(1);
+//            $to = Carbon::now()->startOfMonth()->addDays(15);
+//        }else{
+//            //dd(Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d'));
+//            $from = Carbon::now()->startOfMonth()->addDays(16);
+//            $to =Carbon::now()->endOfMonth()->addDays(1);
+//        }
+
         if (now()->format('Y-m-d') < Carbon::now()->startOfMonth()->addDays(16)->format('Y-m-d')){
-            $from = Carbon::now()->startOfMonth()->addDays(1);
-            $to = Carbon::now()->startOfMonth()->addDays(15);
+            if (Carbon::now()->format('Y-m-d H:i:s') < Carbon::now()->startOfMonth()->format('Y-m-d 23:00:00')){
+                $from = $request->startdate ?? Carbon::now()->subMonths(1)->addDays(16);
+                $to = $request->enddate ?? Carbon::now()->startOfMonth();
+            }else{
+                $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(1);
+                $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(15);
+            }
         }else{
             //dd(Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d'));
-            $from = Carbon::now()->startOfMonth()->addDays(16);
-            $to =Carbon::now()->endOfMonth()->addDays(1);
+            $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(16);
+            $to = $request->enddate ?? Carbon::now()->endOfMonth()->addDays(1);
         }
 
         $from = $from->format('Y-m-d');
@@ -66,10 +80,12 @@ class NormalThreeController extends Controller
 
         //brake number condition
 
+        //dd($from,$to);
 
         $closed_three = Amountbreak::select('closed_number')->where('type', '3D')->get();
-        $three_brakes =  Three::select('three', DB::raw('SUM(amount) as total'))->whereIn('three', $closed_three)->where('date',[$from,$to])->groupBy('three')->get();
+        $three_brakes =  Three::select('three', DB::raw('SUM(amount) as total'))->whereIn('three', $closed_three)->whereBetween('date',[$from,$to])->groupBy('three')->get();
 
+        //dd($three_brakes);
         $three_brakes_all =  Three::select('three', DB::raw('SUM(amount) as total'))->whereBetween('date',[$from,$to])->groupBy('three')->get();
 
 

@@ -67,14 +67,28 @@ class ThreeController extends Controller
 
 
 
-            if (now()->format('Y-m-d') < Carbon::now()->startOfMonth()->addDays(16)->format('Y-m-d')){
-                $from =  Carbon::now()->startOfMonth()->addDays(1);
-                $to =  Carbon::now()->startOfMonth()->addDays(15);
+//            if (now()->format('Y-m-d') < Carbon::now()->startOfMonth()->addDays(16)->format('Y-m-d')){
+//                $from =  Carbon::now()->startOfMonth()->addDays(1);
+//                $to =  Carbon::now()->startOfMonth()->addDays(15);
+//            }else{
+//                //dd(Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d'));
+//                $from =  Carbon::now()->startOfMonth()->addDays(16);
+//                $to =  Carbon::now()->endOfMonth()->addDays(1);
+//            }
+
+        if (now()->format('Y-m-d') < Carbon::now()->startOfMonth()->addDays(16)->format('Y-m-d')){
+            if (Carbon::now()->format('Y-m-d H:i:s') < Carbon::now()->startOfMonth()->format('Y-m-d 23:00:00')){
+                $from = $request->startdate ?? Carbon::now()->subMonths(1)->addDays(16);
+                $to = $request->enddate ?? Carbon::now()->startOfMonth();
             }else{
-                //dd(Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d'));
-                $from =  Carbon::now()->startOfMonth()->addDays(16);
-                $to =  Carbon::now()->endOfMonth()->addDays(1);
+                $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(1);
+                $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(15);
             }
+        }else{
+            //dd(Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d'));
+            $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(16);
+            $to = $request->enddate ?? Carbon::now()->endOfMonth()->addDays(1);
+        }
 
             $from = $from->format('Y-m-d');
             $to = $to->format('Y-m-d');
