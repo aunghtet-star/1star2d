@@ -112,9 +112,17 @@ class ThreeController extends Controller
 //        dd($request->all());
         PermissionChecker::CheckPermission('three_overview');
 
-        if (now()->format('Y-m-d')  < Carbon::now()->startOfMonth()->addDays(16)->format('Y-m-d')){
-        $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(1);
-        $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(15);
+        //dd(Carbon::now()->format('Y-m-d'));
+        if (Carbon::now()->format('Y-m-d')  < Carbon::now()->startOfMonth()->addDays(16)->format('Y-m-d')){
+
+            if (Carbon::now()->format('Y-m-d H:i:s') < Carbon::now()->startOfMonth()->format('Y-m-d 23:00:00')){
+                $from = $request->startdate ?? Carbon::now()->subMonths(1)->addDays(16)->format('Y-m-d');
+                $to = $request->enddate ?? Carbon::now()->startOfMonth()->format('Y-m-d');
+            }else{
+                $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(1);
+                $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(15);
+            }
+
     }else{
         $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(16);
         $to = $request->enddate ?? Carbon::now()->endOfMonth()->addDays(1);
@@ -156,8 +164,13 @@ class ThreeController extends Controller
     {
         PermissionChecker::CheckPermission('three_kyon');
         if (now()->format('Y-m-d') < Carbon::now()->startOfMonth()->addDays(16)->format('Y-m-d')){
-            $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(1);
-            $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(15);
+            if (Carbon::now()->format('Y-m-d H:i:s') < Carbon::now()->startOfMonth()->format('Y-m-d 23:00:00')){
+                $from = $request->startdate ?? Carbon::now()->subMonths(1)->addDays(16)->format('Y-m-d');
+                $to = $request->enddate ?? Carbon::now()->startOfMonth()->format('Y-m-d');
+            }else{
+                $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(1);
+                $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(15);
+            }
         }else{
             //dd(Carbon::now()->startOfMonth()->addDays(15)->format('Y-m-d'));
             $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(16);
