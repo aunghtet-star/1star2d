@@ -140,7 +140,7 @@ class ThreeController extends Controller
         ForThreeOverview::Overview($threes,$from,new ThreeOverview);
 
         //to store three overview table if exist to update
-        $three_overviews = ThreeOverview::whereDate('date', $from)->orderBy('three','asc')->paginate(120);
+        $three_overviews = ThreeOverview::whereDate('date', $from)->orderBy('three','asc')->paginate(110);
 
         //ThreeOverview Total Amount
         $overview_total = ForThreeOverview::OverviewTotal(new ThreeOverview,$from);
@@ -187,7 +187,7 @@ class ThreeController extends Controller
         //To Store Three kyon table
         ForThreeKyon::Kyon($three_overviews,$from,new ThreeKyon);
 
-        $three_kyons = ThreeKyon::where('date',$from)->paginate(120);
+        $three_kyons = ThreeKyon::where('date',$from)->paginate(110);
 //        dd($three_kyons);
 
         $three_kyons->withPath('/admin/three-overview/kyon?startdate='.$from.'&enddate='.$to);
