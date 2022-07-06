@@ -173,6 +173,15 @@ class HomeController extends Controller
 
 
         if(now()->format('Y-m-d H:i:s') < now()->format('Y-m-d') .' 12:00:00'){
+            $user_brake_amount_all = ForUserBrakeAmountAll::AllBrake($reverse_two,$amount,$user_brake_amount_all_am,new UserBrakeAmountAll);
+
+            if ($user_brake_amount_all){
+                return redirect(url('two'))->withErrors([
+                    $user_brake_amount_all['two'].' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
+            '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '. $user_brake_amount_all['need_amount'] .'ကျပ်လိုပါသေးသည်'
+                ]);
+            }
+
             // R ဂဏန်းများ အတွက် brake number am
 
            $am_r = TheeThantBrake::DigitBrake($break_twos_am,$reverse_two,$amount);
@@ -185,6 +194,15 @@ class HomeController extends Controller
             }
         }else{
             // R ဂဏန်းများ အတွက် brake number pm
+
+            $user_brake_amount_all = ForUserBrakeAmountAll::AllBrake($reverse_two,$amount,$user_brake_amount_all_pm,new UserBrakeAmountAll);
+
+            if ($user_brake_amount_all){
+                return redirect(url('two'))->withErrors([
+                    $user_brake_amount_all['two'].' သည် ကန့်သတ်ထားသော ဂဏန်းဖြစ်ပါသည်
+            '.'ဤဂဏန်းသည် ကန့်သတ်ပမာဏ ရောက်ရှိရန် '. $user_brake_amount_all['need_amount'] .'ကျပ်လိုပါသေးသည်'
+                ]);
+            }
 
             $pm_r = TheeThantBrake::DigitBrake($break_twos_pm,$reverse_two,$amount);
             if($pm_r){
