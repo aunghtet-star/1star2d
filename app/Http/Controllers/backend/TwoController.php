@@ -114,7 +114,7 @@ class TwoController extends Controller
         PermissionChecker::CheckPermission('two_overview');
         $date = $request->date ?? now()->format('Y-m-d');
 
-        $two_brake = AllBrakeWithAmount::select('amount')->first();
+        $two_brake = AllBrakeWithAmount::select('amount')->where('type','2D')->first();
 
         $twos = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->get();
 
@@ -141,7 +141,7 @@ class TwoController extends Controller
 
         $date = $request->date ?? now()->format('Y-m-d');
 
-        $two_brake = AllBrakeWithAmount::select('amount')->first();
+        $two_brake = AllBrakeWithAmount::select('amount')->where('type','2D')->first();
 
         $twos = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
 
