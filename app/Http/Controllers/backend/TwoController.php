@@ -173,7 +173,7 @@ class TwoController extends Controller
         //To Store Two kyon table am
        ForTwoKyon::Kyon($two_overviews_am,$date,new twoKyonAM);
 
-        $two_kyons_am = twoKyonAM::where('date',$date)->get();
+        $two_kyons_am = twoKyonAM::where('date',$date)->orderBy('two','asc')->get();
 
         $fake_number = FakeNumber::first();
 
