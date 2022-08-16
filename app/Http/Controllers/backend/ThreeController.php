@@ -187,9 +187,10 @@ class ThreeController extends Controller
         //To Store Three kyon table
         ForThreeKyon::Kyon($three_overviews,$from,new ThreeKyon);
 
-        $three_kyons = ThreeKyon::where('date',$from)->whereRaw('three_kyons.amount != three_kyons.kyon_amount != three_kyons.new_amount')->paginate(110);
+        $three_kyons = ThreeKyon::where('date',$from)->whereRaw('three_kyons.amount != three_kyons.kyon_amount != three_kyons.new_amount')->orderBy('three','asc')->paginate(110);
 
-        //dd($three_kyons);
+
+//        dd($three_kyons);
 
         //$three_kyons = ThreeKyon::where('date',$from)->get();
         //$three_kyons->withPath('/admin/three-overview/kyon?startdate='.$from.'&enddate='.$to);
