@@ -4,8 +4,12 @@ namespace App\Providers;
 
 use App\ShowHide;
 use App\Http\Controllers;
+use Illuminate\Database\Events\MigrationsEnded;
+use Illuminate\Database\Events\MigrationsStarted;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -30,6 +34,18 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //Schema::defaultStringLength(100);
+
+        Event::listen(MigrationsStarted::class, function (){
+            if (config('databases.allow_disabled_pk')) {
+                DB::statement('SET SESSION sql_require_primary_key=0');
+            }
+        });
+
+        Event::listen(MigrationsEnded::class, function (){
+            if (config('databases.allow_disabled_pk')) {
+                DB::statement('SET SESSION sql_require_primary_key=1');
+            }
+        });
 
         Paginator::useBootstrap();
 
