@@ -109,6 +109,16 @@
                         let new_amount = prompt(`Enter Amount ${id}`);
                         var date = $('.date').val() ?? moment('YYYY-MM-DD');
 
+                    let token = document.head.querySelector('meta[name="csrf-token"]');
+
+                    if(token){
+                        $.ajaxSetup({
+                            headers : {
+                                'X-CSRF_TOKEN' : token.content
+                            }
+                        })
+                    }
+
                         $.ajax({
                             url : `/admin/two-overview/new_amount/${date}/${id}`,
                             method : 'post',
@@ -125,6 +135,16 @@
                     }
 
                     function kyonAmountAm(){
+
+                        let token = document.head.querySelector('meta[name="csrf-token"]');
+
+                        if(token){
+                            $.ajaxSetup({
+                                headers : {
+                                    'X-CSRF_TOKEN' : token.content
+                                }
+                            })
+                        }
 
                     var date = $('.date').val() ?? moment('YYYY-MM-DD');
 

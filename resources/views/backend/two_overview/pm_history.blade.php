@@ -113,6 +113,15 @@
         function newAmount(id) {
             let new_amount = prompt(`Enter Amount ${id}`);
             var date = $('.date').val() ?? moment('YYYY-MM-DD');
+            let token = document.head.querySelector('meta[name="csrf-token"]');
+
+            if(token){
+                $.ajaxSetup({
+                    headers : {
+                        'X-CSRF_TOKEN' : token.content
+                    }
+                })
+            }
             $.ajax({
                 url: `/admin/two-overview/pm_new_amount/${date}/${id}`,
                 method: 'post',
@@ -131,6 +140,16 @@
         function kyonAmountPm(){
 
             var date = $('.date').val() ?? moment('YYYY-MM-DD');
+
+            let token = document.head.querySelector('meta[name="csrf-token"]');
+
+            if(token){
+                $.ajaxSetup({
+                    headers : {
+                        'X-CSRF_TOKEN' : token.content
+                    }
+                })
+            }
 
             $.ajax({
                 url : '/admin/two-overview/kyon_amount_pm',
