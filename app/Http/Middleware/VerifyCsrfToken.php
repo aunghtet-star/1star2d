@@ -12,7 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        'two-overview/kyon_amount_am',
-        'two-overview/kyon_amount_pm'
+        //
     ];
 }
