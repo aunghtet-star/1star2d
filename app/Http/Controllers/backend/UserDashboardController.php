@@ -113,6 +113,8 @@ class UserDashboardController extends Controller
         $dubai_twos_7pm = $dubai_twos['pm_7'];
         $dubai_twos_9pm = $dubai_twos['pm_9'];
 
+
+
         // Two Total Sum
         $two_am = ForUserDetail::TotalFromUserDashboard(new Two,$user,$date);
         $two_users_am_sum = $two_am['am_sum'];
@@ -132,6 +134,7 @@ class UserDashboardController extends Controller
         $dubai_twos_5pm_sum = $dubai_twos_sum['pm_5_sum'];
         $dubai_twos_7pm_sum = $dubai_twos_sum['pm_7_sum'];
         $dubai_twos_9pm_sum = $dubai_twos_sum['pm_9_sum'];
+
 
         return view('backend.user-dashboard.detail', compact('user', 'two_users_am', 'two_users_pm', 'two_users_am_sum', 'two_users_pm_sum', 'three_users_am', 'three_users_pm', 'three_users_am_sum', 'three_users_pm_sum','dubai_twos_11am_sum','dubai_twos_1pm_sum','dubai_twos_3pm_sum','dubai_twos_5pm_sum','dubai_twos_7pm_sum','dubai_twos_9pm_sum' ,'dubai_twos_11am','dubai_twos_1pm','dubai_twos_3pm','dubai_twos_5pm','dubai_twos_7pm','dubai_twos_9pm' ,'user_wallet', 'user_transactions','fix_money_from_admins'));
     }

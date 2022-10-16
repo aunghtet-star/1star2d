@@ -66,12 +66,12 @@ class ForUserDetail
     }
 
     public static function DubaiDigit($model,$user,$date){
-        $am_11 = $model::where('user_id', $user->id)->where('admin_user_id', Auth()->user()->id)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'10:59:59')]);
-        $pm_1 = $model::where('user_id', $user->id)->where('admin_user_id', Auth()->user()->id)->whereBetween('created_at', [Carbon::parse($date.' '.'11:00:00'),Carbon::parse($date.' '.'12:59:59')]);
-        $pm_3 = $model::where('user_id', $user->id)->where('admin_user_id', Auth()->user()->id)->whereBetween('created_at', [Carbon::parse($date.' '.'13:00:00'),Carbon::parse($date.' '.'14:59:59')]);
-        $pm_5 = $model::where('user_id', $user->id)->where('admin_user_id', Auth()->user()->id)->whereBetween('created_at', [Carbon::parse($date.' '.'15:00:00'),Carbon::parse($date.' '.'16:59:59')]);
-        $pm_7 = $model::where('user_id', $user->id)->where('admin_user_id', Auth()->user()->id)->whereBetween('created_at', [Carbon::parse($date.' '.'17:00:00'),Carbon::parse($date.' '.'18:59:59')]);
-        $pm_9 = $model::where('user_id', $user->id)->where('admin_user_id', Auth()->user()->id)->whereBetween('created_at', [Carbon::parse($date.' '.'19:00:00'),Carbon::parse($date.' '.'23:59:59')]);
+        $am_11 = $model::where('user_id', $user->id)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'10:59:59')]);
+        $pm_1 = $model::where('user_id', $user->id)->whereBetween('created_at', [Carbon::parse($date.' '.'11:00:00'),Carbon::parse($date.' '.'12:59:59')]);
+        $pm_3 = $model::where('user_id', $user->id)->whereBetween('created_at', [Carbon::parse($date.' '.'13:00:00'),Carbon::parse($date.' '.'14:59:59')]);
+        $pm_5 = $model::where('user_id', $user->id)->whereBetween('created_at', [Carbon::parse($date.' '.'15:00:00'),Carbon::parse($date.' '.'16:59:59')]);
+        $pm_7 = $model::where('user_id', $user->id)->whereBetween('created_at', [Carbon::parse($date.' '.'17:00:00'),Carbon::parse($date.' '.'18:59:59')]);
+        $pm_9 = $model::where('user_id', $user->id)->whereBetween('created_at', [Carbon::parse($date.' '.'19:00:00'),Carbon::parse($date.' '.'23:59:59')]);
 
         if ($date) {
             $am_11 = $am_11->whereDate('date', $date);

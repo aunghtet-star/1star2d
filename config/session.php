@@ -155,7 +155,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN', '1star2d.com'),
+    'domain' => env('SESSION_DOMAIN', null),
 
     /*
     |--------------------------------------------------------------------------

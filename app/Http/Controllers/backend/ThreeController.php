@@ -135,7 +135,7 @@ class ThreeController extends Controller
 
         $three_brake = AllBrakeWithAmount::select('amount')->where('type', '3D')->first();
 
-        $threes = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to])->get();
+        $threes = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to])->limit(10);
 
         ForThreeOverview::Overview($threes,$from,new ThreeOverview);
 

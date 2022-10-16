@@ -92,22 +92,19 @@
 
         let token = document.head.querySelector('meta[name="csrf-token"]');
         //
-        // if(token){
-        //     $.ajaxSetup({
-        //     headers : {
-        //         'X-CSRF_TOKEN' : token.content
-        //     }
-        // })
-        // }
-
+        if(token){
             $.ajaxSetup({
-                beforeSend: function(xhr, type) {
-                    if (!type.crossDomain) {
-                        xhr.setRequestHeader('X-CSRF-Token', token.content);
-                    }
-                },
-            });
+            // headers : {
+            //     'X-CSRF-TOKEN' : token.content
+            // },
 
+            beforeSend: function(xhr, type) {
+                if (!type.crossDomain) {
+                    xhr.setRequestHeader('X-CSRF-Token', token.content);
+                }
+            },
+        })
+        }
 
 
             const Toast = Swal.mixin({
