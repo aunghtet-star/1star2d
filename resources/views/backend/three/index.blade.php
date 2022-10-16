@@ -26,7 +26,7 @@
                         <thead>
                             <th>Name</th>
                             <th>3D</th>
-                            <th>Amount</th>
+                            <th class="no-search no-sort">Amount</th>
                             <th>Date</th>
                         </thead>
                         <tbody>
