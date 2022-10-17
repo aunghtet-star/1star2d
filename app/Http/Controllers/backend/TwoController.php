@@ -116,7 +116,7 @@ class TwoController extends Controller
 
         $two_brake = AllBrakeWithAmount::select('amount')->where('type','2D')->first();
 
-        $twos = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->limit(10);
+        $twos = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'00:00:00'),Carbon::parse($date.' '.'11:59:00')])->get();
 
         ForTwoOverview::Overview($twos,$date,new TwoOverview);
 
@@ -143,7 +143,7 @@ class TwoController extends Controller
 
         $two_brake = AllBrakeWithAmount::select('amount')->where('type','2D')->first();
 
-        $twos = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->limit(10);
+        $twos = Two::select('two', DB::raw('SUM(amount) as total'))->groupBy('two')->whereDate('date', $date)->whereBetween('created_at', [Carbon::parse($date.' '.'12:00:00'),Carbon::parse($date.' '.'23:59:00')])->get();
 
         //to store two overview table if exist to update
         ForTwoOverview::Overview($twos,$date,new TwoOverviewPM);
