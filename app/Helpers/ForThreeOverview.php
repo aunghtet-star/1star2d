@@ -7,22 +7,25 @@ use Illuminate\Support\Facades\Auth;
 class ForThreeOverview
 {
     public static function Overview($data,$date,$model){
-        foreach($data as $three){
-            $exist = $model::where('three',$three->three)->where('date',$date)->exists();
-            if($exist){
-                $three_overviews = $model::where('three',$three->three);
-                $three_overviews = $three_overviews->update([
-                    'amount' => $three->total
-                ]);
-            }else{
-                $three_overviews = new $model();
-                $three_overviews->admin_user_id = Auth::guard('adminuser')->user()->id;
-                $three_overviews->three =  $three->three;
-                $three_overviews->amount = $three->total;
-                $three_overviews->date = $date;
-                $three_overviews->save();
+
+        $data->chunk(100,function ($ts) use ($date,$model){
+            foreach($ts as $three){
+                $exist = $model::select('three','amount')->where('three',$three->three)->where('amount',$three->total)->where('date',$date)->exists();
+                if(!$exist){
+                    $three_overviews = $model::updateOrCreate(
+                            [
+                                'three' => $three->three,
+                            ],
+                            [
+                                'admin_user_id' => Auth::guard('adminuser')->user()->id,
+                                'three' => $three->three,
+                                'amount' => $three->total,
+                                'date' => $date
+                            ]);
+                }
             }
-        }
+        });
+
     }
 
     public static function OverviewTotal($model,$date){

@@ -135,7 +135,8 @@ class ThreeController extends Controller
 
         $three_brake = AllBrakeWithAmount::select('amount')->where('type', '3D')->first();
 
-        $threes = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to])->limit(10);
+        $threes = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to]);
+
 
         ForThreeOverview::Overview($threes,$from,new ThreeOverview);
 
@@ -182,7 +183,7 @@ class ThreeController extends Controller
 
         $three_brake = AllBrakeWithAmount::select('amount')->where('type', '3D')->first();
 
-        $three_overviews = ThreeOverview::whereDate('date', $from)->orderBy('three','asc')->limit(10);
+        $three_overviews = ThreeOverview::whereDate('date', $from)->orderBy('three','asc');
 
         //To Store Three kyon table
         ForThreeKyon::Kyon($three_overviews,$from,new ThreeKyon);
