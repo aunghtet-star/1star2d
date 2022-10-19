@@ -33,6 +33,8 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             DB::table('threes')->where('date', '<', Carbon::parse(now()->subDays(90)->format('Y-m-d')))->delete();
         })->daily();
+
+        $schedule->command('auto:time')->everyMinute();
     }
 
     /**
