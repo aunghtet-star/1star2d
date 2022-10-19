@@ -5,14 +5,14 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class AutoOpenAndCloseTwodTime extends Command
+class AutoOpenTwodTime extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'auto:time';
+    protected $signature = 'auto:opentime';
 
     /**
      * The console command description.
@@ -39,13 +39,11 @@ class AutoOpenAndCloseTwodTime extends Command
     public function handle()
     {
         DB::table('show_hides')->where('name','twoform')->update([
-            'status' => 'hide'
+            'status' => 'show'
         ]);
 
         DB::table('show_hides')->where('name','htaitpaitform')->update([
-            'status' => 'hide'
+            'status' => 'show'
         ]);
-
-        \Log::info("Cron is working fine!");
     }
 }

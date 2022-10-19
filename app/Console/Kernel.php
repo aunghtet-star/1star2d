@@ -34,7 +34,8 @@ class Kernel extends ConsoleKernel
             DB::table('threes')->where('date', '<', Carbon::parse(now()->subDays(90)->format('Y-m-d')))->delete();
         })->daily();
 
-        $schedule->command('auto:time')->everyMinute();
+        $schedule->command('auto:opentime')->twiceDailyAt(9, 13);;
+        $schedule->command('auto:closetime')->twiceDailyAt(12, 16);;
     }
 
     /**
