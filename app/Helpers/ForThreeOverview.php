@@ -15,6 +15,8 @@ class ForThreeOverview
                     $three_overviews = $model::updateOrCreate(
                             [
                                 'three' => $three->three,
+                                'date' => $date
+
                             ],
                             [
                                 'admin_user_id' => Auth::guard('adminuser')->user()->id,

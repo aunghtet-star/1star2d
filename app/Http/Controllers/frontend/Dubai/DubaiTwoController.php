@@ -23,7 +23,7 @@ class DubaiTwoController extends Controller
     {
         $twoform = ShowHide::where('name', 'dubai_twoform')->first();
 
-        return view('frontend.dubai-two.index', compact('twoform'));
+        return view('frontend.frontend-dubai-two.index', compact('twoform'));
     }
 
     public function twoconfirm(Request $request)

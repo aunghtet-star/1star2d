@@ -82,7 +82,7 @@ Route::middleware('auth:web')->group(function () {
     Route::post('two/htaitpait/store', [HtaitPaitController::class,'store']);
 
     //Dubai Two
-    Route::get('/dubai-two', [\App\Http\Controllers\frontend\Dubai\DubaiTwoController::class,'index'])->name('dubai-two.index');
+    Route::get('/dubai-two', [\App\Http\Controllers\frontend\Dubai\DubaiTwoController::class,'index'])->name('frontend-dubai-two.index');
     Route::post('/dubai-two/confirm', [\App\Http\Controllers\frontend\Dubai\DubaiTwoController::class,'twoconfirm']);
     Route::post('dubai-two/create', [\App\Http\Controllers\frontend\Dubai\DubaiTwoController::class,'two']);
 

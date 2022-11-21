@@ -127,7 +127,7 @@
 
                 @can('dubai_two')
                     <li>
-                        <a href="{{route('dubai-two.index')}}" class="@yield('dubai-2D')">
+                        <a href="{{route('frontend-dubai-two.index')}}" class="@yield('dubai-2D')">
                             <i class="metismenu-icon fas fa-stopwatch-20 text-info"></i>
                             <span class="text-info font-weight-bold">Dubai 2D</span>
                         </a>

@@ -138,9 +138,9 @@ class ThreeController extends Controller
         $threes = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to]);
 
 
+        //to store three overview table if exist to update
         ForThreeOverview::Overview($threes,$from,new ThreeOverview);
 
-        //to store three overview table if exist to update
         $three_overviews = ThreeOverview::whereDate('date', $from)->orderBy('three','asc')->paginate(110);
 
         //ThreeOverview Total Amount
@@ -151,7 +151,7 @@ class ThreeController extends Controller
         $kyon_amount_total = $overview_total['kyon_amount'];
 
         //dd($overview_total);
-        $three_overviews->withPath('/admin/three-overview/history?startdate='.$from.'&enddate='.$to);
+        //$three_overviews->withPath('/admin/three-overview/history?startdate='.$from.'&enddate='.$to);
         //dd($from);
 
        // $threes_total = Three::select('amount')->whereBetween('date', [$from,$to])->sum('amount');

@@ -24,7 +24,7 @@ class DubaiHtaitPaitController extends Controller
     {
         $htaitpaitform = ShowHide::where('name', 'dubai_htaitpaitform')->first();
 
-        return view('frontend.dubai-two.htaitpait', compact('htaitpaitform'));
+        return view('frontend.frontend-dubai-two.htaitpait', compact('htaitpaitform'));
     }
 
 

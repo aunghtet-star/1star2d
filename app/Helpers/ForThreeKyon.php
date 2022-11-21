@@ -18,7 +18,8 @@ class ForThreeKyon
                 if (!$exist) {
                     $three_kyons = $model::updateOrCreate(
                         [
-                            'three' => $three_overview->three
+                            'three' => $three_overview->three,
+                            'date' => $date
                         ],
                         [
                         'admin_user_id' => Auth::guard('adminuser')->user()->id,
