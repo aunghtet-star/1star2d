@@ -113,19 +113,19 @@ class ThreeController extends Controller
         PermissionChecker::CheckPermission('three_overview');
 
         //dd(Carbon::now()->format('Y-m-d'));
-        if (Carbon::now()->format('Y-m-d')  < Carbon::now()->startOfMonth()->addDays(16)->format('Y-m-d')){
+        if (Carbon::now()->format('Y-m-d')  < Carbon::now()->startOfMonth()->addDays(20)->format('Y-m-d')){
 
             if (Carbon::now()->format('Y-m-d H:i:s') < Carbon::now()->startOfMonth()->format('Y-m-d 23:00:00')){
-                $from = $request->startdate ?? Carbon::now()->subMonths(1)->addDays(16)->format('Y-m-d');
-                $to = $request->enddate ?? Carbon::now()->startOfMonth()->format('Y-m-d');
+                $from = $request->startdate ?? Carbon::now()->subMonths(1)->addDays(20)->format('Y-m-d');
+                $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(4)->format('Y-m-d');
             }else{
-                $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(1);
-                $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(15);
+                $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(5);
+                $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(19);
             }
 
     }else{
-        $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(16);
-        $to = $request->enddate ?? Carbon::now()->endOfMonth()->addDays(1);
+        $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(20);
+        $to = $request->enddate ?? Carbon::now()->endOfMonth()->addDays(4);
     }
 
 
