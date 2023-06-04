@@ -15,7 +15,8 @@ class ForThreeKyon
             foreach($tows as $three_overview) {
                 //$three_kyon_am = ($three_overview->amount - $three_overview->new_amount) - ($three_brake ? $three_brake->amount : 0);
                 $exist = $model::where('three', $three_overview->three)->where('amount',($three_overview->amount > ($three_brake ? $three_brake->amount : 99999999999999999999999) ? ($three_overview->amount - ($three_brake ? $three_brake->amount : 0)) : 0))->where('date', $date)->exists();
-                if (!$exist) {
+                
+                if ($exist) {
                     $three_kyons = $model::updateOrCreate(
                         [
                             'three' => $three_overview->three,

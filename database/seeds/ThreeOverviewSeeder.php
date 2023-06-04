@@ -17,7 +17,7 @@ class ThreeOverviewSeeder extends Seeder
     {
         $users = User::all();
         foreach ($users as $user) {
-            $periods =new CarbonPeriod('2021-6-1', '2021-12-31');
+            $periods =new CarbonPeriod('2023-5-15', '2023-5-31');
             foreach ($periods as $period) {
                 $three = new Three();
                 $three->user_id = $user->id;
