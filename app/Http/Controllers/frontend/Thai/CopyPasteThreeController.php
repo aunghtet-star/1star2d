@@ -41,6 +41,27 @@ class CopyPasteThreeController extends Controller
                 $response[] = [$forth_word[0],$amount];
             }
 
+            if ($last_word === '.'){
+                $forth_word = explode('.',$three);
+                $amount = $forth_word[1];
+
+                $response[] = [$forth_word[0],$amount];
+            }
+
+            if ($last_word === ','){
+                $forth_word = explode(',',$three);
+                $amount = $forth_word[1];
+
+                $response[] = [$forth_word[0],$amount];
+            }
+
+            if ($last_word === ' '){
+                $forth_word = explode(' ',$three);
+                $amount = $forth_word[1];
+
+                $response[] = [$forth_word[0],$amount];
+            }
+
             if ($last_word === '@'){
                 $forth_word = explode('@',$three);
                 $amount = $forth_word[1];
