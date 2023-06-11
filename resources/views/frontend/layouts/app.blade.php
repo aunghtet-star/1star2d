@@ -138,11 +138,15 @@
                   </li>
 
                 <li class="nav-item mr-3 @yield('normal-3d')">
-                  <a class="nav-link" href="{{url('normal-three')}}">Thai 3D</a>
+                  <a class="nav-link" href="{{url('normal-three')}}">3D</a>
                 </li>
 
                   <li class="nav-item mr-3 @yield('3d')">
-                      <a class="nav-link" href="{{url('three')}}">Thai 3D-R</a>
+                      <a class="nav-link" href="{{url('three')}}">3D-R</a>
+                  </li>
+
+                  <li class="nav-item mr-3 @yield('copy-paste-3d')">
+                      <a class="nav-link" href="{{url('copy-paste-three')}}">3D-C</a>
                   </li>
 
                 <li class="nav-item mr-3 @yield('history')">

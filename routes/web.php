@@ -100,6 +100,11 @@ Route::middleware('auth:web')->group(function () {
     Route::post('/normal-three/confirm', [\App\Http\Controllers\frontend\Thai\NormalThreeController::class,'threeconfirm']);
     Route::post('normal-three/create', [\App\Http\Controllers\frontend\Thai\NormalThreeController::class,'three']);
 
+
+    //Three D copy paste
+    Route::get('/copy-paste-three',[\App\Http\Controllers\frontend\Thai\CopyPasteThreeController::class,'index']);
+    Route::post('/copy-paste-three/confirm',[\App\Http\Controllers\frontend\Thai\CopyPasteThreeController::class,'threeconfirm']);
+
     // User History
     Route::get('user/history', [UserHistoryController::class,'history'])->name('user.history');
     Route::get('user/dubai-history', [UserHistoryController::class,'DubaiHistory'])->name('user.dubai-history');
