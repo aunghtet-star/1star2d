@@ -1,82 +1,67 @@
-{{--@extends('frontend.layouts.app')--}}
-{{--@section('3d','active')--}}
+@extends('frontend.layouts.app')
+@section('3d','active')
 
-{{--@section('extra_css')--}}
-{{--    <style>--}}
+@section('extra_css')
+    <style>
 
-{{--        .error{--}}
-{{--            color: red;--}}
-{{--            border-color: red;--}}
-{{--            font-size: 10px;--}}
-{{--            font-weight: 600;--}}
-{{--        }--}}
-{{--    </style>--}}
-{{--@endsection--}}
-{{--@section('content')--}}
-{{--    <div class="container">--}}
-{{--        <div class="row justify-content-center">--}}
-{{--            <div class="col-md-8">--}}
-{{--                @foreach($errors->all() as $error)--}}
-{{--                    <div class="alert alert-warning alert-dismissible fade show" role="alert">--}}
-{{--                        {{$error}}--}}
-{{--                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">--}}
-{{--                            <span aria-hidden="true">&times;</span>--}}
-{{--                        </button>--}}
-{{--                    </div>--}}
-{{--                @endforeach--}}
-{{--                <div class="card">--}}
-{{--                    <div class="card-body text-center">--}}
-{{--                        <p class="text-danger" style="font-size: 20px;font-weight:700">သင်ထိုးထားတာတွေဟုတ်ပါသလား</p>--}}
-{{--                        <form action="" method="POST">--}}
-{{--                            @csrf--}}
-{{--                            <div>--}}
+        .error{
+            color: red;
+            border-color: red;
+            font-size: 10px;
+            font-weight: 600;
+        }
+    </style>
+@endsection
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                @foreach($errors->all() as $error)
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{$error}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endforeach
+                <div class="card">
+                    <div class="card-body text-center">
+                        <p class="text-danger" style="font-size: 20px;font-weight:700">သင်ထိုးထားတာတွေဟုတ်ပါသလား</p>
+                        <form action="{{url('/copy-paste-three/create')}}" method="POST">
+                            @csrf
+                            <div>
+                            @foreach($threes ?? [] as $three)
+                                    <input type="hidden" name="threes[]" value="{{$three}}">
+                                    <p class="mb-1">{{$three}}</p>
+                                @endforeach
 
+                            </div>
 
+                            <div>
+                                <button type="button" class="btn btn-sm btn-danger cancel-btn" style="font-weight:700">မလုပ်ပါ</button>
+                                <button type="submit" class="btn btn-sm btn-primary" style="font-weight:700">လုပ်မည်</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+@endsection
+@section('scripts')
+    {{-- {!! JsValidator::formRequest('App\Http\Requests\StoreUserthreeD') !!} --}}
 
+    <script>
+        $(document).ready(function(){
 
-{{--                                @foreach($responses ?? [] as $three)--}}
-{{--                                    <input type="hidden" name="three[]" value="{{$three}}">--}}
-{{--                                        <p>{{$three}}</p>--}}
-{{--                                    <input type="hidden" name="amount[]" value="{{$amount[$key]}}">--}}
-{{--                                    <p class="mb-1">{{$three}} => <span class="mb-1"></span> {{$amount[$key]}} </p>--}}
-{{--                                @endforeach--}}
-
-{{--                                @foreach($threeRs ?? [] as $key=>$three)--}}
-{{--                                    <input type="hidden" name="three_r[]" value="{{$three}}">--}}
-{{--                                    <input type="hidden" name="r_amount[]" value="{{$amount[0]}}">--}}
-{{--                                    <p class="mb-1">{{$three}} => <span class="mb-1"></span> {{$amount[0]}} </p>--}}
-{{--                                @endforeach--}}
-
-
-
-{{--                            </div>--}}
-{{--                            <p class="text-success" style="font-size: 20px;font-weight:700">စုစုပေါင်း - {{$total}}--}}
-{{--                            </p>--}}
-{{--                            <div>--}}
-{{--                                <button type="button" class="btn btn-sm btn-danger cancel-btn" style="font-weight:700">မလုပ်ပါ</button>--}}
-{{--                                <button type="submit" class="btn btn-sm btn-primary" style="font-weight:700">လုပ်မည်</button>--}}
-{{--                            </div>--}}
-{{--                        </form>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    </div>--}}
-{{--@endsection--}}
-{{--@section('scripts')--}}
-{{--    --}}{{-- {!! JsValidator::formRequest('App\Http\Requests\StoreUserthreeD') !!} --}}
-
-{{--    <script>--}}
-{{--        $(document).ready(function(){--}}
-
-{{--            $('.cancel-btn').on('click',function(){--}}
-{{--                window.history.go(-1);--}}
-{{--                return false;--}}
-{{--            })--}}
+            $('.cancel-btn').on('click',function(){
+                window.history.go(-1);
+                return false;
+            })
 
 
-{{--        })--}}
-{{--    </script>--}}
+        })
+    </script>
 
-{{--@endsection--}}
+@endsection

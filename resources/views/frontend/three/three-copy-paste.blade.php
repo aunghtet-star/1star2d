@@ -1,5 +1,5 @@
 @extends('frontend.layouts.app')
-@section('copy-paste-3d','active')
+@section('normal-3d','active')
 
 @section('extra_css')
     <style>
@@ -26,7 +26,7 @@
                         <div class="card-body">
                             <form action="{{'copy-paste-three/confirm'}}" method="POST">
                                 @csrf
-                                <textarea name="three" class="form-control" rows="25" required></textarea>
+                                <textarea name="three" class="form-control" rows="25"></textarea>
                                 <button type="submit" id="submit" class="btn btn-primary m-3 float-right btn-sm" style="font-weight:700">ထိုးမည်</button>
                             </form>
                         </div>

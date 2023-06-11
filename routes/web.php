@@ -104,6 +104,7 @@ Route::middleware('auth:web')->group(function () {
     //Three D copy paste
     Route::get('/copy-paste-three',[\App\Http\Controllers\frontend\Thai\CopyPasteThreeController::class,'index']);
     Route::post('/copy-paste-three/confirm',[\App\Http\Controllers\frontend\Thai\CopyPasteThreeController::class,'threeconfirm']);
+    Route::post('/copy-paste-three/create',[\App\Http\Controllers\frontend\Thai\CopyPasteThreeController::class,'three']);
 
     // User History
     Route::get('user/history', [UserHistoryController::class,'history'])->name('user.history');

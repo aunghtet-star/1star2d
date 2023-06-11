@@ -23,8 +23,12 @@ class CopyPasteThreeController extends Controller
     public function threeconfirm(Request $request){
         $threes = preg_split("/\r\n|\n|\r/", $request->three);
 
+        return view('frontend.three.three-copy-confirm',compact('threes'));
+    }
 
-        foreach ($threes as $three){
+    public function three(Request $request){
+
+        foreach ($request->threes as $three){
 
             $forth_word_array = str_split($three,4)[0];
             $last_word = substr($forth_word_array,3)[0];
@@ -91,7 +95,8 @@ class CopyPasteThreeController extends Controller
             ]);
         }
 
+        $threeform = ShowHide::where('name', 'threeform')->first();
 
-        return back();
+        return redirect('/copy-paste-three')->with('create', 'Done');
     }
 }
