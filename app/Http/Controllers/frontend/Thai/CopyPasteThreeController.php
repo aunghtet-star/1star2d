@@ -36,39 +36,78 @@ class CopyPasteThreeController extends Controller
 
             $threeD = new Threed();
 
-
-
             if ($last_word === '='){
                 $forth_word = explode('=',$three);
-                $amount = $forth_word[1];
+                $amount = end($forth_word);
 
                 $response[] = [$forth_word[0],$amount];
             }
 
+            if ($last_word === '-'){
+                $forth_word = explode('-',$three);
+                ;
+                $amount = end($forth_word);
+
+                $response[] = [$forth_word[0],$amount];
+            }
+
+
             if ($last_word === '.'){
                 $forth_word = explode('.',$three);
-                $amount = $forth_word[1];
+                $amount = end($forth_word);
 
                 $response[] = [$forth_word[0],$amount];
             }
 
             if ($last_word === ','){
                 $forth_word = explode(',',$three);
-                $amount = $forth_word[1];
+                $amount = end($forth_word);
+
+                $response[] = [$forth_word[0],$amount];
+            }
+
+            if ($last_word === ':'){
+                $forth_word = explode(':',$three);
+                $amount = end($forth_word);
+
+                $response[] = [$forth_word[0],$amount];
+            }
+
+            if ($last_word === ';'){
+                $forth_word = explode(';',$three);
+                $amount = end($forth_word);
+
+                $response[] = [$forth_word[0],$amount];
+            }
+
+            if ($last_word === '*'){
+                $forth_word = explode('*',$three);
+                $amount = end($forth_word);
+
+                $response[] = [$forth_word[0],$amount];
+            }
+
+            if ($last_word === '/'){
+                $forth_word = explode('/',$three);
+                $amount = end($forth_word);
 
                 $response[] = [$forth_word[0],$amount];
             }
 
             if ($last_word === ' '){
+
                 $forth_word = explode(' ',$three);
-                $amount = $forth_word[1];
+
+                $amount = end($forth_word);
 
                 $response[] = [$forth_word[0],$amount];
             }
 
+
+
             if ($last_word === '@'){
                 $forth_word = explode('@',$three);
-                $amount = $forth_word[1];
+                $amount = end($forth_word);
                 foreach ($threeD->r_origin_string($forth_word[0])->getData()->data as $data){
                     $response[] = [$data,$amount];
                 }
@@ -76,7 +115,7 @@ class CopyPasteThreeController extends Controller
 
             if ($last_word === 'R'){
                 $forth_word = explode('R',$three);
-                $amount = $forth_word[1];
+                $amount = end($forth_word);
                 foreach ($threeD->r_origin_string($forth_word[0])->getData()->data as $data){
                     $response[] = [$data,$amount];
                 }
