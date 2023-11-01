@@ -113,19 +113,22 @@ class ThreeController extends Controller
         PermissionChecker::CheckPermission('three_overview');
 
         //dd(Carbon::now()->format('Y-m-d'));
-        if (Carbon::now()->format('Y-m-d')  < Carbon::now()->startOfMonth()->addDays(20)->format('Y-m-d')){
-
+        if (Carbon::now()->format('Y-m-d') < Carbon::now()->startOfMonth()->addDays(19)->format('Y-m-d')){
             if (Carbon::now()->format('Y-m-d H:i:s') < Carbon::now()->startOfMonth()->addDays(5)->format('Y-m-d 23:00:00')){
-                $from = $request->startdate ?? Carbon::now()->subMonths(1)->addDays(20)->format('Y-m-d');
+                $from = $request->startdate ?? Carbon::now()->subMonths(1)->addDays(19)->format('Y-m-d');
                 $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(4)->format('Y-m-d');
+
             }else{
-                $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(5);
-                $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(19);
+                $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(5)->format('Y-m-d');
+                $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(19)->format('Y-m-d');
             }
 
+
+
+
     }else{
-        $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(20);
-        $to = $request->enddate ?? Carbon::now()->endOfMonth()->addDays(4);
+        $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(19)->format('Y-m-d');
+        $to = $request->enddate ?? Carbon::now()->endOfMonth()->addDays(4)->format('Y-m-d');
     }
 
 
@@ -135,13 +138,13 @@ class ThreeController extends Controller
 
         $three_brake = AllBrakeWithAmount::select('amount')->where('type', '3D')->first();
 
-        $threes = Three::select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to]);
+        $threes = DB::table('threes')->orderBy('created_at')->select('three', DB::raw('SUM(amount) as total'))->groupBy('three')->whereBetween('date', [$from,$to]);
 
 
         //to store three overview table if exist to update
         ForThreeOverview::Overview($threes,$from,new ThreeOverview);
 
-        $three_overviews = ThreeOverview::whereDate('date', $from)->orderBy('three','asc')->paginate(110);
+        $three_overviews = DB::table('three_overviews')->whereDate('date', $from)->orderBy('three','asc')->paginate(110);
 
         //ThreeOverview Total Amount
         $overview_total = ForThreeOverview::OverviewTotal(new ThreeOverview,$from);
@@ -164,19 +167,19 @@ class ThreeController extends Controller
     public function threeKyon(Request $request)
     {
         PermissionChecker::CheckPermission('three_kyon');
-        if (Carbon::now()->format('Y-m-d')  < Carbon::now()->startOfMonth()->addDays(20)->format('Y-m-d')){
+        if (Carbon::now()->format('Y-m-d')  < Carbon::now()->startOfMonth()->addDays(19)->format('Y-m-d')){
 
             if (Carbon::now()->format('Y-m-d H:i:s') < Carbon::now()->startOfMonth()->addDays(5)->format('Y-m-d 23:00:00')){
-                $from = $request->startdate ?? Carbon::now()->subMonths(1)->addDays(20)->format('Y-m-d');
+                $from = $request->startdate ?? Carbon::now()->subMonths(1)->addDays(19)->format('Y-m-d');
                 $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(4)->format('Y-m-d');
             }else{
-                $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(5);
-                $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(19);
+                $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(5)->format('Y-m-d');
+                $to = $request->enddate ?? Carbon::now()->startOfMonth()->addDays(19)->format('Y-m-d');
             }
 
         }else{
-            $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(20);
-            $to = $request->enddate ?? Carbon::now()->endOfMonth()->addDays(4);
+            $from = $request->startdate ?? Carbon::now()->startOfMonth()->addDays(19)->format('Y-m-d');
+            $to = $request->enddate ?? Carbon::now()->endOfMonth()->addDays(4)->format('Y-m-d');
         }
 
         //$from = $from->format('Y-m-d');
@@ -184,12 +187,13 @@ class ThreeController extends Controller
 
         $three_brake = AllBrakeWithAmount::select('amount')->where('type', '3D')->first();
 
-        $three_overviews = ThreeOverview::whereDate('date', $from)->orderBy('three','asc');
+        $three_overviews = DB::table('three_overviews')->whereDate('date', $from)->orderBy('three','asc');
+
 
         //To Store Three kyon table
         ForThreeKyon::Kyon($three_overviews,$from,new ThreeKyon);
 
-        $three_kyons = ThreeKyon::where('date',$from)->whereRaw('three_kyons.amount != three_kyons.kyon_amount != three_kyons.new_amount')->orderBy('three','asc')->paginate(110);
+        $three_kyons = DB::table('three_kyons')->where('date',$from)->whereRaw('three_kyons.amount != three_kyons.kyon_amount != three_kyons.new_amount')->orderBy('three','asc')->paginate(110);
 
 
 //        dd($three_kyons);
