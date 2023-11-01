@@ -9,8 +9,11 @@ class ForThreeKyon
 {
     public static function Kyon($three_overviews,$date,$model){
 
+
         $three_brake = AllBrakeWithAmount::select('amount')->where('type', '3D')->first();
 
+
+        //dd('start');
         $three_overviews->chunk(100,function ($tows)  use($model,$date,$three_brake){
             foreach($tows as $three_overview) {
                 //$three_kyon_am = ($three_overview->amount - $three_overview->new_amount) - ($three_brake ? $three_brake->amount : 0);
@@ -36,7 +39,9 @@ class ForThreeKyon
 
 
 
+
             }
+
         });
 
     }

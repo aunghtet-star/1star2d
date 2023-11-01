@@ -76,6 +76,12 @@ Route::middleware('auth:web')->group(function () {
     Route::post('/two/confirm', [HomeController::class,'twoconfirm']);
     Route::post('two/create', [HomeController::class,'two']);
 
+    //Two D copy paste
+    Route::get('/copy-paste-two',[\App\Http\Controllers\frontend\Thai\CopyPasteTwoController::class,'index']);
+    Route::post('/copy-paste-two/confirm',[\App\Http\Controllers\frontend\Thai\CopyPasteTwoController::class,'twoconfirm']);
+    Route::post('/copy-paste-two/result',[\App\Http\Controllers\frontend\Thai\CopyPasteTwoController::class,'result']);
+    Route::post('/copy-paste-two/create',[\App\Http\Controllers\frontend\Thai\CopyPasteTwoController::class,'two']);
+
     //Thai 2D HtaitPait
     Route::get('two/htaitpait', [HtaitPaitController::class,'index']);
     Route::post('two/htaitpait/confirm', [HtaitPaitController::class,'confirm']);

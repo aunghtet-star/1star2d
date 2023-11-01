@@ -1,5 +1,5 @@
 @extends('frontend.layouts.app')
-@section('copy-3d','active')
+@section('copy-2d','active')
 
 @section('extra_css')
     <style>
@@ -17,16 +17,16 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 @include('frontend.flash')
-                @if($threeform->status == 'show')
+                @if($twoform->status == 'show')
                     <div class="card">
                         <div class="d-flex justify-content-between">
-                            <h5 class="" style="margin-top: 16px; margin-left:23px">3D Copy ရန်</h5>
+                            <h5 class="" style="margin-top: 16px; margin-left:23px">2D Copy ရန်</h5>
                         </div>
 
                         <div class="card-body">
-                            <form action="{{'copy-paste-three/confirm'}}" method="POST">
+                            <form action="{{'copy-paste-two/confirm'}}" method="POST">
                                 @csrf
-                                <textarea name="three" class="form-control" rows="25"></textarea>
+                                <textarea name="two" class="form-control" required rows="25"></textarea>
                                 <button type="submit" id="submit" class="btn btn-primary m-3 float-right btn-sm" style="font-weight:700">ထိုးမည်</button>
                             </form>
                         </div>

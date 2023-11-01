@@ -125,6 +125,10 @@
                   <a class="nav-link" href="{{url('two')}}">Thai 2D</a>
                 </li>
 
+                  <li class="nav-item mr-3 @yield('copy-2d')">
+                      <a class="nav-link" href="{{url('copy-paste-two')}}">2D-C</a>
+                  </li>
+
                   <li class="nav-item mr-3 @yield('htaitpait')" >
                     <a class="nav-link" href="{{url('two/htaitpait')}}">Thai အမြန်ထိုးရန်</a>
                   </li>
@@ -145,7 +149,7 @@
                       <a class="nav-link" href="{{url('three')}}">3D-R</a>
                   </li>
 
-                  <li class="nav-item mr-3 @yield('copy-paste-3d')">
+                  <li class="nav-item mr-3 @yield('copy-3d')">
                       <a class="nav-link" href="{{url('copy-paste-three')}}">3D-C</a>
                   </li>
 

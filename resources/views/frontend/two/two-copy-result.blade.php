@@ -1,5 +1,5 @@
 @extends('frontend.layouts.app')
-@section('copy-3d','active')
+@section('copy-2d','active')
 
 @section('extra_css')
     <style>
@@ -27,14 +27,16 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <p class="text-danger" style="font-size: 20px;font-weight:700">သင်ထိုးထားတာတွေဟုတ်ပါသလား</p>
-                        <form action="{{url('/copy-paste-three/create')}}" method="POST">
+                        <form action="{{url('/copy-paste-two/create')}}" method="POST">
                             @csrf
                             <div>
-                            @foreach($threes ?? [] as $three)
-                                    <input type="hidden" name="threes[]" value="{{$three}}">
-                                    <p class="mb-1">{{$three}}</p>
-                                @endforeach
+                                @foreach($response ?? [] as $two)
+                                    <input type="hidden" name="twos[]" value="{{$two[0]}},{{$two[1]}}">
 
+
+                                    <p class="mb-1">{{$two[0]}} - {{$two[1]}}</p>
+                                @endforeach
+                                <h5>Total - {{$total}}</h5>
                             </div>
 
                             <div>
@@ -50,7 +52,7 @@
     </div>
 @endsection
 @section('scripts')
-    {{-- {!! JsValidator::formRequest('App\Http\Requests\StoreUserthreeD') !!} --}}
+    {{-- {!! JsValidator::formRequest('App\Http\Requests\StoreUsertwoD') !!} --}}
 
     <script>
         $(document).ready(function(){
