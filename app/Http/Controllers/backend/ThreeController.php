@@ -190,8 +190,11 @@ class ThreeController extends Controller
         $three_overviews = DB::table('three_overviews')->whereDate('date', $from)->orderBy('three','asc');
 
 
+
         //To Store Three kyon table
         ForThreeKyon::Kyon($three_overviews,$from,new ThreeKyon);
+
+
 
 
         $three_kyons = DB::table('three_kyons')->where('date',$from)->whereRaw('three_kyons.amount != three_kyons.kyon_amount != three_kyons.new_amount')->orderBy('three','asc')->paginate(110);
