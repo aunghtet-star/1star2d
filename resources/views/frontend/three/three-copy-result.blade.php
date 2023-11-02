@@ -27,14 +27,15 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <p class="text-danger" style="font-size: 20px;font-weight:700">သင်ထိုးထားတာတွေဟုတ်ပါသလား</p>
-                        <form action="{{url('/copy-paste-three/result')}}" method="POST">
+                        <form action="{{url('/copy-paste-three/create')}}" method="POST">
                             @csrf
                             <div>
-                            @foreach($threes ?? [] as $three)
-                                    <input type="hidden" name="threes[]" value="{{$three}}">
-                                    <p class="mb-1">{{$three}}</p>
+                            @foreach($response ?? [] as $three)
+                                    <input type="hidden" name="threes[]" value="{{$three[0]}},{{$three[1]}}">
+                                    <p class="mb-1">{{$three[0]}} => {{$three[1]}}</p>
                                 @endforeach
 
+                                <h5>Total - {{$total}}</h5>
                             </div>
 
                             <div>

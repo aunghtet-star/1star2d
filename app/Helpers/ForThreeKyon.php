@@ -20,7 +20,7 @@ class ForThreeKyon
                 $three_kyon_am = ($three_overview->amount - $three_overview->new_amount) - ($three_brake ? $three_brake->amount : 0);
 
 
-                $exist = $model::where('three', $three_overview->three)->where('amount',$three_kyon_am)->where('date', $date)->exists();
+                $exist = $model::where('three', $three_overview->three)->where('amount',$three_kyon_am)->where('new_amount',$three_overview->new_amount)->where('date', $date)->exists();
 
 
 

@@ -26,7 +26,8 @@ class CopyPasteThreeController extends Controller
         return view('frontend.three.three-copy-confirm',compact('threes'));
     }
 
-    public function three(Request $request){
+    public function threeresult(Request $request){
+
 
         foreach ($request->threes as $three){
 
@@ -119,10 +120,37 @@ class CopyPasteThreeController extends Controller
                 foreach ($threeD->r_origin_string($forth_word[0])->getData()->data as $data){
                     $response[] = [$data,$amount];
                 }
+
             }
 
+            if ($last_word === 'r'){
+                $forth_word = explode('r',$three);
+                $amount = end($forth_word);
+                foreach ($threeD->r_origin_string($forth_word[0])->getData()->data as $data){
+                    $response[] = [$data,$amount];
+                }
+
+            }
+
+        }
+
+        $total = 0;
+
+        foreach ($response as $amount){
+            $total += $amount[1];
+        }
 
 
+
+        return view('frontend.three.three-copy-result',compact('response','total'));
+
+
+    }
+
+    public function three(Request $request){
+
+        foreach ($request->threes as $three){
+            $response[] = explode(',',$three);
         }
 
 
