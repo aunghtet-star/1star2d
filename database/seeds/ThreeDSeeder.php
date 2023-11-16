@@ -21,7 +21,7 @@ class ThreeDSeeder extends Seeder
                 'admin_user_id' => '4',
                 'batch'=>36,
                 'three' => rand(100,999),
-                'date' => '2023-10-21',
+                'date' => '2023-11-15',
                 'amount'=>500,
                 'created_at'=>now()->format('Y-m-d H:i:s'),
                 'updated_at'=>now()->format('Y-m-d H:i:s'),

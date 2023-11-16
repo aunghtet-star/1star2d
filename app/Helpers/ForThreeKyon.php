@@ -35,7 +35,7 @@ class ForThreeKyon
                         [
                             'admin_user_id' => Auth::guard('adminuser')->user()->id,
                             'three' =>   $three_overview->three,
-                            'amount' => $three_overview->amount > ($three_brake ? $three_brake->amount : 99999999999999999999999) ? ($three_overview->amount - ($three_brake ? $three_brake->amount : 0)) : 0,
+                            'amount' => $three_overview->amount,
                             'new_amount' => $three_overview->new_amount,
                             'date' => $date,
                         ]);
