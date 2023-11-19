@@ -193,6 +193,7 @@ class ThreeController extends Controller
         $three_overviews = DB::table('three_overviews')->whereDate('date', $from)->orderBy('three','asc');
 
 
+
         //To Store Three kyon table
         ForThreeKyon::Kyon($three_overviews,$from,new ThreeKyon);
 
@@ -201,12 +202,17 @@ class ThreeController extends Controller
 
         $three_kyons = DB::table('three_kyons')->where('date',$from)->whereRaw('three_kyons.amount != three_kyons.kyon_amount != three_kyons.new_amount')->orderBy('three','asc')->paginate(110);
 
+        $total_amount = DB::table('three_kyons')->where('date',$from)->orderBy('three','asc')->sum('amount');
+        $total_new_amount = DB::table('three_kyons')->where('date',$from)->orderBy('three','asc')->sum('new_amount');
+        $total_kyon_amount = DB::table('three_kyons')->where('date',$from)->orderBy('three','asc')->sum('kyon_amount');
+
+         $total = $total_amount - $total_new_amount - $total_kyon_amount;
 
 //        dd($three_kyons);
 
         //$three_kyons = ThreeKyon::where('date',$from)->get();
         //$three_kyons->withPath('/admin/three-overview/kyon?startdate='.$from.'&enddate='.$to);
 
-        return view('backend.three_overview.threekyon', compact('three_kyons', 'three_brake', 'from', 'to'));
+        return view('backend.three_overview.threekyon', compact('three_kyons', 'three_brake', 'from', 'to','total'));
     }
 }

@@ -47,9 +47,9 @@
                 <div class="card-body refresh" >
                     <div class="column">
                         @if($three_kyons)
-                        @php
-                        $total = 0;
-                        @endphp
+{{--                        @php--}}
+{{--                        $total = 0;--}}
+{{--                        @endphp--}}
 {{--                        @foreach($three_kyons as $three_kyon)--}}
 {{--                                <div class="d-flex " style="width:100px; margin-right : 70px">--}}
 {{--                                    @if(($three_brake ? $three_brake->amount : 99999999999999999999) < $three_kyon->total)--}}
@@ -70,9 +70,9 @@
                                         <p class="mb-2 mr-3 ">{{$three_kyon->three}} </p> => <span class="ml-2 ">
                                     {{number_format( $three_kyon->amount - $three_kyon->new_amount - $three_kyon->kyon_amount) }}
                                     </span>
-                                        @php
-                                            $total += $three_kyon->amount - $three_kyon->new_amount - $three_kyon->kyon_amount;
-                                        @endphp
+{{--                                        @php--}}
+{{--                                            $total += $three_kyon->amount - $three_kyon->new_amount - $three_kyon->kyon_amount;--}}
+{{--                                        @endphp--}}
                                     @endif
                                 </div>
                             @endforeach
