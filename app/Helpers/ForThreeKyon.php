@@ -12,22 +12,15 @@ class ForThreeKyon
 
         $three_brake = AllBrakeWithAmount::select('amount')->where('type', '3D')->first();
 
+        $count = $model::select('amount','date')->where('amount',0)->where('date', $date)->count();
 
-        //dd('start');
-        $three_overviews->chunk(100,function ($tows)  use($model,$date,$three_brake){
+        $three_overviews->chunk(100,function ($tows)  use($model,$date,$three_brake,$count){
             foreach($tows as $three_overview) {
 
                 $three_kyon_am = ($three_overview->amount - $three_overview->new_amount) - ($three_brake ? $three_brake->amount : 0);
 
-
-                $exist = $model::where('three', $three_overview->three)->where('amount',$three_kyon_am)->where('new_amount',$three_overview->new_amount)->where('date', $date)->exists();
-
-
-
-               // dd($three_overview->new_amount);
-
-                if (!$exist){
-                    $three_kyons = $model::updateOrCreate(
+                $exist = $model::where('three', $three_overview->three)->where('new_amount',$three_overview->new_amount)
+                    ->where('date', $date)->updateOrCreate(
                         [
                             'three' => $three_overview->three,
                             'date' => $date
@@ -39,15 +32,18 @@ class ForThreeKyon
                             'new_amount' => $three_overview->new_amount,
                             'date' => $date,
                         ]);
-                }
 
-
+               // dd($three_overview->new_amount);
 
 
 
             }
 
+
+
         });
+
+
 
     }
 }

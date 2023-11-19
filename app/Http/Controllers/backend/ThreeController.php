@@ -193,7 +193,6 @@ class ThreeController extends Controller
         $three_overviews = DB::table('three_overviews')->whereDate('date', $from)->orderBy('three','asc');
 
 
-
         //To Store Three kyon table
         ForThreeKyon::Kyon($three_overviews,$from,new ThreeKyon);
 
