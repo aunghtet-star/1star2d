@@ -16,7 +16,11 @@ class ForThreeKyon
         $three_overviews->chunk(100,function ($tows)  use($model,$date,$three_brake){
             foreach($tows as $three_overview) {
 
-                $three_kyon_am = ($three_overview->amount - $three_overview->new_amount) - ($three_brake ? $three_brake->amount : 0);
+                $three_kyon_am = ($three_overview->amount - $three_overview->new_amount) - ($three_brake ? $three_brake->amount : 0) ;
+
+                if ($three_kyon_am < 0){
+                    $three_kyon_am = 0;
+                }
 
                 $exist = $model::where('three', $three_overview->three)->where('amount', $three_kyon_am)->where('new_amount', $three_overview->new_amount)->where('date', $date)->exists();
 
